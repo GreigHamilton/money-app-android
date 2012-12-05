@@ -21,7 +21,7 @@
         android:text="Button 
         
         
-        Paid" />
+         Paid" />
 
     <Button
         android:id="@+id/Button01"

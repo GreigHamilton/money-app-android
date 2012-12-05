@@ -2,7 +2,9 @@ package com.greighamilton.moneymanagement;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
+import android.view.MenuItem;
 
 public class DashboardActivity extends Activity {
 
@@ -18,5 +20,16 @@ public class DashboardActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_dashboard, menu);
 		return true;
 	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+      case R.id.menu_addincexp:
+    	  	Intent i = new Intent(DashboardActivity.this, AddIncExpActivity.class);
+    	  	DashboardActivity.this.startActivity(i);
+        break;
+      }
+      return super.onOptionsItemSelected(item);
+    }
 
 }

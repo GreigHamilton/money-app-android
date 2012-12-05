@@ -4,5 +4,13 @@
     <string name="app_name">MoneyManagement</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-
+    <string name="menu_addincexp">Add Income/Expense</string>
+    
+    <string-array name="income_array">
+        <item>Wage</item>
+        <item>Gift</item>
+        <item>Benefits</item>
+        <item>Property</item>
+    </string-array>
+    
 </resources>
