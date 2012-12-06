@@ -24,9 +24,25 @@ public class DashboardActivity extends Activity {
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
-      case R.id.menu_addincexp:
-    	  	Intent i = new Intent(DashboardActivity.this, AddIncExpActivity.class);
+      
+      case R.id.menu_addincome:
+    	  	Intent i = new Intent(DashboardActivity.this, AddIncomeActivity.class);
     	  	DashboardActivity.this.startActivity(i);
+        break;
+        
+      case R.id.menu_addexpense:
+  	  	Intent j = new Intent(DashboardActivity.this, AddExpenseActivity.class);
+  	  	DashboardActivity.this.startActivity(j);
+      break;
+      
+      case R.id.menu_addgoal:
+    	  	Intent k = new Intent(DashboardActivity.this, AddGoalActivity.class);
+    	  	DashboardActivity.this.startActivity(k);
+        break;
+        
+      case R.id.menu_addcategory:
+    	  	Intent l = new Intent(DashboardActivity.this, AddCategoryActivity.class);
+    	  	DashboardActivity.this.startActivity(l);
         break;
       }
       return super.onOptionsItemSelected(item);
