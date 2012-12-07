@@ -44,6 +44,11 @@ public class DashboardActivity extends Activity {
     	  	Intent l = new Intent(DashboardActivity.this, AddCategoryActivity.class);
     	  	DashboardActivity.this.startActivity(l);
         break;
+        
+      case R.id.menu_summary:
+  	  	Intent m = new Intent(DashboardActivity.this, SummaryActivity.class);
+  	  	DashboardActivity.this.startActivity(m);
+      break;
       }
       return super.onOptionsItemSelected(item);
     }

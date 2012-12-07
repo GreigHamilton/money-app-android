@@ -8,6 +8,7 @@
     <string name="menu_addexpense">Add Expense</string>
     <string name="menu_addgoal">Add Goal</string>
     <string name="menu_addcategory">Add Category</string>
+    <string name="menu_summary">View Summary</string>
     
     <string-array name="income_array">
         <item>Wage</item>
