@@ -1,8 +1,10 @@
 package com.greighamilton.moneymanagement;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,23 +19,29 @@ public class SummaryActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_dashboard, menu);
+		getMenuInflater().inflate(R.menu.activity_summary, menu);
 		return true;
 	}
 	
-	public void clickIncome1(View v){
-		Toast.makeText(this, "Click income 1", Toast.LENGTH_LONG).show();
-	}
-	
-	public void clickIncome2(View v){
-		Toast.makeText(this, "Click income 2", Toast.LENGTH_LONG).show();
-	}
-	
-	public void clickExpense1(View v){
-		Toast.makeText(this, "Click expense 1", Toast.LENGTH_LONG).show();
-	}
-	
-	public void clickExpense2(View v){
-		Toast.makeText(this, "Click expense 2", Toast.LENGTH_LONG).show();
-	}
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+      
+      case R.id.menu_addincome:
+    	  	Intent i = new Intent(SummaryActivity.this, AddIncomeActivity.class);
+    	  	SummaryActivity.this.startActivity(i);
+        break;
+        
+      case R.id.menu_addexpense:
+  	  	Intent j = new Intent(SummaryActivity.this, AddExpenseActivity.class);
+  	  SummaryActivity.this.startActivity(j);
+      break;
+      
+      case R.id.menu_viewtrends:
+    	  Intent l = new Intent(SummaryActivity.this, ViewTrendsActivity.class);
+    	  SummaryActivity.this.startActivity(l);
+        break;
+      }
+      return super.onOptionsItemSelected(item);
+    }
 }
