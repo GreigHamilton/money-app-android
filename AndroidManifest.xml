@@ -20,12 +20,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <repetition android:name="android.intent.repetition.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name="com.greighamilton.moneymanagement.AddIncomeActivity" android:label="@string/app_name" />
         <activity android:name="com.greighamilton.moneymanagement.AddExpenseActivity" android:label="@string/app_name" />
         <activity android:name="com.greighamilton.moneymanagement.AddGoalActivity" android:label="@string/app_name" />
+        <activity android:name="com.greighamilton.moneymanagement.ViewGoalsActivity" android:label="@string/app_name" />
         <activity android:name="com.greighamilton.moneymanagement.AddCategoryActivity" android:label="@string/app_name" />
+        <activity android:name="com.greighamilton.moneymanagement.ViewCategoriesActivity" android:label="@string/app_name" />
+        <activity android:name="com.greighamilton.moneymanagement.ViewTrendsActivity" android:label="@string/app_name" />
         <activity android:name="com.greighamilton.moneymanagement.SummaryActivity" android:label="@string/app_name" />
     </application>
 
