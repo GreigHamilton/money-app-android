@@ -36,23 +36,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Expense" />
-
     </RadioGroup>
 
-        <EditText
-            android:id="@+id/desc"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Description"
-            android:inputType="textMultiLine" />
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showColourPickerDialog"
+        android:text="Colour" />
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="clickSave"
-            android:padding="10dp"
-            android:text="Save" />
+    <EditText
+        android:id="@+id/desc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="textMultiLine" />
 
 </LinearLayout>

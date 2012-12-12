@@ -39,19 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/save"
             android:onClick="clickTimescale"
             android:text="Timescale" />
-
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/button1"
-            android:onClick="clickSave"
-            android:padding="10dp"
-            android:text="Save" />
 
         <Button
             android:id="@+id/button1"
