@@ -6,9 +6,25 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_addincome">Add Income</string>
     <string name="menu_addexpense">Add Expense</string>
-    <string name="menu_addgoal">Add Goal</string>
-    <string name="menu_addcategory">Add Category</string>
+    <string name="menu_viewgoals">View Goals</string>
+    <string name="menu_viewcategories">View Categories</string>
     <string name="menu_summary">View Summary</string>
+    <string name="menu_viewtrends">View Trends</string>
+    
+    
+    <string name="pick_color">Pick A Colour</string>
+    <string-array name="colors_array">
+        <item>Red</item>
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Yellow</item>
+        <item>Pink</item>
+        <item>Orange</item>
+        <item>Purple</item>
+        <item>Brown</item>
+        <item>Grey</item>
+    </string-array>
+    
     
     <string-array name="income_array">
         <item>Wage</item>
@@ -22,6 +38,13 @@
         <item>Utilities</item>
         <item>Loan</item>
         <item>Broadband</item>
+    </string-array>
+    
+    <string-array name="repetition_array">
+        <item>One-Off</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Annually</item>
     </string-array>
     
 </resources>
