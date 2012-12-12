@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
+   	
+   	<item
         android:id="@+id/menu_addincome"
         android:orderInCategory="100"
         android:showAsAction="never"
@@ -13,16 +13,22 @@
         android:title="@string/menu_addexpense"/>
     
     <item
-        android:id="@+id/menu_addgoal"
+        android:id="@+id/menu_viewgoals"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/menu_addgoal"/>
+        android:title="@string/menu_viewgoals"/>
     
     <item
-        android:id="@+id/menu_addcategory"
+        android:id="@+id/menu_viewcategories"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/menu_addcategory"/>
+        android:title="@string/menu_viewcategories"/>
+    
+    <item
+        android:id="@+id/menu_viewtrends"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/menu_viewtrends"/>
     
     <item
         android:id="@+id/menu_summary"
