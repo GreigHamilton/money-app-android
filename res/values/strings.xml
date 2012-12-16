@@ -8,6 +8,7 @@
     <string name="menu_addexpense">Add Expense</string>
     <string name="menu_viewgoals">View Goals</string>
     <string name="menu_viewcategories">View Categories</string>
+    <string name="menu_viewincexp">View Income/Expense</string>
     <string name="menu_summary">View Summary</string>
     <string name="menu_viewtrends">View Trends</string>
     
