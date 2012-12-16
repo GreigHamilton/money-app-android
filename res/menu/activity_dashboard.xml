@@ -25,6 +25,12 @@
         android:title="@string/menu_viewcategories"/>
     
     <item
+        android:id="@+id/menu_viewincexp"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/menu_viewincexp"/>
+    
+    <item
         android:id="@+id/menu_viewtrends"
         android:orderInCategory="100"
         android:showAsAction="never"
