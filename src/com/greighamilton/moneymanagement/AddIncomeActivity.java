@@ -2,22 +2,29 @@ package com.greighamilton.moneymanagement;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.fragments.DatePickerFragment;
+
 public class AddIncomeActivity extends Activity {
+	
+    DatabaseHelper db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addincome);
+		
+		db = DatabaseHelper.getInstance(this);
 		
 		// Find Spinner in View
 		Spinner incomeSpinner = (Spinner) findViewById(R.id.category);		
@@ -53,6 +60,12 @@ public class AddIncomeActivity extends Activity {
       
       case R.id.menu_cancel:
     	  	finish();
+      break;
+      
+      case R.id.menu_save:
+    	  String name = ":) "+((EditText) findViewById(R.id.income_name)).getText().toString();
+    	  db.addIncome(name);
+    	  finish();
       break;
       }
       return super.onOptionsItemSelected(item);

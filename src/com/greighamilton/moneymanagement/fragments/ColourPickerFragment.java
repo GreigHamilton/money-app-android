@@ -1,4 +1,8 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.fragments;
+
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.array;
+import com.greighamilton.moneymanagement.R.string;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

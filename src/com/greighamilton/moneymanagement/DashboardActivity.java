@@ -1,18 +1,26 @@
 package com.greighamilton.moneymanagement;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+
+import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
 public class DashboardActivity extends Activity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dashboard);
+		setContentView(R.layout.activity_dashboard);	
+		DatabaseHelper.getInstance(this);
+		
+		Button b = ((Button) findViewById(R.id.button1));
+		b.setText(DatabaseHelper.getInstance(this).getIncomeName(1));
+		
 	}
 
 	@Override
@@ -55,7 +63,12 @@ public class DashboardActivity extends Activity {
       case R.id.menu_viewtrends:
     	  	Intent n = new Intent(DashboardActivity.this, ViewTrendsActivity.class);
     	  	DashboardActivity.this.startActivity(n);
-        break;
+      break;
+        
+      case R.id.menu_viewincexp:
+  	  	Intent o = new Intent(DashboardActivity.this, ViewIncExpActivity.class);
+  	  	DashboardActivity.this.startActivity(o);
+      break;
       }
       return super.onOptionsItemSelected(item);
     }

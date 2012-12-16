@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.fragments;
 
 import java.util.Calendar;
 import android.app.DatePickerDialog;
