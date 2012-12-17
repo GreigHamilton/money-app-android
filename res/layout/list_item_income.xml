@@ -18,11 +18,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Empty: amount" />
-
+    
     <TextView
         android:id="@+id/income_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Empty: date" />
+
+    <TextView
+        android:id="@+id/income_notes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Empty: date" />
+    
+    <TextView
+        android:id="@+id/income_notification"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Empty: notification" />
 
 </LinearLayout>

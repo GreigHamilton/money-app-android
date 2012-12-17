@@ -54,13 +54,13 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
       switch (item.getItemId()) {
       
       case R.id.menu_addincome:
-    	  	Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
-    	  	ViewIncExpActivity.this.startActivity(i);
-        break;
+    	  Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
+    	  ViewIncExpActivity.this.startActivity(i);
+      break;
         
       case R.id.menu_addexpense:
   	  	Intent j = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
-  	  ViewIncExpActivity.this.startActivity(j);
+  	  	ViewIncExpActivity.this.startActivity(j);
       break;
       
       }

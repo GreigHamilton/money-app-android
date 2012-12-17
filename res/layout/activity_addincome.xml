@@ -52,7 +52,7 @@
         android:id="@+id/income_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="showDatePickerDialog"
+        android:onClick="selectDate"
         android:padding="10dp"
         android:text="Date" />
 
@@ -75,8 +75,8 @@
             android:id="@+id/income_notes"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@id/expense_notification"
-            android:layout_below="@+id/LinearLayout3"
+            android:layout_above="@id/income_notification"
+            android:layout_below="@+id/income_linearlayout_3"
             android:ems="10"
             android:hint="Notes"
             android:inputType="textMultiLine" />
@@ -107,7 +107,7 @@
                 android:text="OR Repeat for" />
 
             <EditText
-                android:id="@+id/income_repetition_period"
+                android:id="@+id/income_repetition_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="19"
@@ -115,7 +115,7 @@
                 android:inputType="number" />
 
             <Spinner
-                android:id="@+id/income_repetition_spinner"
+                android:id="@+id/income_repetition_period"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="19" />

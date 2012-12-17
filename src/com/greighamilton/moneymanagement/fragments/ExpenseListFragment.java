@@ -59,10 +59,16 @@ public class ExpenseListFragment extends ListFragment {
 			TextView expenseName = (TextView) view.findViewById(R.id.expense_name);
 			TextView expenseAmount = (TextView) view.findViewById(R.id.expense_amount);
 			TextView expenseDate = (TextView) view.findViewById(R.id.expense_date);
+			//TextView expenseRepLength = (TextView) view.findViewById(R.id.expense_repetition_length);
+			TextView expenseNotes = (TextView) view.findViewById(R.id.expense_notes);
+			TextView expenseNotId = (TextView) view.findViewById(R.id.expense_notification);
 			
 			expenseName.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
 			expenseAmount.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_AMOUNT)));
 			expenseDate.setText(c.getString(DatabaseHelper.EXPENSE_DATE));
+			// expenseRepLength.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_REPETITION_LENGTH)));
+			expenseNotes.setText(c.getString(DatabaseHelper.EXPENSE_NOTES));
+			expenseNotId.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_NOTIFICATION_ID)));
 		}
 
 		@Override

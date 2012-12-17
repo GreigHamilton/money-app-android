@@ -224,17 +224,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.query("INCOME", null, null, null, null, null, "_id asc");
 	}
 
-	public void addIncome(String name) {
+	public void addIncome(String name, int amount, String date, String notes, int notification_id) {
 		ContentValues cv = new ContentValues(6);
 		cv.put("_id", nextIncomeID());
 		cv.put("name", name);
-		cv.put("amount", 10);
-		cv.put("date", "2012-12-12 12:12:12.121");
+		cv.put("amount", amount);
+		cv.put("date", date);
 		cv.put("repetition_period", 5);
-		cv.put("repetition_length", 10);
-		cv.put("notes", "bla");
+		cv.put("repetition_length", 1);
+		cv.put("notes", notes);
 		cv.put("category_id", 1);
-		cv.put("notification_id", 1);
+		cv.put("notification_id", notification_id);
 
 		db.insert("INCOME", null, cv);
 	}
@@ -258,33 +258,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, null, null, null, null, "_id asc");
 		}
 
-		public void addExpense(String name) {
-			ContentValues cv = new ContentValues(6);
-			cv.put("_id", nextExpenseID());
-			cv.put("name", name);
-			cv.put("amount", 10);
-			cv.put("date", "2012-12-12 12:12:12.121");
-			cv.put("repetition_period", 5);
-			cv.put("repetition_length", 10);
-			cv.put("notes", "bla");
-			cv.put("category_id", 1);
-			cv.put("notification_id", 1);
+	public void addExpense(String name) {
+		ContentValues cv = new ContentValues(6);
+		cv.put("_id", nextExpenseID());
+		cv.put("name", name);
+		cv.put("amount", 10);
+		cv.put("date", "2012-12-12 12:12:12.121");
+		cv.put("repetition_period", 5);
+		cv.put("repetition_length", 10);
+		cv.put("notes", "bla");
+		cv.put("category_id", 1);
+		cv.put("notification_id", 1);
 
-			db.insert("EXPENSE", null, cv);
-		}
+		db.insert("EXPENSE", null, cv);
+	}
 
-		public String getExpenseName(int index) {
-			Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
-			String name = "nothing :(";
-			c.moveToFirst();
-			return (!c.isAfterLast()) ? c.getString(EXPENSE_NAME) : name;
-		}
+	public String getExpenseName(int index) {
+		Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
+		String name = "nothing :(";
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getString(EXPENSE_NAME) : name;
+	}
 
-		public int nextExpenseID() {
-			Cursor c = db.query("EXPENSE", null, null, null, null, null, "_id desc");
-			c.moveToFirst();
-			return ((!c.isAfterLast()) ? c.getInt(EXPENSE_ID)+1 : 1);
-		}
+	public int nextExpenseID() {
+		Cursor c = db.query("EXPENSE", null, null, null, null, null, "_id desc");
+		c.moveToFirst();
+		return ((!c.isAfterLast()) ? c.getInt(EXPENSE_ID)+1 : 1);
+	}
 
 	// /**
 	// * Returns a cursor to a single bus stop, searching
