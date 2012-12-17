@@ -2,10 +2,13 @@ package com.greighamilton.moneymanagement;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 
+import com.greighamilton.moneymanagement.fragments.ExpenseListFragment;
 import com.greighamilton.moneymanagement.fragments.IncomeListFragment;
 
 public class ViewIncExpActivity extends FragmentActivity implements ActionBar.TabListener {
@@ -44,7 +47,25 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_viewincexp, menu);
         return true;
-    }    
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+      switch (item.getItemId()) {
+      
+      case R.id.menu_addincome:
+    	  	Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
+    	  	ViewIncExpActivity.this.startActivity(i);
+        break;
+        
+      case R.id.menu_addexpense:
+  	  	Intent j = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
+  	  ViewIncExpActivity.this.startActivity(j);
+      break;
+      
+      }
+      return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -60,8 +81,8 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     		IncomeListFragment f = new IncomeListFragment();
     		getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commit();
     	} else if (tab.getPosition() == TAB_EXPENSES) {
-    		IncomeListFragment f = new IncomeListFragment();
-    		getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commit();    	
+    		ExpenseListFragment g = new ExpenseListFragment();
+    		getSupportFragmentManager().beginTransaction().replace(R.id.container, g).commit();    	
     	}
     	else {
     		// do nothing

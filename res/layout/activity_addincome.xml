@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/income_linearlayout_1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <!-- Name -->
-
     <EditText
         android:id="@+id/income_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Name" >
-
         <requestFocus />
     </EditText>
 
     <!-- Amount -->
-
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/income_amount"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -29,32 +26,30 @@
     </EditText>
 
     <!-- Category -->
-
     <LinearLayout
-        android:id="@+id/LinearLayout3"
+        android:id="@+id/income_linearlayout_2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/income_category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Category" />
 
         <Spinner
-            android:id="@+id/category"
+            android:id="@+id/income_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="18" />
     </LinearLayout>
 
     <!-- Date -->
-
     <Button
-        android:id="@+id/date"
+        android:id="@+id/income_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="showDatePickerDialog"
@@ -62,50 +57,68 @@
         android:text="Date" />
 
     <RelativeLayout
+        android:id="@+id/income_relativelayout_1"
         android:layout_width="fill_parent"
         android:layout_height="241dp"
         android:orientation="horizontal"
         android:padding="10dp" >
-        
-        <LinearLayout
-        android:id="@+id/LinearLayout3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Repetition" />
-
-        <Spinner
-            android:id="@+id/repetition_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="18" />
-    </LinearLayout>
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/income_notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="CheckBox" />
+            android:text="Set Notification" />
 
 
         <EditText
-            android:id="@+id/notes"
+            android:id="@+id/income_notes"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_above="@id/checkBox"
+            android:layout_above="@id/expense_notification"
             android:layout_below="@+id/LinearLayout3"
             android:ems="10"
             android:hint="Notes"
             android:inputType="textMultiLine" />
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/income_linearlayout_3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:padding="10dp" >
 
+            <CheckBox
+                android:id="@+id/income_oneoff_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="One-Off" />
+
+            <TextView
+                android:id="@+id/income_repetition_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="OR Repeat for" />
+
+            <EditText
+                android:id="@+id/income_repetition_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="19"
+                android:ems="10"
+                android:inputType="number" />
+
+            <Spinner
+                android:id="@+id/income_repetition_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="19" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

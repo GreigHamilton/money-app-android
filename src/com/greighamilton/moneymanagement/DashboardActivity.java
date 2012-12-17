@@ -18,8 +18,11 @@ public class DashboardActivity extends Activity {
 		setContentView(R.layout.activity_dashboard);	
 		DatabaseHelper.getInstance(this);
 		
-		Button b = ((Button) findViewById(R.id.button1));
+		Button b = ((Button) findViewById(R.id.button_top_left));
 		b.setText(DatabaseHelper.getInstance(this).getIncomeName(1));
+		
+		Button c = ((Button) findViewById(R.id.button_top_centre));
+		c.setText(DatabaseHelper.getInstance(this).getExpenseName(1));
 		
 	}
 

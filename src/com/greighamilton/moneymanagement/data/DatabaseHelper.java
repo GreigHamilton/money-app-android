@@ -35,16 +35,28 @@ import android.widget.Toast;
  * @author Aidan Smeaton (queries)
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
+	
 	public static final int INCOME_ID = 0;
-	public static final int INCOME_NOTIFICATION_ID = 1;
-	public static final int INCOME_CATEGORY_ID = 2;
-	public static final int INCOME_NOTES = 3;
-	public static final int INCOME_REPETITION_LENGTH = 4;
-	public static final int INCOME_REPETITION_PERIOD = 5;
-	public static final int INCOME_DATE = 6;
-	public static final int INCOME_NAME = 7;
-	public static final int INCOME_AMOUNT = 8;
+	public static final int INCOME_NAME = 1;
+	public static final int INCOME_AMOUNT = 2;
+	public static final int INCOME_DATE = 3;
+	public static final int INCOME_REPETITION_PERIOD = 4;
+	public static final int INCOME_REPETITION_LENGTH = 5;
+	public static final int INCOME_NOTES = 6;
+	public static final int INCOME_CATEGORY_ID = 7;
+	public static final int INCOME_NOTIFICATION_ID = 8;
 
+	public static final int EXPENSE_ID = 0;
+	public static final int EXPENSE_NAME = 1;
+	public static final int EXPENSE_AMOUNT = 2;
+	public static final int EXPENSE_DATE = 3;
+	public static final int EXPENSE_REPETITION_PERIOD = 4;
+	public static final int EXPENSE_REPETITION_LENGTH = 5;
+	public static final int EXPENSE_NOTES = 6;
+	public static final int EXPENSE_CATEGORY_ID = 7;
+	public static final int EXPENSE_NOTIFICATION_ID = 8;
+	
+	
 	// The Android's default system path of your application database.
 	private static final String DB_PATH = "/data/data/com.greighamilton.moneymanagement/databases/";
 	private static final String DB_NAME = "moneymanagement.db";
@@ -207,6 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/* Everything which follows is mostly query related. */
 	
+	// INCOME queries
 	public Cursor getIncome() {
 		return db.query("INCOME", null, null, null, null, null, "_id asc");
 	}
@@ -214,14 +227,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void addIncome(String name) {
 		ContentValues cv = new ContentValues(6);
 		cv.put("_id", nextIncomeID());
-		cv.put("notification_id", 1);
-		cv.put("category_id", 1);
-		cv.put("notes", "bla");
-		cv.put("repetition_length", 10);
-		cv.put("repetition_period", 5);
-		cv.put("date", "2012-12-12 12:12:12.121");
 		cv.put("name", name);
 		cv.put("amount", 10);
+		cv.put("date", "2012-12-12 12:12:12.121");
+		cv.put("repetition_period", 5);
+		cv.put("repetition_length", 10);
+		cv.put("notes", "bla");
+		cv.put("category_id", 1);
+		cv.put("notification_id", 1);
 
 		db.insert("INCOME", null, cv);
 	}
@@ -238,6 +251,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToFirst();
 		return ((!c.isAfterLast()) ? c.getInt(INCOME_ID)+1 : 1);
 	}
+	
+	
+	// EXPENSES queries
+	public Cursor getExpenses() {
+			return db.query("EXPENSE", null, null, null, null, null, "_id asc");
+		}
+
+		public void addExpense(String name) {
+			ContentValues cv = new ContentValues(6);
+			cv.put("_id", nextExpenseID());
+			cv.put("name", name);
+			cv.put("amount", 10);
+			cv.put("date", "2012-12-12 12:12:12.121");
+			cv.put("repetition_period", 5);
+			cv.put("repetition_length", 10);
+			cv.put("notes", "bla");
+			cv.put("category_id", 1);
+			cv.put("notification_id", 1);
+
+			db.insert("EXPENSE", null, cv);
+		}
+
+		public String getExpenseName(int index) {
+			Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
+			String name = "nothing :(";
+			c.moveToFirst();
+			return (!c.isAfterLast()) ? c.getString(EXPENSE_NAME) : name;
+		}
+
+		public int nextExpenseID() {
+			Cursor c = db.query("EXPENSE", null, null, null, null, null, "_id desc");
+			c.moveToFirst();
+			return ((!c.isAfterLast()) ? c.getInt(EXPENSE_ID)+1 : 1);
+		}
 
 	// /**
 	// * Returns a cursor to a single bus stop, searching

@@ -27,7 +27,7 @@ public class AddIncomeActivity extends Activity {
 		db = DatabaseHelper.getInstance(this);
 		
 		// Find Spinner in View
-		Spinner incomeSpinner = (Spinner) findViewById(R.id.category);		
+		Spinner incomeSpinner = (Spinner) findViewById(R.id.income_category);		
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> incomeAdapter = ArrayAdapter.createFromResource(this,
 		        R.array.income_array, android.R.layout.simple_spinner_item);
@@ -36,7 +36,7 @@ public class AddIncomeActivity extends Activity {
 		// Apply the adapter to the spinner
 		incomeSpinner.setAdapter(incomeAdapter);
 		
-		Spinner repetitionSpinner = (Spinner) findViewById(R.id.repetition_spinner);
+		Spinner repetitionSpinner = (Spinner) findViewById(R.id.income_repetition_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this,
 		        R.array.repetition_array, android.R.layout.simple_spinner_item);
@@ -63,7 +63,7 @@ public class AddIncomeActivity extends Activity {
       break;
       
       case R.id.menu_save:
-    	  String name = ":) "+((EditText) findViewById(R.id.income_name)).getText().toString();
+    	  String name = ((EditText) findViewById(R.id.income_name)).getText().toString();
     	  db.addIncome(name);
     	  finish();
       break;
@@ -72,7 +72,7 @@ public class AddIncomeActivity extends Activity {
     }
 	
 	public void clickCategory(View v){
-		Toast.makeText(this, "Click boaby x", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Click category button", Toast.LENGTH_LONG).show();
 	}
 	
 	public void showDatePickerDialog(View v) {

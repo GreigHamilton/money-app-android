@@ -1,5 +1,6 @@
 package com.greighamilton.moneymanagement;
 
+import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.fragments.DatePickerFragment;
 
 import android.app.Activity;
@@ -9,18 +10,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 public class AddExpenseActivity extends Activity {
+	
+	DatabaseHelper db;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addexpense);
 		
+		db = DatabaseHelper.getInstance(this);
+		
 		// Find Spinner in View
-		Spinner spinner = (Spinner) findViewById(R.id.category);		
+		Spinner spinner = (Spinner) findViewById(R.id.expense_category);		
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
 		        R.array.expense_array, android.R.layout.simple_spinner_item);
@@ -29,7 +35,7 @@ public class AddExpenseActivity extends Activity {
 		// Apply the adapter to the spinner
 		spinner.setAdapter(adapter);
 		
-		Spinner repetitionSpinner = (Spinner) findViewById(R.id.repetition_spinner);
+		Spinner repetitionSpinner = (Spinner) findViewById(R.id.expense_repetition_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this,
 		        R.array.repetition_array, android.R.layout.simple_spinner_item);
@@ -48,17 +54,23 @@ public class AddExpenseActivity extends Activity {
 	
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-      
-      case R.id.menu_cancel:
-    	  	finish();
-      break;
-      }
-      return super.onOptionsItemSelected(item);
-    }
+		switch (item.getItemId()) {
+	      
+	      case R.id.menu_cancel:
+	    	  	finish();
+	      break;
+	      
+	      case R.id.menu_save:
+	    	  String name = ((EditText) findViewById(R.id.expense_name)).getText().toString();
+	    	  db.addExpense(name);
+	    	  finish();
+	      break;
+	      }
+	      return super.onOptionsItemSelected(item);
+	    }
 	
 	public void clickCategory(View v){
-		Toast.makeText(this, "Click boaby x", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Click category button", Toast.LENGTH_LONG).show();
 	}
 	
 	public void showDatePickerDialog(View v) {
