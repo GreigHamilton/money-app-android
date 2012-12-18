@@ -38,12 +38,27 @@
             android:text="Expense" />
     </RadioGroup>
 
-    <Button
-        android:id="@+id/category_colour"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showColourPickerDialog"
-        android:text="Colour" />
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/category_colour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showColourPickerDialog"
+            android:layout_weight="1"
+            android:text="Colour" />
+
+        <TextView
+            android:id="@+id/category_colour_box"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingRight="10dp"
+            android:text="   " />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/category_description"

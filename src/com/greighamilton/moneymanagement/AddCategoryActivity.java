@@ -7,13 +7,14 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
@@ -76,10 +77,6 @@ public class AddCategoryActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void clickSave(View v) {
-		Toast.makeText(this, "Click save", Toast.LENGTH_LONG).show();
-	}
-
 	public void showColourPickerDialog(View v) {
 		DialogFragment newFragment = new ColourPickerFragment();
 		newFragment.show(getFragmentManager(), "colourPicker");
@@ -100,6 +97,7 @@ public class AddCategoryActivity extends Activity {
 							selectedColour = colours[item];
 							
 							Button button = (Button) findViewById(R.id.category_colour);
+							String boxColor;
 							
 					        if (selectedColour.equalsIgnoreCase("Red")) {
 					        	button.setTextColor(getResources().getColor(R.color.Red));
@@ -133,6 +131,12 @@ public class AddCategoryActivity extends Activity {
 					        	button.setTextColor(getResources().getColor(R.color.Brown));
 					        	colorCode = getResources().getString(R.color.Brown);
 					        }
+					        
+					        boxColor = colorCode;
+					        TextView box = (TextView) findViewById(R.id.category_colour_box);
+							box.setBackgroundColor(Color.parseColor(colorCode));
+					        
+							Log.i("COLOR ", selectedColour);
 					        button.setText(selectedColour);
 						}
 					});
