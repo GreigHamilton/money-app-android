@@ -61,6 +61,7 @@ public class IncomeListFragment extends ListFragment {
 			TextView incomeDate = (TextView) view.findViewById(R.id.income_date);
 			//TextView incomeRepLength = (TextView) view.findViewById(R.id.income_repetition_length);
 			TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
+			TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
 			TextView incomeNotId = (TextView) view.findViewById(R.id.income_notification);
 			
 			incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
@@ -68,6 +69,7 @@ public class IncomeListFragment extends ListFragment {
 			incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
 			//incomeRepLength.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_REPETITION_LENGTH)));
 			incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
+			incomeCatId.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_CATEGORY_ID)));
 			incomeNotId.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_NOTIFICATION_ID)));
 		}
 
