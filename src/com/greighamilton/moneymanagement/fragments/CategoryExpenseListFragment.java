@@ -2,12 +2,14 @@ package com.greighamilton.moneymanagement.fragments;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,6 +67,9 @@ public class CategoryExpenseListFragment extends ListFragment {
 			categoryType.setText(Integer.toString(c.getInt(DatabaseHelper.CATEGORY_TYPE)));
 			categoryColor.setText(c.getString(DatabaseHelper.CATEGORY_COLOUR));
 			categoryDescription.setText(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
+			
+			LinearLayout layout = (LinearLayout) view.findViewById(R.id.list_item_category);
+			layout.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
 		}
 
 		@Override
