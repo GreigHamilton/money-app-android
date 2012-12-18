@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -68,8 +67,8 @@ public class CategoryExpenseListFragment extends ListFragment {
 			categoryColor.setText(c.getString(DatabaseHelper.CATEGORY_COLOUR));
 			categoryDescription.setText(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
 			
-			LinearLayout layout = (LinearLayout) view.findViewById(R.id.list_item_category);
-			layout.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+			TextView box = (TextView) view.findViewById(R.id.list_category_box);
+			box.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
 		}
 
 		@Override
