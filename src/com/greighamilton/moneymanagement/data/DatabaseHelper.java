@@ -234,7 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	public void addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
-		ContentValues cv = new ContentValues(6);
+		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextIncomeID());
 		cv.put("name", name);
 		cv.put("amount", amount);
@@ -268,7 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 	public void addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
-		ContentValues cv = new ContentValues(6);
+		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextExpenseID());
 		cv.put("name", name);
 		cv.put("amount", amount);
@@ -298,32 +298,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	
 	// CATEGORY queries
-		public Cursor getCategories() {
-				return db.query("CATEGORY", null, null, null, null, null, "_id asc");
-			}
+	public Cursor getIncomeCategories() {
+		return db.query("CATEGORY", null, "type=0", null, null, null, "_id asc");
+	}
+	
+	public Cursor getExpenseCategories() {
+		return db.query("CATEGORY", null, "type=1", null, null, null, "_id asc");
+	}
 
-		public void addCategory(String name, int type, String colour, String description) {
-			ContentValues cv = new ContentValues(6);
-			cv.put("_id", nextCategoryID());
-			cv.put("name", name);
-			cv.put("type", type);
-			cv.put("colour", colour);
-			cv.put("description", description);
+	public void addCategory(String name, int type, String colour, String description) {
+		ContentValues cv = new ContentValues(5);
+		cv.put("_id", nextCategoryID());
+		cv.put("name", name);
+		cv.put("type", type);
+		cv.put("colour", colour);
+		cv.put("description", description);
 
-			db.insert("CATEGORY", null, cv);
-		}
+		db.insert("CATEGORY", null, cv);
+	}
 
-		public String getCategoryName(int index) {
-			Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE _id = "+index, null);
-			String name = "nothing :(";
-			c.moveToFirst();
-			return (!c.isAfterLast()) ? c.getString(CATEGORY_NAME) : name;
-		}
+	public String getCategoryName(int index) {
+		Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE _id = "+index, null);
+		String name = "nothing :(";
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getString(CATEGORY_NAME) : name;
+	}
 
-		public int nextCategoryID() {
-			Cursor c = db.query("CATEGORY", null, null, null, null, null, "_id desc");
-			c.moveToFirst();
-			return ((!c.isAfterLast()) ? c.getInt(CATEGORY_ID)+1 : 1);
+	public int nextCategoryID() {
+		Cursor c = db.query("CATEGORY", null, null, null, null, null, "_id desc");
+		c.moveToFirst();
+		return ((!c.isAfterLast()) ? c.getInt(CATEGORY_ID)+1 : 1);
 		}
 	
 	
