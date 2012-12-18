@@ -107,7 +107,7 @@
                 android:text="OR Repeat for" />
 
             <EditText
-                android:id="@+id/expense_repetition_period"
+                android:id="@+id/expense_repetition_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="19"
@@ -115,7 +115,7 @@
                 android:inputType="number" />
 
             <Spinner
-                android:id="@+id/expense_repetition_spinner"
+                android:id="@+id/expense_repetition_period"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="19" />
