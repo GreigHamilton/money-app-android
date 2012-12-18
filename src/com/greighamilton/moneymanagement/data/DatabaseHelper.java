@@ -5,7 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -331,7 +333,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 	
 	
+	public List<String> getIncomeCategoryList() {
+        List<String> categories = new ArrayList<String>();
+ 
+        Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE type = 0", null);
+ 
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	categories.add(c.getString(1));
+            } while (c.moveToNext());
+        }
+ 
+        return categories;
+    }
 	
+	public List<String> getExpenseCategoryList() {
+        List<String> categories = new ArrayList<String>();
+ 
+        Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE type = 1", null);
+ 
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	categories.add(c.getString(1));
+            } while (c.moveToNext());
+        }
+ 
+        return categories;
+    }
 	
 	
 	

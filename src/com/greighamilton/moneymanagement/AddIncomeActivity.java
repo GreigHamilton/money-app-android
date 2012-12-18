@@ -2,17 +2,21 @@ package com.greighamilton.moneymanagement;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,7 +27,7 @@ import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
-public class AddIncomeActivity extends FragmentActivity {
+public class AddIncomeActivity extends FragmentActivity implements OnItemSelectedListener {
 
 	int day;
 	int month;
@@ -43,8 +47,8 @@ public class AddIncomeActivity extends FragmentActivity {
 
 		// Spinner for income categories
 		incomeSpinner = (Spinner) findViewById(R.id.income_category);
-		ArrayAdapter<CharSequence> incomeAdapter = ArrayAdapter.createFromResource(this, R.array.income_array, 
-				android.R.layout.simple_spinner_item);
+		List<String> incomeCategories = db.getIncomeCategoryList();
+		ArrayAdapter<String> incomeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, incomeCategories);
 		incomeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		incomeSpinner.setAdapter(incomeAdapter);
 
@@ -130,8 +134,9 @@ public class AddIncomeActivity extends FragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void clickCategory(View v) {
-		Toast.makeText(this, "Click category button", Toast.LENGTH_LONG).show();
+	public void addCategory(View v) {
+		Intent i = new Intent(AddIncomeActivity.this, AddCategoryActivity.class);
+		AddIncomeActivity.this.startActivity(i);
 	}
 
 	public void selectDate(View view) {
@@ -164,4 +169,12 @@ public class AddIncomeActivity extends FragmentActivity {
 			populateSetDate(yy, mm + 1, dd);
 		}
 	}
+
+	@Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
+ 
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
 }

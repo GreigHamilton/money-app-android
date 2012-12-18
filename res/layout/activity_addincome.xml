@@ -44,7 +44,16 @@
             android:id="@+id/income_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="18" />
+            android:layout_weight="20" />
+
+        <Button
+            android:id="@+id/income_addcategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add Category"
+			android:onClick="addCategory" />
+
     </LinearLayout>
 
     <!-- Date -->

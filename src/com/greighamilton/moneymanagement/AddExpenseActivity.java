@@ -2,16 +2,20 @@ package com.greighamilton.moneymanagement;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,10 +24,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.AddIncomeActivity.SelectDateFragment;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
-public class AddExpenseActivity extends Activity {
+public class AddExpenseActivity extends Activity implements OnItemSelectedListener {
 
 	int day;
 	int month;
@@ -43,9 +46,9 @@ public class AddExpenseActivity extends Activity {
 
 		// Spinner for expense categories
 		expenseSpinner = (Spinner) findViewById(R.id.expense_category);
-		ArrayAdapter<CharSequence> expenseAdapter = ArrayAdapter
-				.createFromResource(this, R.array.expense_array,
-						android.R.layout.simple_spinner_item);
+		List<String> expenseCategories = db.getExpenseCategoryList();
+		
+		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, expenseCategories);;
 		expenseAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		expenseSpinner.setAdapter(expenseAdapter);
@@ -133,8 +136,9 @@ public class AddExpenseActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void clickCategory(View v) {
-		Toast.makeText(this, "Click category button", Toast.LENGTH_LONG).show();
+	public void addCategory(View v) {
+		Intent i = new Intent(AddExpenseActivity.this, AddCategoryActivity.class);
+		AddExpenseActivity.this.startActivity(i);
 	}
 
 	public void selectDate(View view) {
@@ -167,4 +171,12 @@ public class AddExpenseActivity extends Activity {
 			populateSetDate(yy, mm + 1, dd);
 		}
 	}
+
+	@Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
+ 
+    @Override
+    public void onNothingSelected(AdapterView<?> arg0) {
+    }
 }
