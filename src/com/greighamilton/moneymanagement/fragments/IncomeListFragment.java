@@ -42,6 +42,7 @@ public class IncomeListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		Toast.makeText(getActivity(), v.getTag(R.id.list_item_income).toString(), Toast.LENGTH_SHORT).show();
+		
 	}
 
 	private class IncomeAdapter extends CursorAdapter {

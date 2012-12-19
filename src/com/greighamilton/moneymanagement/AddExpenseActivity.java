@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -178,5 +179,23 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
  
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
+    }
+    
+    public void clickCheckbox(View v) {
+    	
+    	EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
+    	TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
+    	Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
+    	
+    	if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox)).isChecked()) {
+			repLength.setEnabled(false);			
+			repText.setEnabled(false);
+			repPeriod.setEnabled(false);
+		}
+    	else {
+			repLength.setEnabled(true);
+			repText.setEnabled(true);
+			repPeriod.setEnabled(true);
+    	}
     }
 }

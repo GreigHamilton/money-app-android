@@ -31,6 +31,8 @@ public class AddCategoryActivity extends Activity {
 		setContentView(R.layout.activity_addcategory);
 
 		db = DatabaseHelper.getInstance(this);
+		
+		
 	}
 
 	@Override

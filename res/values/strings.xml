@@ -25,6 +25,12 @@
         <item>Brown</item>
     </string-array>
     
+    <string name="edit_options"></string>
+    <string-array name="edit_options">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+    
     
     <string-array name="income_array">
         <item>Wage</item>
