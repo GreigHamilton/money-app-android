@@ -249,6 +249,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		db.insert("INCOME", null, cv);
 	}
+	
+	public void deleteIncome(String id) {
+		db.delete("INCOME", "_id="+id, null);
+	}
 
 	public String getIncomeName(int index) {
 		Cursor c = db.rawQuery("SELECT * FROM INCOME WHERE _id = "+index, null);
@@ -262,6 +266,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToFirst();
 		return ((!c.isAfterLast()) ? c.getInt(INCOME_ID)+1 : 1);
 	}
+	
+	
 	
 	
 	// EXPENSE queries
@@ -282,6 +288,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("notification_id", notification_id);
 
 		db.insert("EXPENSE", null, cv);
+	}
+	
+	public void deleteExpense(String id) {
+		db.delete("EXPENSE", "_id="+id, null);
 	}
 
 	public String getExpenseName(int index) {
@@ -317,6 +327,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("description", description);
 
 		db.insert("CATEGORY", null, cv);
+	}
+	
+	public void deleteCategory(String id) {
+		db.delete("CATEGORY", "_id="+id, null);
 	}
 
 	public String getCategoryName(int index) {

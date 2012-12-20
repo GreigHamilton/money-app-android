@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewincexp_options_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/viewincexp_options_menu_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit      "
+        android:background="@color/white" />
+
+    <Button
+        android:id="@+id/viewincexp_options_menu_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Delete   "
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -11,16 +11,16 @@ import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.dialogs.ViewIncExpOptionsDialog;
 
 /**
  * @see http://android.artemzin.ru/?p=7
  *
  */
-public class ExpenseListFragment extends ListFragment {
+public class ExpenseListFragment extends ListFragment implements com.greighamilton.moneymanagement.dialogs.ViewIncExpOptionsDialog.OptionsDialogListener {
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -41,7 +41,7 @@ public class ExpenseListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		Toast.makeText(getActivity(), v.getTag(R.id.list_item_expense).toString(), Toast.LENGTH_SHORT).show();
+		showOptionsDialog(v.getTag(R.id.list_item_expense).toString());
 	}
 
 	private class ExpenseAdapter extends CursorAdapter {
@@ -75,5 +75,17 @@ public class ExpenseListFragment extends ListFragment {
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
 			return inflater.inflate(R.layout.list_item_expense, null);
 		}
+	}
+
+	private void showOptionsDialog(String id) {
+        android.support.v4.app.FragmentManager fm = getFragmentManager();
+        ViewIncExpOptionsDialog optionsDialog = new ViewIncExpOptionsDialog(id, "EXPENSE");
+        optionsDialog.show(fm, "fragment_viewincexp_options_dialog");
+    }
+
+	@Override
+	public void onFinishOptionsDialog(String inputText) {
+		// TODO Auto-generated method stub
+		
 	}
 }

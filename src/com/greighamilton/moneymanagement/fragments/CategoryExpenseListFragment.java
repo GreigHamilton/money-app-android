@@ -12,16 +12,16 @@ import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.dialogs.ViewCategoriesOptionsDialog;
 
 /**
  * @see http://android.artemzin.ru/?p=7
  *
  */
-public class CategoryExpenseListFragment extends ListFragment {
+public class CategoryExpenseListFragment extends ListFragment implements com.greighamilton.moneymanagement.dialogs.ViewCategoriesOptionsDialog.OptionsDialogListener {
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -42,7 +42,7 @@ public class CategoryExpenseListFragment extends ListFragment {
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		Toast.makeText(getActivity(), v.getTag(R.id.list_item_category).toString(), Toast.LENGTH_SHORT).show();
+		showOptionsDialog(v.getTag(R.id.list_item_category).toString());
 	}
 
 	private class CategoryAdapter extends CursorAdapter {
@@ -76,4 +76,14 @@ public class CategoryExpenseListFragment extends ListFragment {
 			return inflater.inflate(R.layout.list_item_category, null);
 		}
 	}
+	
+	private void showOptionsDialog(String id) {
+        android.support.v4.app.FragmentManager fm = getFragmentManager();
+        ViewCategoriesOptionsDialog optionsDialog = new ViewCategoriesOptionsDialog(id);
+        optionsDialog.show(fm, "fragment_categories_options_dialog");
+    }
+
+    @Override
+    public void onFinishOptionsDialog(String inputText) {
+    }
 }
