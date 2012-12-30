@@ -53,12 +53,12 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       
-      case R.id.menu_addincome:
+      case R.id.viewincexp_menu_addincome:
     	  Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
     	  ViewIncExpActivity.this.startActivity(i);
       break;
         
-      case R.id.menu_addexpense:
+      case R.id.viewincexp_menu_addexpense:
   	  	Intent j = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
   	  	ViewIncExpActivity.this.startActivity(j);
       break;

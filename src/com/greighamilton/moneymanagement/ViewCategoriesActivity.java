@@ -53,7 +53,7 @@ public class ViewCategoriesActivity extends FragmentActivity implements ActionBa
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       
-      case R.id.menu_addcategory:
+      case R.id.viewcategories_menu_addcategory:
     	  Intent i = new Intent(ViewCategoriesActivity.this, AddCategoryActivity.class);
     	  ViewCategoriesActivity.this.startActivity(i);
       break;

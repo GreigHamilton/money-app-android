@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/menu_addcategory"
+    <item android:id="@+id/viewcategories_menu_addcategory"
           android:icon="@drawable/ic_menu_add"
           android:title="Add Category"
           android:showAsAction="ifRoom|withText" />

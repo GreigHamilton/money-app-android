@@ -38,37 +38,37 @@ public class DashboardActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       
-      case R.id.menu_addincome:
+      case R.id.dashboard_menu_addincome:
     	  	Intent i = new Intent(DashboardActivity.this, AddIncomeActivity.class);
     	  	DashboardActivity.this.startActivity(i);
         break;
         
-      case R.id.menu_addexpense:
+      case R.id.dashboard_menu_addexpense:
   	  	Intent j = new Intent(DashboardActivity.this, AddExpenseActivity.class);
   	  	DashboardActivity.this.startActivity(j);
       break;
       
-      case R.id.menu_viewgoals:
+      case R.id.dashboard_menu_viewgoals:
     	  	Intent k = new Intent(DashboardActivity.this, ViewGoalsActivity.class);
     	  	DashboardActivity.this.startActivity(k);
         break;
         
-      case R.id.menu_viewcategories:
+      case R.id.dashboard_menu_viewcategories:
     	  	Intent l = new Intent(DashboardActivity.this, ViewCategoriesActivity.class);
     	  	DashboardActivity.this.startActivity(l);
         break;
         
-      case R.id.menu_summary:
+      case R.id.dashboard_menu_summary:
   	  	Intent m = new Intent(DashboardActivity.this, SummaryActivity.class);
   	  	DashboardActivity.this.startActivity(m);
       break;
       
-      case R.id.menu_viewtrends:
+      case R.id.dashboard_menu_viewtrends:
     	  	Intent n = new Intent(DashboardActivity.this, ViewTrendsActivity.class);
     	  	DashboardActivity.this.startActivity(n);
       break;
         
-      case R.id.menu_viewincexp:
+      case R.id.dashboard_menu_viewincexp:
   	  	Intent o = new Intent(DashboardActivity.this, ViewIncExpActivity.class);
   	  	DashboardActivity.this.startActivity(o);
       break;

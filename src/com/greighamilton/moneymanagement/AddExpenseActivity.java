@@ -75,11 +75,11 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-		case R.id.menu_cancel:
+		case R.id.expense_menu_cancel:
 			finish();
 			break;
 
-		case R.id.menu_save:
+		case R.id.expense_menu_save:
 			// Get name data
 			String name = ((EditText) findViewById(R.id.expense_name)).getText().toString();
 

@@ -25,7 +25,7 @@ public class ViewGoalsActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       
-	      case R.id.menu_addgoal:
+	      case R.id.viewgoals_menu_addgoal:
 	    	  Intent k = new Intent(ViewGoalsActivity.this, AddGoalActivity.class);
 	    	  ViewGoalsActivity.this.startActivity(k);
 	      break;

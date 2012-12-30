@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/LinearLayout1"
+    android:id="@+id/add_goal_linearlayout_1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <!-- Name -->
+
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/add_goal_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -18,15 +19,23 @@
 
     <!-- Amount -->
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/add_goal_amount_to_save"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Amount"
+        android:hint="Amount To Save"
         android:inputType="numberDecimal" >
     </EditText>
 
     <!-- Category -->
+
+    <EditText
+        android:id="@+id/add_goal_amount_saved"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Amount Saved"
+        android:inputType="numberDecimal" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -35,19 +44,10 @@
         android:padding="10dp" >
 
         <Button
-            android:id="@+id/timescale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:onClick="clickTimescale"
-            android:text="Timescale" />
-
-        <Button
-            android:id="@+id/button1"
+            android:id="@+id/add_goal_select_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/timescale"
             android:onClick="clickImage"
             android:text="Select Image" />
 

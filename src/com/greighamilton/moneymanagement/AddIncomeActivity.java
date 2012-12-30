@@ -73,11 +73,11 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-		case R.id.menu_cancel:
+		case R.id.income_menu_cancel:
 			finish();
 			break;
 
-		case R.id.menu_save:
+		case R.id.income_menu_save:
 			// Get name data
 			String name = ((EditText) findViewById(R.id.income_name)).getText().toString();
 			

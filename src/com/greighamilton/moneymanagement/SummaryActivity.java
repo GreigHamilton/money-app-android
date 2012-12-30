@@ -27,17 +27,17 @@ public class SummaryActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
       switch (item.getItemId()) {
       
-      case R.id.menu_addincome:
+      case R.id.viewsummary_menu_addincome:
     	  	Intent i = new Intent(SummaryActivity.this, AddIncomeActivity.class);
     	  	SummaryActivity.this.startActivity(i);
         break;
         
-      case R.id.menu_addexpense:
+      case R.id.viewsummary_menu_addexpense:
   	  	Intent j = new Intent(SummaryActivity.this, AddExpenseActivity.class);
   	  SummaryActivity.this.startActivity(j);
       break;
       
-      case R.id.menu_viewtrends:
+      case R.id.viewsummary_menu_viewtrends:
     	  Intent l = new Intent(SummaryActivity.this, ViewTrendsActivity.class);
     	  SummaryActivity.this.startActivity(l);
         break;
