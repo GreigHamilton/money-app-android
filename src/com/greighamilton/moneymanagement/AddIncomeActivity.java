@@ -5,14 +5,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +23,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
-public class AddIncomeActivity extends FragmentActivity implements OnItemSelectedListener {
+public class AddIncomeActivity extends Activity implements
+		OnItemSelectedListener {
 
 	int day;
 	int month;
@@ -35,6 +36,7 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 
 	Spinner incomeSpinner;
 	Spinner repetitionSpinner;
+	List<String> incomeCategories;
 
 	DatabaseHelper db;
 
@@ -47,26 +49,38 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 
 		// Spinner for income categories
 		incomeSpinner = (Spinner) findViewById(R.id.income_category);
-		List<String> incomeCategories = db.getIncomeCategoryList();
-		ArrayAdapter<String> incomeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, incomeCategories);
-		incomeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		incomeCategories = db.getIncomeCategoryList();
+
+		ArrayAdapter<String> incomeAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, incomeCategories);
+		;
+		incomeAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		incomeSpinner.setAdapter(incomeAdapter);
 		if (incomeCategories.isEmpty())
 			incomeSpinner.setEnabled(false);
 		// Spinner for repetition period
 		repetitionSpinner = (Spinner) findViewById(R.id.income_repetition_period);
-		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array,
-				android.R.layout.simple_spinner_item);
-		repetitionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter
+				.createFromResource(this, R.array.repetition_array,
+						android.R.layout.simple_spinner_item);
+		repetitionAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
-		
+
+		Button button = (Button) findViewById(R.id.income_date);
+		Calendar c = Calendar.getInstance();
+		c.getTime();
+
+		SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy", Locale.UK);
+		String date = df.format(c.getTime());
+		button.setText(date);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.activity_addincome, menu);
+		getMenuInflater().inflate(R.menu.activity_addincome, menu);
 		return true;
 	}
 
@@ -79,58 +93,101 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 			break;
 
 		case R.id.income_menu_save:
-			// Get name data
-			String name = ((EditText) findViewById(R.id.income_name)).getText().toString();
-			
-			// Get amount data
-			int amount = (Integer.parseInt(((EditText) findViewById(R.id.income_amount)).getText().toString()));
-			
-			// Get date after fragment chooser
-			String date = day + "/" + month + "/" + year;
-			// if the date hasn't been set, sets it to current date
-			if (date.equals("0/0/0")) {
-				Calendar c = Calendar.getInstance();
-				c.getTime();
 
-				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
-				date = df.format(c.getTime());
+			EditText nameBox = (EditText) findViewById(R.id.income_name);
+			EditText amountBox = (EditText) findViewById(R.id.income_amount);
+			EditText repBox = (EditText) findViewById(R.id.income_repetition_length);
+
+			if (nameBox.getText().toString().length() > 0
+					&& amountBox.getText().toString().length() > 0
+					&& ((((CheckBox) findViewById(R.id.income_oneoff_checkbox))
+							.isChecked()) || repBox.getText().toString()
+							.length() > 0) && incomeCategories.size() > 0) {
+
+				// Get name data
+				String name = ((EditText) findViewById(R.id.income_name))
+						.getText().toString();
+
+				// Get amount data
+				int amount = (Integer
+						.parseInt(((EditText) findViewById(R.id.income_amount))
+								.getText().toString()));
+
+				// Get date after fragment chooser
+				String date = day + "/" + month + "/" + year;
+				// if the date hasn't been set, sets it to current date
+				if (date.equals("0/0/0")) {
+					Calendar c = Calendar.getInstance();
+					c.getTime();
+
+					SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy",
+							Locale.UK);
+					date = df.format(c.getTime());
+				}
+
+				// Get repetition data
+				int repetition_period;
+				int repetition_length;
+				if (((CheckBox) findViewById(R.id.income_oneoff_checkbox))
+						.isChecked()) {
+					repetition_period = 0;
+					repetition_length = 0;
+					// TODO Create a notification
+				} else {
+					repetition_period = incomeSpinner.getSelectedItemPosition() + 1; // add
+																						// one
+																						// so
+																						// one-off
+																						// is
+																						// period
+																						// 0
+					repetition_length = (Integer
+							.parseInt(((EditText) findViewById(R.id.income_repetition_length))
+									.getText().toString()));
+				}
+
+				// Get notes data
+				String notes;
+				if (((EditText) findViewById(R.id.income_notes)).getText()
+						.length() == 0)
+					notes = "";
+				else
+					notes = ((EditText) findViewById(R.id.income_notes))
+							.getText().toString();
+
+				// Get category id data
+				int categoryId = incomeSpinner.getSelectedItemPosition();
+
+				// Get data for notification checkbox
+				int notification_id;
+				if (((CheckBox) findViewById(R.id.income_notification))
+						.isChecked()) {
+					notification_id = 1;
+					// TODO Create a notification
+				} else {
+					notification_id = 0;
+				}
+
+				db.addIncome(name, amount, date, repetition_period,
+						repetition_length, notes, categoryId, notification_id);
+				finish();
 			}
-			
-			// Get repetition data
-			int repetition_period;
-			int repetition_length;
-			if (((CheckBox) findViewById(R.id.income_oneoff_checkbox)).isChecked()) {
-				repetition_period = 0;
-				repetition_length = 0;
-				// TODO Create a notification
-			} else {
-				repetition_period = incomeSpinner.getSelectedItemPosition()+ 1; // add one so one-off is period 0
-				repetition_length = (Integer.parseInt(((EditText)
-						findViewById(R.id.income_repetition_length)).getText().toString()));
+
+			else {
+
+				if (nameBox.getText().toString().length() == 0)
+					nameBox.setError("Name is required.");
+				if (amountBox.getText().toString().length() == 0)
+					amountBox.setError("Amount is required.");
+				if (!(((CheckBox) findViewById(R.id.income_oneoff_checkbox))
+						.isChecked())
+						&& repBox.getText().toString().length() == 0)
+					Toast.makeText(this, "A Repetition Must Be Set.",
+							Toast.LENGTH_SHORT).show();
+				if (incomeCategories.size() == 0)
+					Toast.makeText(this, "Please add a category.",
+							Toast.LENGTH_SHORT).show();
 			}
-			
-			// Get notes data
-			String notes;
-			if (((EditText) findViewById(R.id.income_notes)).getText().length() == 0)
-				notes = "";
-			else
-				notes = ((EditText) findViewById(R.id.income_notes)).getText().toString();
-			
-			// Get category id data
-			int categoryId = incomeSpinner.getSelectedItemPosition();	
-			
-			// Get data for notification checkbox
-			int notification_id;
-			if (((CheckBox) findViewById(R.id.income_notification)).isChecked()) {
-				notification_id = 1;
-				// TODO Create a notification
-			} else {
-				notification_id = 0;
-			}
-			
-			
-			db.addIncome(name, amount, date, repetition_period, repetition_length, notes, categoryId, notification_id);
-			finish();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -173,28 +230,28 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 	}
 
 	@Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    }
- 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
-    
-    public void clickCheckbox(View v) {
-    	
-    	EditText repLength = (EditText) findViewById(R.id.income_repetition_length);
-    	TextView repText = (TextView) findViewById(R.id.income_repetition_text);
-    	Spinner repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
-    	
-    	if (((CheckBox) findViewById(R.id.income_oneoff_checkbox)).isChecked()) {
-			repLength.setEnabled(false);			
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	public void clickCheckbox(View v) {
+
+		EditText repLength = (EditText) findViewById(R.id.income_repetition_length);
+		TextView repText = (TextView) findViewById(R.id.income_repetition_text);
+		Spinner repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
+
+		if (((CheckBox) findViewById(R.id.income_oneoff_checkbox)).isChecked()) {
+			repLength.setEnabled(false);
 			repText.setEnabled(false);
 			repPeriod.setEnabled(false);
-		}
-    	else {
+		} else {
 			repLength.setEnabled(true);
 			repText.setEnabled(true);
 			repPeriod.setEnabled(true);
-    	}
-    }
+		}
+	}
 }

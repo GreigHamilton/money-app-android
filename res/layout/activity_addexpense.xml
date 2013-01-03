@@ -87,7 +87,7 @@
             android:layout_above="@id/expense_notification"
             android:layout_below="@+id/expense_linearlayout_3"
             android:ems="10"
-            android:hint="Notes"
+            android:hint="Notes (Optional)"
             android:inputType="textMultiLine" />
 
         <LinearLayout

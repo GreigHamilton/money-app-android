@@ -27,7 +27,8 @@ import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
-public class AddExpenseActivity extends Activity implements OnItemSelectedListener {
+public class AddExpenseActivity extends Activity implements
+		OnItemSelectedListener {
 
 	int day;
 	int month;
@@ -35,6 +36,7 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 
 	Spinner expenseSpinner;
 	Spinner repetitionSpinner;
+	List<String> expenseCategories;
 
 	DatabaseHelper db;
 
@@ -47,9 +49,11 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 
 		// Spinner for expense categories
 		expenseSpinner = (Spinner) findViewById(R.id.expense_category);
-		List<String> expenseCategories = db.getExpenseCategoryList();
-		
-		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, expenseCategories);;
+		expenseCategories = db.getExpenseCategoryList();
+
+		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, expenseCategories);
+		;
 		expenseAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		expenseSpinner.setAdapter(expenseAdapter);
@@ -63,6 +67,14 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 		repetitionAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
+
+		Button button = (Button) findViewById(R.id.expense_date);
+		Calendar c = Calendar.getInstance();
+		c.getTime();
+
+		SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy", Locale.UK);
+		String date = df.format(c.getTime());
+		button.setText(date);
 	}
 
 	@Override
@@ -81,65 +93,106 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 			break;
 
 		case R.id.expense_menu_save:
-			// Get name data
-			String name = ((EditText) findViewById(R.id.expense_name)).getText().toString();
 
-			// Get amount data
-			int amount = (Integer.parseInt(((EditText) findViewById(R.id.expense_amount))
-							.getText().toString()));
+			EditText nameBox = (EditText) findViewById(R.id.expense_name);
+			EditText amountBox = (EditText) findViewById(R.id.expense_amount);
+			EditText repBox = (EditText) findViewById(R.id.expense_repetition_length);
 
-			// Get date after fragment chooser
-			String date = day + "/" + month + "/" + year;
-			// if the date hasn't been set, sets it to current date
-			if (date.equals("0/0/0")) {
-				Calendar c = Calendar.getInstance();
-				c.getTime();
+			if (nameBox.getText().toString().length() > 0
+					&& amountBox.getText().toString().length() > 0
+					&& ((((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
+							.isChecked()) || repBox.getText().toString()
+							.length() > 0) && expenseCategories.size() > 0) {
 
-				SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.UK);
-				date = df.format(c.getTime());
-			}
+				// Get name data
+				String name = ((EditText) findViewById(R.id.expense_name))
+						.getText().toString();
 
-			// Get repetition data
-			int repetition_period;
-			int repetition_length;
-			if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox)).isChecked()) {
-				repetition_period = 0;
-				repetition_length = 0;
-				// TODO Create a notification
-			} else {
-				repetition_period = expenseSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
-				repetition_length = (Integer.parseInt(((EditText) findViewById(R.id.expense_repetition_length))
+				// Get amount data
+				int amount = (Integer
+						.parseInt(((EditText) findViewById(R.id.expense_amount))
 								.getText().toString()));
+
+				// Get date after fragment chooser
+				String date = day + "/" + month + "/" + year;
+				// if the date hasn't been set, sets it to current date
+				if (date.equals("0/0/0")) {
+					Calendar c = Calendar.getInstance();
+					c.getTime();
+
+					SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy",
+							Locale.UK);
+					date = df.format(c.getTime());
+				}
+
+				// Get repetition data
+				int repetition_period;
+				int repetition_length;
+				if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
+						.isChecked()) {
+					repetition_period = 0;
+					repetition_length = 0;
+					// TODO Create a notification
+				} else {
+					repetition_period = expenseSpinner
+							.getSelectedItemPosition() + 1; // add one so
+															// one-off is period
+															// 0
+					repetition_length = (Integer
+							.parseInt(((EditText) findViewById(R.id.expense_repetition_length))
+									.getText().toString()));
+				}
+
+				// Get notes data
+				String notes;
+				if (((EditText) findViewById(R.id.expense_notes)).getText()
+						.length() == 0)
+					notes = "";
+				else
+					notes = ((EditText) findViewById(R.id.expense_notes))
+							.getText().toString();
+
+				// Get category id data
+				int categoryId = expenseSpinner.getSelectedItemPosition();
+
+				// Get data for notification checkbox
+				int notification_id;
+				if (((CheckBox) findViewById(R.id.expense_notification))
+						.isChecked()) {
+					notification_id = 1;
+					// TODO Create a notification
+				} else {
+					notification_id = 0;
+				}
+
+				db.addExpense(name, amount, date, repetition_period,
+						repetition_length, notes, categoryId, notification_id);
+				finish();
 			}
 
-			// Get notes data
-			String notes;
-			if (((EditText) findViewById(R.id.expense_notes)).getText().length() == 0)
-				notes = "";
-			else
-				notes = ((EditText) findViewById(R.id.expense_notes)).getText().toString();
+			else {
 
-			// Get category id data
-			int categoryId = expenseSpinner.getSelectedItemPosition();
-
-			// Get data for notification checkbox
-			int notification_id;
-			if (((CheckBox) findViewById(R.id.expense_notification)).isChecked()) {
-				notification_id = 1;
-				// TODO Create a notification
-			} else {
-				notification_id = 0;
+				if (nameBox.getText().toString().length() == 0)
+					nameBox.setError("Name is required.");
+				if (amountBox.getText().toString().length() == 0)
+					amountBox.setError("Amount is required.");
+				if (!(((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
+						.isChecked())
+						&& repBox.getText().toString().length() == 0)
+					Toast.makeText(this, "A Repetition Must Be Set.",
+							Toast.LENGTH_SHORT).show();
+				if (expenseCategories.size() == 0)
+					Toast.makeText(this, "Please add a category.",
+							Toast.LENGTH_SHORT).show();
 			}
-
-			db.addExpense(name, amount, date, repetition_period, repetition_length, notes, categoryId, notification_id);
-			finish();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	public void addCategory(View v) {
-		Intent i = new Intent(AddExpenseActivity.this, AddCategoryActivity.class);
+		Intent i = new Intent(AddExpenseActivity.this,
+				AddCategoryActivity.class);
 		AddExpenseActivity.this.startActivity(i);
 	}
 
@@ -175,28 +228,28 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 	}
 
 	@Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-    }
- 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
-    
-    public void clickCheckbox(View v) {
-    	
-    	EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
-    	TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
-    	Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
-    	
-    	if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox)).isChecked()) {
-			repLength.setEnabled(false);			
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+	}
+
+	public void clickCheckbox(View v) {
+
+		EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
+		TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
+		Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
+
+		if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox)).isChecked()) {
+			repLength.setEnabled(false);
 			repText.setEnabled(false);
 			repPeriod.setEnabled(false);
-		}
-    	else {
+		} else {
 			repLength.setEnabled(true);
 			repText.setEnabled(true);
 			repPeriod.setEnabled(true);
-    	}
-    }
+		}
+	}
 }

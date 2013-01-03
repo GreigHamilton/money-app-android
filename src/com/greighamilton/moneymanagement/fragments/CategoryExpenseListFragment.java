@@ -3,6 +3,7 @@ package com.greighamilton.moneymanagement.fragments;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -61,7 +62,12 @@ public class CategoryExpenseListFragment extends ListFragment implements com.gre
 			TextView categoryDescription = (TextView) view.findViewById(R.id.list_category_description);
 			
 			categoryName.setText(c.getString(DatabaseHelper.CATEGORY_NAME));
-			categoryDescription.setText(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
+			categoryName.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD), Typeface.BOLD);
+			if (c.getString(DatabaseHelper.CATEGORY_DESCRIPTION).equals(""))
+				categoryDescription.setText("No description.");
+			else
+				categoryDescription.setText(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
+			categoryDescription.setTypeface(Typeface.defaultFromStyle(Typeface.ITALIC), Typeface.ITALIC);
 			
 			TextView box = (TextView) view.findViewById(R.id.list_category_box);
 			box.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
