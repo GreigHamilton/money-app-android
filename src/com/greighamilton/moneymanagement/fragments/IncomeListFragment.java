@@ -94,7 +94,7 @@ public class IncomeListFragment extends ListFragment
 		yearSpinner.setSelection(years.indexOf(yearText));
 		
 	}
-
+	
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
 		showOptionsDialog(v.getTag(R.id.list_item_income).toString());

@@ -5,8 +5,10 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.ListFragment;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
@@ -18,6 +20,11 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final int TAB_INCOME = 0;
     private static final int TAB_EXPENSES = 1;
+    
+    private IncomeListFragment incomeFragment;
+    private ExpenseListFragment expenseFragment;
+    
+    private int selectedTab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,7 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
         // For each of the sections in the app, add a tab to the action bar.
         actionBar.addTab(actionBar.newTab().setText("Income").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Expenses").setTabListener(this));
+        selectedTab = TAB_INCOME;
     }
 
     @Override
@@ -79,13 +87,14 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     	/**
     	 * On first tab we will show the Income list
     	 */
+    	selectedTab = tab.getPosition();
     	if (tab.getPosition() == TAB_INCOME) {
-    		IncomeListFragment f = new IncomeListFragment();
-    		getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commit();
+    		incomeFragment = new IncomeListFragment();
+    		getSupportFragmentManager().beginTransaction().replace(R.id.container, incomeFragment).commit();
     		
     	} else if (tab.getPosition() == TAB_EXPENSES) {
-    		ExpenseListFragment g = new ExpenseListFragment();
-    		getSupportFragmentManager().beginTransaction().replace(R.id.container, g).commit();    	
+    		expenseFragment = new ExpenseListFragment();
+    		getSupportFragmentManager().beginTransaction().replace(R.id.container, expenseFragment).commit();    	
     	}
     	else {
     		// do nothing
@@ -95,4 +104,12 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+    
+	public void clickCheckbox(View v) {
+		ListFragment f = (selectedTab == TAB_INCOME) ? incomeFragment : expenseFragment;
+		Spinner m = (Spinner) f.getView().findViewById(R.id.incexp_month);
+		Spinner y = (Spinner) f.getView().findViewById(R.id.incexp_year);
+		m.setEnabled(!((CheckBox) v.findViewById(R.id.incexp_all)).isChecked());
+		y.setEnabled(!((CheckBox) v.findViewById(R.id.incexp_all)).isChecked());
+	}
 }
