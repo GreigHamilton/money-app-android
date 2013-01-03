@@ -1,15 +1,21 @@
 package com.greighamilton.moneymanagement.fragments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.R;
@@ -24,6 +30,9 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 
 	private DatabaseHelper db;
 	private Cursor c;
+	
+	Spinner monthSpinner;
+	Spinner yearSpinner;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,8 +44,48 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.simple_list_fragment, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.simple_list_fragment_incexp,
+				container, false);
+		setSpinnerContent(view);
+		return view;
+	}
+	
+	private void setSpinnerContent(View view) {
+		
+		// get current month and year
+		Time now = new Time();
+		now.setToNow();
+
+		int month = now.month;
+		int year = now.year;
+		String yearText = "" + year;
+
+		// Spinner for months
+		monthSpinner = (Spinner) view.findViewById(R.id.incexp_month);
+		List<String> months = new ArrayList<String>();
+		months.add("Jan"); months.add("Feb"); months.add("Mar"); months.add("Apr");
+		months.add("May"); months.add("Jun"); months.add("Jul"); months.add("Aug");
+		months.add("Sep"); months.add("Oct"); months.add("Nov"); months.add("Dec");
+
+		ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(
+			getActivity(), android.R.layout.simple_spinner_item, months);
+		monthAdapter
+			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		monthSpinner.setAdapter(monthAdapter);
+		monthSpinner.setSelection(month);
+
+		// Spinner for months
+		yearSpinner = (Spinner) view.findViewById(R.id.incexp_year);
+		List<String> years = new ArrayList<String>();
+		years.add("2012"); years.add("2013"); years.add("2014"); years.add("2015");
+		ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(
+			getActivity(), android.R.layout.simple_spinner_item, years);
+		yearAdapter
+			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		yearSpinner.setAdapter(yearAdapter);
+		yearSpinner.setSelection(years.indexOf(yearText));
 	}
 
 	@Override

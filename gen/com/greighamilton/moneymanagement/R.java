@@ -77,20 +77,20 @@ public final class R {
         public static final int category_colour_box=0x7f090006;
         public static final int category_description=0x7f090007;
         public static final int category_linearlayout_1=0x7f090000;
-        public static final int category_menu_cancel=0x7f090050;
-        public static final int category_menu_save=0x7f09004f;
+        public static final int category_menu_cancel=0x7f090055;
+        public static final int category_menu_save=0x7f090054;
         public static final int category_name=0x7f090001;
         public static final int category_type_expense=0x7f090004;
         public static final int category_type_group=0x7f090002;
         public static final int category_type_income=0x7f090003;
         public static final int container=0x7f090034;
-        public static final int dashboard_menu_addexpense=0x7f090058;
-        public static final int dashboard_menu_addincome=0x7f090057;
-        public static final int dashboard_menu_summary=0x7f09005d;
-        public static final int dashboard_menu_viewcategories=0x7f09005a;
-        public static final int dashboard_menu_viewgoals=0x7f090059;
-        public static final int dashboard_menu_viewincexp=0x7f09005b;
-        public static final int dashboard_menu_viewtrends=0x7f09005c;
+        public static final int dashboard_menu_addexpense=0x7f09005d;
+        public static final int dashboard_menu_addincome=0x7f09005c;
+        public static final int dashboard_menu_summary=0x7f090062;
+        public static final int dashboard_menu_viewcategories=0x7f09005f;
+        public static final int dashboard_menu_viewgoals=0x7f09005e;
+        public static final int dashboard_menu_viewincexp=0x7f090060;
+        public static final int dashboard_menu_viewtrends=0x7f090061;
         public static final int expense_addcategory=0x7f09000e;
         public static final int expense_amount=0x7f09000a;
         public static final int expense_category=0x7f09000d;
@@ -99,8 +99,8 @@ public final class R {
         public static final int expense_linearlayout_1=0x7f090008;
         public static final int expense_linearlayout_2=0x7f09000b;
         public static final int expense_linearlayout_3=0x7f090013;
-        public static final int expense_menu_cancel=0x7f090052;
-        public static final int expense_menu_save=0x7f090051;
+        public static final int expense_menu_cancel=0x7f090057;
+        public static final int expense_menu_save=0x7f090056;
         public static final int expense_name=0x7f090009;
         public static final int expense_notes=0x7f090012;
         public static final int expense_notification=0x7f090011;
@@ -109,9 +109,14 @@ public final class R {
         public static final int expense_repetition_length=0x7f090016;
         public static final int expense_repetition_period=0x7f090017;
         public static final int expense_repetition_text=0x7f090015;
-        public static final int goal_menu_cancel=0x7f090054;
-        public static final int goal_menu_save=0x7f090053;
+        public static final int goal_menu_cancel=0x7f090059;
+        public static final int goal_menu_save=0x7f090058;
         public static final int imageView1=0x7f09003d;
+        public static final int incexp_all=0x7f090051;
+        public static final int incexp_linearlayout_1=0x7f09004f;
+        public static final int incexp_month=0x7f090052;
+        public static final int incexp_textview_1=0x7f090050;
+        public static final int incexp_year=0x7f090053;
         public static final int income_addcategory=0x7f090023;
         public static final int income_amount=0x7f09001f;
         public static final int income_category=0x7f090022;
@@ -120,8 +125,8 @@ public final class R {
         public static final int income_linearlayout_1=0x7f09001d;
         public static final int income_linearlayout_2=0x7f090020;
         public static final int income_linearlayout_3=0x7f090028;
-        public static final int income_menu_cancel=0x7f090056;
-        public static final int income_menu_save=0x7f090055;
+        public static final int income_menu_cancel=0x7f09005b;
+        public static final int income_menu_save=0x7f09005a;
         public static final int income_name=0x7f09001e;
         public static final int income_notes=0x7f090027;
         public static final int income_notification=0x7f090026;
@@ -143,19 +148,19 @@ public final class R {
         public static final int textView5=0x7f09003e;
         public static final int textView6=0x7f090035;
         public static final int textView7=0x7f090036;
-        public static final int viewcategories_menu_addcategory=0x7f090061;
+        public static final int viewcategories_menu_addcategory=0x7f090066;
         public static final int viewcategories_options_dialog=0x7f090043;
         public static final int viewcategories_options_menu_delete_button=0x7f090045;
         public static final int viewcategories_options_menu_edit_button=0x7f090044;
-        public static final int viewgoals_menu_addgoal=0x7f090062;
-        public static final int viewincexp_menu_addexpense=0x7f090064;
-        public static final int viewincexp_menu_addincome=0x7f090063;
+        public static final int viewgoals_menu_addgoal=0x7f090067;
+        public static final int viewincexp_menu_addexpense=0x7f090069;
+        public static final int viewincexp_menu_addincome=0x7f090068;
         public static final int viewincexp_options_dialog=0x7f090046;
         public static final int viewincexp_options_menu_delete_button=0x7f090048;
         public static final int viewincexp_options_menu_edit_button=0x7f090047;
-        public static final int viewsummary_menu_addexpense=0x7f09005f;
-        public static final int viewsummary_menu_addincome=0x7f09005e;
-        public static final int viewsummary_menu_viewtrends=0x7f090060;
+        public static final int viewsummary_menu_addexpense=0x7f090064;
+        public static final int viewsummary_menu_addincome=0x7f090063;
+        public static final int viewsummary_menu_viewtrends=0x7f090065;
     }
     public static final class layout {
         public static final int activity_addcategory=0x7f030000;
@@ -177,6 +182,7 @@ public final class R {
         public static final int list_item_expense=0x7f030010;
         public static final int list_item_income=0x7f030011;
         public static final int simple_list_fragment=0x7f030012;
+        public static final int simple_list_fragment_incexp=0x7f030013;
     }
     public static final class menu {
         public static final int activity_addcategory=0x7f080000;

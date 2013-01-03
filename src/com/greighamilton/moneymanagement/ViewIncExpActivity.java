@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.Spinner;
 
 import com.greighamilton.moneymanagement.fragments.ExpenseListFragment;
 import com.greighamilton.moneymanagement.fragments.IncomeListFragment;
@@ -80,6 +82,7 @@ public class ViewIncExpActivity extends FragmentActivity implements ActionBar.Ta
     	if (tab.getPosition() == TAB_INCOME) {
     		IncomeListFragment f = new IncomeListFragment();
     		getSupportFragmentManager().beginTransaction().replace(R.id.container, f).commit();
+    		
     	} else if (tab.getPosition() == TAB_EXPENSES) {
     		ExpenseListFragment g = new ExpenseListFragment();
     		getSupportFragmentManager().beginTransaction().replace(R.id.container, g).commit();    	
