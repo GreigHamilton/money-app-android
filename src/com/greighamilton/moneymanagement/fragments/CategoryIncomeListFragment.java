@@ -58,13 +58,9 @@ public class CategoryIncomeListFragment extends ListFragment implements com.grei
 			view.setTag(R.id.list_item_category, c.getInt(DatabaseHelper.CATEGORY_ID));
 			
 			TextView categoryName = (TextView) view.findViewById(R.id.list_category_name);
-			TextView categoryType = (TextView) view.findViewById(R.id.list_category_type);
-			TextView categoryColor = (TextView) view.findViewById(R.id.list_category_color);
 			TextView categoryDescription = (TextView) view.findViewById(R.id.list_category_description);
 			
 			categoryName.setText(c.getString(DatabaseHelper.CATEGORY_NAME));
-			categoryType.setText(Integer.toString(c.getInt(DatabaseHelper.CATEGORY_TYPE)));
-			categoryColor.setText(c.getString(DatabaseHelper.CATEGORY_COLOUR));
 			categoryDescription.setText(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
 			
 			TextView box = (TextView) view.findViewById(R.id.list_category_box);

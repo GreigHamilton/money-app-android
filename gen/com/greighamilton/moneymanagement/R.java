@@ -8,24 +8,201 @@
 package com.greighamilton.moneymanagement;
 
 public final class R {
+    public static final class array {
+        public static final int colors_array=0x7f060000;
+        public static final int edit_options=0x7f060001;
+        public static final int expense_array=0x7f060003;
+        public static final int income_array=0x7f060002;
+        public static final int repetition_array=0x7f060004;
+    }
     public static final class attr {
     }
+    public static final class color {
+        public static final int Blue=0x7f040012;
+        public static final int Brown=0x7f040017;
+        public static final int Green=0x7f040011;
+        public static final int Orange=0x7f040015;
+        public static final int Pink=0x7f040014;
+        public static final int Purple=0x7f040016;
+        public static final int Red=0x7f040010;
+        public static final int Yellow=0x7f040013;
+        public static final int green1=0x7f040000;
+        public static final int green2=0x7f040001;
+        public static final int green3=0x7f040002;
+        public static final int green4=0x7f040003;
+        public static final int green5=0x7f040004;
+        public static final int green6=0x7f040005;
+        public static final int green7=0x7f040006;
+        public static final int green8=0x7f040007;
+        public static final int purple1=0x7f04000e;
+        public static final int red1=0x7f040008;
+        public static final int red2=0x7f040009;
+        public static final int red3=0x7f04000a;
+        public static final int red4=0x7f04000b;
+        public static final int red5=0x7f04000c;
+        public static final int red6=0x7f04000d;
+        public static final int white=0x7f04000f;
+    }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int ic_content_delete=0x7f020000;
+        public static final int ic_content_edit=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int ic_menu_add=0x7f020003;
+        public static final int ic_menu_cancel=0x7f020004;
+        public static final int ic_menu_edit=0x7f020005;
+        public static final int ic_menu_new=0x7f020006;
+        public static final int ic_menu_save=0x7f020007;
+        public static final int sample_goal=0x7f020008;
     }
     public static final class id {
-        public static final int menu_settings=0x7f070000;
+        public static final int LinearLayout1=0x7f09002d;
+        public static final int TextView01=0x7f09003b;
+        public static final int TextView02=0x7f090038;
+        public static final int TextView03=0x7f090039;
+        public static final int TextView04=0x7f09003a;
+        public static final int TextView05=0x7f09003f;
+        public static final int TextView06=0x7f090040;
+        public static final int add_goal_amount_saved=0x7f09001b;
+        public static final int add_goal_amount_to_save=0x7f09001a;
+        public static final int add_goal_linearlayout_1=0x7f090018;
+        public static final int add_goal_name=0x7f090019;
+        public static final int add_goal_select_image=0x7f09001c;
+        public static final int button1=0x7f090031;
+        public static final int button2=0x7f090032;
+        public static final int button3=0x7f090033;
+        public static final int button_top_centre=0x7f09002f;
+        public static final int button_top_left=0x7f09002e;
+        public static final int button_top_right=0x7f090030;
+        public static final int category_colour=0x7f090005;
+        public static final int category_colour_box=0x7f090006;
+        public static final int category_description=0x7f090007;
+        public static final int category_linearlayout_1=0x7f090000;
+        public static final int category_menu_cancel=0x7f090050;
+        public static final int category_menu_save=0x7f09004f;
+        public static final int category_name=0x7f090001;
+        public static final int category_type_expense=0x7f090004;
+        public static final int category_type_group=0x7f090002;
+        public static final int category_type_income=0x7f090003;
+        public static final int container=0x7f090034;
+        public static final int dashboard_menu_addexpense=0x7f090058;
+        public static final int dashboard_menu_addincome=0x7f090057;
+        public static final int dashboard_menu_summary=0x7f09005d;
+        public static final int dashboard_menu_viewcategories=0x7f09005a;
+        public static final int dashboard_menu_viewgoals=0x7f090059;
+        public static final int dashboard_menu_viewincexp=0x7f09005b;
+        public static final int dashboard_menu_viewtrends=0x7f09005c;
+        public static final int expense_addcategory=0x7f09000e;
+        public static final int expense_amount=0x7f09000a;
+        public static final int expense_category=0x7f09000d;
+        public static final int expense_category_text=0x7f09000c;
+        public static final int expense_date=0x7f09000f;
+        public static final int expense_linearlayout_1=0x7f090008;
+        public static final int expense_linearlayout_2=0x7f09000b;
+        public static final int expense_linearlayout_3=0x7f090013;
+        public static final int expense_menu_cancel=0x7f090052;
+        public static final int expense_menu_save=0x7f090051;
+        public static final int expense_name=0x7f090009;
+        public static final int expense_notes=0x7f090012;
+        public static final int expense_notification=0x7f090011;
+        public static final int expense_oneoff_checkbox=0x7f090014;
+        public static final int expense_relativelayout_1=0x7f090010;
+        public static final int expense_repetition_length=0x7f090016;
+        public static final int expense_repetition_period=0x7f090017;
+        public static final int expense_repetition_text=0x7f090015;
+        public static final int goal_menu_cancel=0x7f090054;
+        public static final int goal_menu_save=0x7f090053;
+        public static final int imageView1=0x7f09003d;
+        public static final int income_addcategory=0x7f090023;
+        public static final int income_amount=0x7f09001f;
+        public static final int income_category=0x7f090022;
+        public static final int income_category_text=0x7f090021;
+        public static final int income_date=0x7f090024;
+        public static final int income_linearlayout_1=0x7f09001d;
+        public static final int income_linearlayout_2=0x7f090020;
+        public static final int income_linearlayout_3=0x7f090028;
+        public static final int income_menu_cancel=0x7f090056;
+        public static final int income_menu_save=0x7f090055;
+        public static final int income_name=0x7f09001e;
+        public static final int income_notes=0x7f090027;
+        public static final int income_notification=0x7f090026;
+        public static final int income_oneoff_checkbox=0x7f090029;
+        public static final int income_relativelayout_1=0x7f090025;
+        public static final int income_repetition_length=0x7f09002b;
+        public static final int income_repetition_period=0x7f09002c;
+        public static final int income_repetition_text=0x7f09002a;
+        public static final int list_category_box=0x7f09004a;
+        public static final int list_category_description=0x7f09004c;
+        public static final int list_category_name=0x7f09004b;
+        public static final int list_item_category=0x7f090049;
+        public static final int list_item_expense=0x7f09004d;
+        public static final int list_item_income=0x7f09004e;
+        public static final int textView1=0x7f090037;
+        public static final int textView2=0x7f09003c;
+        public static final int textView3=0x7f090041;
+        public static final int textView4=0x7f090042;
+        public static final int textView5=0x7f09003e;
+        public static final int textView6=0x7f090035;
+        public static final int textView7=0x7f090036;
+        public static final int viewcategories_menu_addcategory=0x7f090061;
+        public static final int viewcategories_options_dialog=0x7f090043;
+        public static final int viewcategories_options_menu_delete_button=0x7f090045;
+        public static final int viewcategories_options_menu_edit_button=0x7f090044;
+        public static final int viewgoals_menu_addgoal=0x7f090062;
+        public static final int viewincexp_menu_addexpense=0x7f090064;
+        public static final int viewincexp_menu_addincome=0x7f090063;
+        public static final int viewincexp_options_dialog=0x7f090046;
+        public static final int viewincexp_options_menu_delete_button=0x7f090048;
+        public static final int viewincexp_options_menu_edit_button=0x7f090047;
+        public static final int viewsummary_menu_addexpense=0x7f09005f;
+        public static final int viewsummary_menu_addincome=0x7f09005e;
+        public static final int viewsummary_menu_viewtrends=0x7f090060;
     }
     public static final class layout {
-        public static final int activity_dashboard=0x7f030000;
+        public static final int activity_addcategory=0x7f030000;
+        public static final int activity_addexpense=0x7f030001;
+        public static final int activity_addgoal=0x7f030002;
+        public static final int activity_addincome=0x7f030003;
+        public static final int activity_addnotification=0x7f030004;
+        public static final int activity_dashboard=0x7f030005;
+        public static final int activity_main=0x7f030006;
+        public static final int activity_summary=0x7f030007;
+        public static final int activity_viewcategories=0x7f030008;
+        public static final int activity_viewgoals=0x7f030009;
+        public static final int activity_viewincexp=0x7f03000a;
+        public static final int activity_viewnotifications=0x7f03000b;
+        public static final int activity_viewtrends=0x7f03000c;
+        public static final int fragment_viewcategories_options_dialog=0x7f03000d;
+        public static final int fragment_viewincexp_options_dialog=0x7f03000e;
+        public static final int list_item_category=0x7f03000f;
+        public static final int list_item_expense=0x7f030010;
+        public static final int list_item_income=0x7f030011;
+        public static final int simple_list_fragment=0x7f030012;
     }
     public static final class menu {
-        public static final int activity_dashboard=0x7f060000;
+        public static final int activity_addcategory=0x7f080000;
+        public static final int activity_addexpense=0x7f080001;
+        public static final int activity_addgoal=0x7f080002;
+        public static final int activity_addincome=0x7f080003;
+        public static final int activity_dashboard=0x7f080004;
+        public static final int activity_summary=0x7f080005;
+        public static final int activity_viewcategories=0x7f080006;
+        public static final int activity_viewgoals=0x7f080007;
+        public static final int activity_viewincexp=0x7f080008;
+        public static final int activity_viewtrends=0x7f080009;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040001;
-        public static final int menu_settings=0x7f040002;
+        public static final int app_name=0x7f050000;
+        public static final int edit_options=0x7f05000b;
+        public static final int hello_world=0x7f050001;
+        public static final int menu_addexpense=0x7f050004;
+        public static final int menu_addincome=0x7f050003;
+        public static final int menu_settings=0x7f050002;
+        public static final int menu_summary=0x7f050008;
+        public static final int menu_viewcategories=0x7f050006;
+        public static final int menu_viewgoals=0x7f050005;
+        public static final int menu_viewincexp=0x7f050007;
+        public static final int menu_viewtrends=0x7f050009;
+        public static final int pick_color=0x7f05000a;
     }
     public static final class style {
         /** 
@@ -49,10 +226,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
+        public static final int AppTheme=0x7f070001;
     }
 }
