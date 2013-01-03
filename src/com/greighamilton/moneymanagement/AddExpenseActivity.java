@@ -53,7 +53,8 @@ public class AddExpenseActivity extends Activity implements OnItemSelectedListen
 		expenseAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		expenseSpinner.setAdapter(expenseAdapter);
-
+		if (expenseCategories.isEmpty())
+			expenseSpinner.setEnabled(false);
 		// Spinner for repetition period
 		repetitionSpinner = (Spinner) findViewById(R.id.expense_repetition_period);
 		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter

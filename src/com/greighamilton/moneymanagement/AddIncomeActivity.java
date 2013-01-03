@@ -51,7 +51,8 @@ public class AddIncomeActivity extends FragmentActivity implements OnItemSelecte
 		ArrayAdapter<String> incomeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, incomeCategories);
 		incomeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		incomeSpinner.setAdapter(incomeAdapter);
-
+		if (incomeCategories.isEmpty())
+			incomeSpinner.setEnabled(false);
 		// Spinner for repetition period
 		repetitionSpinner = (Spinner) findViewById(R.id.income_repetition_period);
 		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array,
