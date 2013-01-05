@@ -32,8 +32,7 @@ import android.widget.Toast;
  * 
  * @author Juan-Manuel Flux�
  * 
- * @author Euan Freeman (queries)
- * @author Aidan Smeaton (queries)
+ * @author Greig Hamilton (queries)
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 	

@@ -13,9 +13,6 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import com.greighamilton.moneymanagement.R;
-import com.greighamilton.moneymanagement.R.id;
-import com.greighamilton.moneymanagement.R.layout;
-import com.greighamilton.moneymanagement.R.menu;
 import com.greighamilton.moneymanagement.fragments.ExpenseListFragment;
 import com.greighamilton.moneymanagement.fragments.IncomeListFragment;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
