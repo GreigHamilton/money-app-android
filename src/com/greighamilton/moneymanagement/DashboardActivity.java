@@ -9,6 +9,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
+import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
+import com.greighamilton.moneymanagement.views.ViewCategoriesActivity;
+import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
+import com.greighamilton.moneymanagement.views.ViewIncExpActivity;
+import com.greighamilton.moneymanagement.views.ViewSummaryActivity;
+import com.greighamilton.moneymanagement.views.ViewTrendsActivity;
 
 public class DashboardActivity extends Activity {
 	
@@ -59,7 +66,7 @@ public class DashboardActivity extends Activity {
         break;
         
       case R.id.dashboard_menu_summary:
-  	  	Intent m = new Intent(DashboardActivity.this, SummaryActivity.class);
+  	  	Intent m = new Intent(DashboardActivity.this, ViewSummaryActivity.class);
   	  	DashboardActivity.this.startActivity(m);
       break;
       

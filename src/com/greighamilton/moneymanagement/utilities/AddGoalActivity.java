@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.utilities;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -13,6 +13,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.id;
+import com.greighamilton.moneymanagement.R.layout;
+import com.greighamilton.moneymanagement.R.menu;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
 public class AddGoalActivity extends Activity {

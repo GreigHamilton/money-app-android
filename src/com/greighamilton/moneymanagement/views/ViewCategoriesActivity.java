@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.views;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -8,8 +8,13 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.id;
+import com.greighamilton.moneymanagement.R.layout;
+import com.greighamilton.moneymanagement.R.menu;
 import com.greighamilton.moneymanagement.fragments.CategoryExpenseListFragment;
 import com.greighamilton.moneymanagement.fragments.CategoryIncomeListFragment;
+import com.greighamilton.moneymanagement.utilities.AddCategoryActivity;
 
 public class ViewCategoriesActivity extends FragmentActivity implements ActionBar.TabListener {
 

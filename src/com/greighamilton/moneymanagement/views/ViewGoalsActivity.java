@@ -1,4 +1,10 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.views;
+
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.id;
+import com.greighamilton.moneymanagement.R.layout;
+import com.greighamilton.moneymanagement.R.menu;
+import com.greighamilton.moneymanagement.utilities.AddGoalActivity;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.utilities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
 public class AddCategoryActivity extends Activity {

@@ -1,4 +1,8 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.views;
+
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.layout;
+import com.greighamilton.moneymanagement.R.menu;
 
 import android.app.Activity;
 import android.app.DialogFragment;

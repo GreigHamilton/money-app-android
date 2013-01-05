@@ -1,4 +1,11 @@
-package com.greighamilton.moneymanagement;
+package com.greighamilton.moneymanagement.views;
+
+import com.greighamilton.moneymanagement.R;
+import com.greighamilton.moneymanagement.R.id;
+import com.greighamilton.moneymanagement.R.layout;
+import com.greighamilton.moneymanagement.R.menu;
+import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
+import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class SummaryActivity extends Activity {
+public class ViewSummaryActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_summary);
+		setContentView(R.layout.activity_viewsummary);
 	}
 
 	@Override
@@ -28,18 +35,18 @@ public class SummaryActivity extends Activity {
       switch (item.getItemId()) {
       
       case R.id.viewsummary_menu_addincome:
-    	  	Intent i = new Intent(SummaryActivity.this, AddIncomeActivity.class);
-    	  	SummaryActivity.this.startActivity(i);
+    	  	Intent i = new Intent(ViewSummaryActivity.this, AddIncomeActivity.class);
+    	  	ViewSummaryActivity.this.startActivity(i);
         break;
         
       case R.id.viewsummary_menu_addexpense:
-  	  	Intent j = new Intent(SummaryActivity.this, AddExpenseActivity.class);
-  	  SummaryActivity.this.startActivity(j);
+  	  	Intent j = new Intent(ViewSummaryActivity.this, AddExpenseActivity.class);
+  	  ViewSummaryActivity.this.startActivity(j);
       break;
       
       case R.id.viewsummary_menu_viewtrends:
-    	  Intent l = new Intent(SummaryActivity.this, ViewTrendsActivity.class);
-    	  SummaryActivity.this.startActivity(l);
+    	  Intent l = new Intent(ViewSummaryActivity.this, ViewTrendsActivity.class);
+    	  ViewSummaryActivity.this.startActivity(l);
         break;
       }
       return super.onOptionsItemSelected(item);

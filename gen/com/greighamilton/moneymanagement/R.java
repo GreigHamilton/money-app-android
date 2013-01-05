@@ -56,12 +56,12 @@ public final class R {
     }
     public static final class id {
         public static final int LinearLayout1=0x7f09002d;
-        public static final int TextView01=0x7f09003b;
-        public static final int TextView02=0x7f090038;
-        public static final int TextView03=0x7f090039;
-        public static final int TextView04=0x7f09003a;
-        public static final int TextView05=0x7f09003f;
-        public static final int TextView06=0x7f090040;
+        public static final int TextView01=0x7f09003d;
+        public static final int TextView02=0x7f09003c;
+        public static final int TextView03=0x7f09003a;
+        public static final int TextView04=0x7f090039;
+        public static final int TextView05=0x7f09003b;
+        public static final int TextView06=0x7f09003e;
         public static final int add_goal_amount_saved=0x7f09001b;
         public static final int add_goal_amount_to_save=0x7f09001a;
         public static final int add_goal_linearlayout_1=0x7f090018;
@@ -111,7 +111,7 @@ public final class R {
         public static final int expense_repetition_text=0x7f090015;
         public static final int goal_menu_cancel=0x7f090059;
         public static final int goal_menu_save=0x7f090058;
-        public static final int imageView1=0x7f09003d;
+        public static final int imageView1=0x7f090037;
         public static final int incexp_all=0x7f090051;
         public static final int incexp_linearlayout_1=0x7f09004f;
         public static final int incexp_month=0x7f090052;
@@ -141,13 +141,13 @@ public final class R {
         public static final int list_item_category=0x7f090049;
         public static final int list_item_expense=0x7f09004d;
         public static final int list_item_income=0x7f09004e;
-        public static final int textView1=0x7f090037;
-        public static final int textView2=0x7f09003c;
-        public static final int textView3=0x7f090041;
-        public static final int textView4=0x7f090042;
-        public static final int textView5=0x7f09003e;
-        public static final int textView6=0x7f090035;
-        public static final int textView7=0x7f090036;
+        public static final int textView1=0x7f090035;
+        public static final int textView2=0x7f090036;
+        public static final int textView3=0x7f09003f;
+        public static final int textView4=0x7f090040;
+        public static final int textView5=0x7f090038;
+        public static final int textView6=0x7f090041;
+        public static final int textView7=0x7f090042;
         public static final int viewcategories_menu_addcategory=0x7f090066;
         public static final int viewcategories_options_dialog=0x7f090043;
         public static final int viewcategories_options_menu_delete_button=0x7f090045;
@@ -170,11 +170,11 @@ public final class R {
         public static final int activity_addnotification=0x7f030004;
         public static final int activity_dashboard=0x7f030005;
         public static final int activity_main=0x7f030006;
-        public static final int activity_summary=0x7f030007;
-        public static final int activity_viewcategories=0x7f030008;
-        public static final int activity_viewgoals=0x7f030009;
-        public static final int activity_viewincexp=0x7f03000a;
-        public static final int activity_viewnotifications=0x7f03000b;
+        public static final int activity_viewcategories=0x7f030007;
+        public static final int activity_viewgoals=0x7f030008;
+        public static final int activity_viewincexp=0x7f030009;
+        public static final int activity_viewnotifications=0x7f03000a;
+        public static final int activity_viewsummary=0x7f03000b;
         public static final int activity_viewtrends=0x7f03000c;
         public static final int fragment_viewcategories_options_dialog=0x7f03000d;
         public static final int fragment_viewincexp_options_dialog=0x7f03000e;
