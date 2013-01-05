@@ -11,10 +11,12 @@ import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -37,12 +39,23 @@ public class IncomeListFragment extends ListFragment
 	
 	Spinner monthSpinner;
 	Spinner yearSpinner;
+	
+	private int monthReq;
+	private int yearReq;
+	private boolean allMonths = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		db = DatabaseHelper.getInstance(getActivity());
-		c = db.getIncome();
+		// start-up only show current month only
+		Time now = new Time();
+		now.setToNow();
+		
+		monthReq = 1;
+		yearReq = now.year;
+		
+		c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
 		ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
 		this.setListAdapter(listAdapter);
 	}
@@ -72,26 +85,67 @@ public class IncomeListFragment extends ListFragment
 		months.add("May"); months.add("Jun"); months.add("Jul"); months.add("Aug");
 		months.add("Sep"); months.add("Oct"); months.add("Nov"); months.add("Dec");
 
-		ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(
-				getActivity(), android.R.layout.simple_spinner_item, months);
-		monthAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, months);
+		monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		monthSpinner.setAdapter(monthAdapter);
 		monthSpinner.setSelection(month);
+		monthSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    @Override
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		        
+		    	monthReq = position+1;
+		    	
+		    	c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
+				setListAdapter(listAdapter);
+		    }
+
+		    @Override
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		    }
+
+		});
 
 		// Spinner for months
 		yearSpinner = (Spinner) view.findViewById(R.id.incexp_year);
-		List<String> years = new ArrayList<String>();
-		years.add("2012");
-		years.add("2013");
-		years.add("2014");
-		years.add("2015");
-		ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(
-				getActivity(), android.R.layout.simple_spinner_item, years);
-		yearAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		final List<String> years = new ArrayList<String>();
+		years.add("2012"); years.add("2013"); years.add("2014"); years.add("2015");
+		ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, years);
+		yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		yearSpinner.setAdapter(yearAdapter);
 		yearSpinner.setSelection(years.indexOf(yearText));
+		yearSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    @Override
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		        
+		    	yearReq = Integer.parseInt(years.get(position));
+
+		    	c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
+				setListAdapter(listAdapter);
+		    }
+
+		    @Override
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		    }
+
+		});
+		
+		final CheckBox selectAll = (CheckBox) view.findViewById(R.id.incexp_all);
+		selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+				if (selectAll.isChecked())
+					allMonths=true;
+				else
+					allMonths=false;
+					   
+				c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
+				setListAdapter(listAdapter);
+			   }
+			});
 		
 	}
 	
@@ -110,34 +164,22 @@ public class IncomeListFragment extends ListFragment
 
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			view.setTag(R.id.list_item_income,
-					c.getInt(DatabaseHelper.INCOME_ID));
+			view.setTag(R.id.list_item_income, c.getInt(DatabaseHelper.INCOME_ID));
 
-			TextView incomeName = (TextView) view
-					.findViewById(R.id.income_name);
-			TextView incomeAmount = (TextView) view
-					.findViewById(R.id.income_amount);
-			TextView incomeDate = (TextView) view
-					.findViewById(R.id.income_date);
-			// TextView incomeRepLength = (TextView)
-			// view.findViewById(R.id.income_repetition_length);
-			TextView incomeNotes = (TextView) view
-					.findViewById(R.id.income_notes);
-			TextView incomeCatId = (TextView) view
-					.findViewById(R.id.income_category);
-			TextView incomeNotId = (TextView) view
-					.findViewById(R.id.income_notification);
+			TextView incomeName = (TextView) view.findViewById(R.id.income_name);
+			TextView incomeAmount = (TextView) view.findViewById(R.id.income_amount);
+			TextView incomeDate = (TextView) view.findViewById(R.id.income_date);
+			TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
+			//TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
+			//TextView incomeNotId = (TextView) view.findViewById(R.id.income_notification);
 
 			incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
-			incomeAmount.setText(Integer.toString(c
-					.getInt(DatabaseHelper.INCOME_AMOUNT)));
+			incomeAmount.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_AMOUNT)));
 			incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
-			// incomeRepLength.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_REPETITION_LENGTH)));
 			incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
-			incomeCatId.setText(Integer.toString(c
-					.getInt(DatabaseHelper.INCOME_CATEGORY_ID)));
-			incomeNotId.setText(Integer.toString(c
-					.getInt(DatabaseHelper.INCOME_NOTIFICATION_ID)));
+			//incomeCatId.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+			//.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_CATEGORY_ID)));
+			//incomeNotId.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_NOTIFICATION_ID)));
 		}
 
 		@Override
@@ -148,8 +190,7 @@ public class IncomeListFragment extends ListFragment
 
 	private void showOptionsDialog(String id) {
 		android.support.v4.app.FragmentManager fm = getFragmentManager();
-		ViewIncExpOptionsDialog optionsDialog = new ViewIncExpOptionsDialog(id,
-				"INCOME");
+		ViewIncExpOptionsDialog optionsDialog = new ViewIncExpOptionsDialog(id, "INCOME");
 		optionsDialog.show(fm, "fragment_viewincexp_options_dialog");
 	}
 

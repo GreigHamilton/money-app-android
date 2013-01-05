@@ -72,7 +72,7 @@ public class AddExpenseActivity extends Activity implements
 		Calendar c = Calendar.getInstance();
 		c.getTime();
 
-		SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy", Locale.UK);
+		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
 		String date = df.format(c.getTime());
 		button.setText(date);
 	}
@@ -114,7 +114,13 @@ public class AddExpenseActivity extends Activity implements
 								.getText().toString()));
 
 				// Get date after fragment chooser
-				String date = day + "/" + month + "/" + year;
+				String dayNo = ""+day;
+				if (dayNo.length()<2)
+					dayNo="0"+day;
+				String monthNo = ""+day;
+				if (monthNo.length()<2)
+					monthNo="0"+month;
+				String date = dayNo + "/" + monthNo + "/" + year;
 				// if the date hasn't been set, sets it to current date
 				if (date.equals("0/0/0")) {
 					Calendar c = Calendar.getInstance();

@@ -11,12 +11,16 @@ import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -33,12 +37,23 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 	
 	Spinner monthSpinner;
 	Spinner yearSpinner;
+	
+	private int monthReq;
+	private int yearReq;
+	private boolean allMonths = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		db = DatabaseHelper.getInstance(getActivity());
-		c = db.getExpenses();
+		// start-up only show current month only
+		Time now = new Time();
+		now.setToNow();
+				
+		monthReq = 1;
+		yearReq = now.year;
+				
+		c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
 		ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
 		this.setListAdapter(listAdapter);
 	}
@@ -55,38 +70,83 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 	private void setSpinnerContent(View view) {
 		
 		// get current month and year
-		Time now = new Time();
-		now.setToNow();
+				Time now = new Time();
+				now.setToNow();
 
-		int month = now.month;
-		int year = now.year;
-		String yearText = "" + year;
+				int month = now.month;
+				int year = now.year;
+				String yearText = "" + year;
 
-		// Spinner for months
-		monthSpinner = (Spinner) view.findViewById(R.id.incexp_month);
-		List<String> months = new ArrayList<String>();
-		months.add("Jan"); months.add("Feb"); months.add("Mar"); months.add("Apr");
-		months.add("May"); months.add("Jun"); months.add("Jul"); months.add("Aug");
-		months.add("Sep"); months.add("Oct"); months.add("Nov"); months.add("Dec");
+				// Spinner for months
+				monthSpinner = (Spinner) view.findViewById(R.id.incexp_month);
+				List<String> months = new ArrayList<String>();
+				months.add("Jan"); months.add("Feb"); months.add("Mar"); months.add("Apr");
+				months.add("May"); months.add("Jun"); months.add("Jul"); months.add("Aug");
+				months.add("Sep"); months.add("Oct"); months.add("Nov"); months.add("Dec");
 
-		ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(
-			getActivity(), android.R.layout.simple_spinner_item, months);
-		monthAdapter
-			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		monthSpinner.setAdapter(monthAdapter);
-		monthSpinner.setSelection(month);
+				ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, months);
+				monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				monthSpinner.setAdapter(monthAdapter);
+				monthSpinner.setSelection(month);
+				monthSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				    @Override
+				    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				        
+				    	monthReq = position+1;
+				    	
+				    	c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
+						setListAdapter(listAdapter);
+				    }
 
-		// Spinner for months
-		yearSpinner = (Spinner) view.findViewById(R.id.incexp_year);
-		List<String> years = new ArrayList<String>();
-		years.add("2012"); years.add("2013"); years.add("2014"); years.add("2015");
-		ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(
-			getActivity(), android.R.layout.simple_spinner_item, years);
-		yearAdapter
-			.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		yearSpinner.setAdapter(yearAdapter);
-		yearSpinner.setSelection(years.indexOf(yearText));
-	}
+				    @Override
+				    public void onNothingSelected(AdapterView<?> parentView) {
+				    }
+
+				});
+
+				// Spinner for months
+				yearSpinner = (Spinner) view.findViewById(R.id.incexp_year);
+				final List<String> years = new ArrayList<String>();
+				years.add("2012"); years.add("2013"); years.add("2014"); years.add("2015");
+				ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, years);
+				yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				yearSpinner.setAdapter(yearAdapter);
+				yearSpinner.setSelection(years.indexOf(yearText));
+				yearSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				    @Override
+				    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+				        
+				    	yearReq = Integer.parseInt(years.get(position));
+
+				    	c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
+						setListAdapter(listAdapter);
+				    }
+
+				    @Override
+				    public void onNothingSelected(AdapterView<?> parentView) {
+				    }
+
+				});
+				
+				final CheckBox selectAll = (CheckBox) view.findViewById(R.id.incexp_all);
+				selectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+						if (selectAll.isChecked())
+							allMonths=true;
+						else
+							allMonths=false;
+							   
+						c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
+						setListAdapter(listAdapter);
+					   }
+					});
+				
+			}
 
 	@Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
@@ -108,16 +168,14 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 			TextView expenseName = (TextView) view.findViewById(R.id.expense_name);
 			TextView expenseAmount = (TextView) view.findViewById(R.id.expense_amount);
 			TextView expenseDate = (TextView) view.findViewById(R.id.expense_date);
-			//TextView expenseRepLength = (TextView) view.findViewById(R.id.expense_repetition_length);
 			TextView expenseNotes = (TextView) view.findViewById(R.id.expense_notes);
-			TextView expenseNotId = (TextView) view.findViewById(R.id.expense_notification);
+			//TextView expenseNotId = (TextView) view.findViewById(R.id.expense_notification);
 			
 			expenseName.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
 			expenseAmount.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_AMOUNT)));
 			expenseDate.setText(c.getString(DatabaseHelper.EXPENSE_DATE));
-			// expenseRepLength.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_REPETITION_LENGTH)));
 			expenseNotes.setText(c.getString(DatabaseHelper.EXPENSE_NOTES));
-			expenseNotId.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_NOTIFICATION_ID)));
+			//expenseNotId.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_NOTIFICATION_ID)));
 		}
 
 		@Override

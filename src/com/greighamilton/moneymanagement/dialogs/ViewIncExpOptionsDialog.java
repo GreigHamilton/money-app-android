@@ -68,7 +68,7 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             		Log.i("EXPENSE", "DELETION");
             		db.deleteExpense(currentId);
             	}
-            	
+
             	dismiss();
             }
         });
@@ -81,6 +81,4 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-    
 }

@@ -7,40 +7,49 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp" >
 
-    <TextView
-        android:id="@+id/income_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: name" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/income_amount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: amount" />
-    
-    <TextView
-        android:id="@+id/income_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: date" />
+        <TextView
+            android:id="@+id/income_category"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#A8A8A8"
+            android:text="    " />
 
-    <TextView
-        android:id="@+id/income_notes"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: date" />
-    
-    <TextView
-        android:id="@+id/income_category"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: category" />
-    
-    <TextView
-        android:id="@+id/income_notification"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Empty: notification" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/income_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Empty: name" />
+
+            <TextView
+                android:id="@+id/income_amount"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Empty: amount" />
+
+            <TextView
+                android:id="@+id/income_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Empty: date" />
+
+            <TextView
+                android:id="@+id/income_notes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Empty: date" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
