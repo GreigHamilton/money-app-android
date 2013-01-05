@@ -10,6 +10,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,10 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.R;
-import com.greighamilton.moneymanagement.R.array;
-import com.greighamilton.moneymanagement.R.id;
-import com.greighamilton.moneymanagement.R.layout;
-import com.greighamilton.moneymanagement.R.menu;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
 public class AddExpenseActivity extends Activity implements
@@ -43,7 +40,10 @@ public class AddExpenseActivity extends Activity implements
 	Spinner repetitionSpinner;
 	List<String> expenseCategories;
 
-	DatabaseHelper db;
+	private DatabaseHelper db;
+	private Cursor c;
+	private Bundle extras;
+	private String currentId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +51,13 @@ public class AddExpenseActivity extends Activity implements
 		setContentView(R.layout.activity_addexpense);
 
 		db = DatabaseHelper.getInstance(this);
-
+		
 		// Spinner for expense categories
 		expenseSpinner = (Spinner) findViewById(R.id.expense_category);
 		expenseCategories = db.getExpenseCategoryList();
 
 		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, expenseCategories);
-		;
 		expenseAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		expenseSpinner.setAdapter(expenseAdapter);
@@ -72,14 +71,57 @@ public class AddExpenseActivity extends Activity implements
 		repetitionAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
-
+		
 		Button button = (Button) findViewById(R.id.expense_date);
-		Calendar c = Calendar.getInstance();
-		c.getTime();
+		
+		extras = getIntent().getExtras();
+		
+		if (extras != null) {
+		    currentId = extras.getString("CURRENT_ID");
+		    c = db.getExpenseId(currentId);
+		    c.moveToFirst();
+		    TextView expenseName = (TextView) findViewById(R.id.expense_name);
+		    expenseName.append(c.getString(DatabaseHelper.INCOME_NAME));
+		    TextView expenseAmount = (TextView) findViewById(R.id.expense_amount);
+		    expenseAmount.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    //TextView expenseCategory = (TextView) findViewById(R.id.expense_category);
+		    //expenseCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    
+		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
+		    String date = c.getString(DatabaseHelper.INCOME_DATE);
+		    
+		    day = Integer.parseInt(date.substring(0, 2));
+		    month = Integer.parseInt(date.substring(3, 5));
+		    year = Integer.parseInt(date.substring(6));
+		    
+		    expenseSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_CATEGORY_ID)));
+		    
+		    if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals(0)) {
+		    	CheckBox oneoff = (CheckBox) findViewById(R.id.expense_oneoff_checkbox);
+		    	oneoff.setChecked(!oneoff.isChecked());
+		    	
+		    	EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
+				TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
+				Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
+				
+		    	repLength.setEnabled(false);
+				repText.setEnabled(false);
+				repPeriod.setEnabled(false);
+		    }
+		    else {
+		    	TextView expenseRepLen = (TextView) findViewById(R.id.expense_repetition_length);
+		    	expenseRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
+		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD)));
+		    }
+		}
+		else {
+			Calendar cal = Calendar.getInstance();
+			cal.getTime();
 
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
-		String date = df.format(c.getTime());
-		button.setText(date);
+			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+			String date = df.format(cal.getTime());
+			button.setText(date);
+		}
 	}
 
 	@Override
@@ -127,11 +169,11 @@ public class AddExpenseActivity extends Activity implements
 					monthNo="0"+month;
 				String date = dayNo + "/" + monthNo + "/" + year;
 				// if the date hasn't been set, sets it to current date
-				if (date.equals("0/0/0")) {
+				if (date.equals("00/00/0")) {
 					Calendar c = Calendar.getInstance();
 					c.getTime();
 
-					SimpleDateFormat df = new SimpleDateFormat("d/M/yyyy",
+					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",
 							Locale.UK);
 					date = df.format(c.getTime());
 				}
@@ -145,10 +187,7 @@ public class AddExpenseActivity extends Activity implements
 					repetition_length = 0;
 					// TODO Create a notification
 				} else {
-					repetition_period = expenseSpinner
-							.getSelectedItemPosition() + 1; // add one so
-															// one-off is period
-															// 0
+					repetition_period = expenseSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
 					repetition_length = (Integer
 							.parseInt(((EditText) findViewById(R.id.expense_repetition_length))
 									.getText().toString()));
@@ -175,9 +214,16 @@ public class AddExpenseActivity extends Activity implements
 				} else {
 					notification_id = 0;
 				}
-
-				db.addExpense(name, amount, date, repetition_period,
-						repetition_length, notes, categoryId, notification_id);
+				
+				if (extras != null) {
+					db.updateExpense(currentId, name, amount, date, repetition_period,
+							repetition_length, notes, categoryId, notification_id);
+				}
+				else {
+					db.addExpense(name, amount, date, repetition_period,
+							repetition_length, notes, categoryId, notification_id);
+				}
+				
 				finish();
 			}
 
@@ -202,8 +248,7 @@ public class AddExpenseActivity extends Activity implements
 	}
 
 	public void addCategory(View v) {
-		Intent i = new Intent(AddExpenseActivity.this,
-				AddCategoryActivity.class);
+		Intent i = new Intent(AddExpenseActivity.this, AddCategoryActivity.class);
 		AddExpenseActivity.this.startActivity(i);
 	}
 

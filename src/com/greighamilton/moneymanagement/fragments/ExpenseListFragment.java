@@ -50,10 +50,15 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 		Time now = new Time();
 		now.setToNow();
 				
-		monthReq = 1;
+		monthReq = now.month;
 		yearReq = now.year;
+		
+    	String month = ""+monthReq;
+    	if (month.length()<2)
+    		month = "0"+month;
+    	String year = ""+yearReq;
 				
-		c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+		c = db.getSpecifiedExpenses(month, year, allMonths);
 		ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
 		this.setListAdapter(listAdapter);
 	}
@@ -93,8 +98,11 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 				    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 				        
 				    	monthReq = position+1;
-				    	
-				    	c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+				    	String month = ""+monthReq;
+				    	if (month.length()<2)
+				    		month = "0"+month;
+				    	String year = ""+yearReq;
+				    	c = db.getSpecifiedExpenses(month, year, allMonths);
 						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
 						setListAdapter(listAdapter);
 				    }
@@ -119,7 +127,12 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 				        
 				    	yearReq = Integer.parseInt(years.get(position));
 
-				    	c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+				    	String month = ""+monthReq;
+				    	if (month.length()<2)
+				    		month = "0"+month;
+				    	String year = ""+yearReq;
+								
+						c = db.getSpecifiedExpenses(month, year, allMonths);
 						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
 						setListAdapter(listAdapter);
 				    }
@@ -140,7 +153,12 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 						else
 							allMonths=false;
 							   
-						c = db.getSpecifiedExpenses(monthReq, yearReq, allMonths);
+						String month = ""+monthReq;
+				    	if (month.length()<2)
+				    		month = "0"+month;
+				    	String year = ""+yearReq;
+								
+						c = db.getSpecifiedExpenses(month, year, allMonths);
 						ListAdapter listAdapter = new ExpenseAdapter(getActivity(), c);
 						setListAdapter(listAdapter);
 					   }

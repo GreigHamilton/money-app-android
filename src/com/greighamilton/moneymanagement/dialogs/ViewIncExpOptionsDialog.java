@@ -1,6 +1,7 @@
 package com.greighamilton.moneymanagement.dialogs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
+import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 
 public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	
@@ -49,6 +52,17 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             	Log.i("BUTTON", "Edit clicked");
             	// TODO
             	dismiss();
+            	
+            	if (idType.equalsIgnoreCase("INCOME")) {
+            		Intent i = new Intent(v.getContext(), AddIncomeActivity.class);
+                	i.putExtra("CURRENT_ID", currentId);
+                	startActivity(i);
+            	}
+            	else if (idType.equalsIgnoreCase("EXPENSE")) {
+            		Intent i = new Intent(v.getContext(), AddExpenseActivity.class);
+                	i.putExtra("CURRENT_ID", currentId);
+                	startActivity(i);
+            	}
             }
         });
         

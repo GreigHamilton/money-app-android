@@ -234,7 +234,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.query("INCOME", null, null, null, null, null, "_id asc");
 	}
 	
-	public Cursor getSpecifiedIncome(int month, int year, boolean allReq) {
+	public Cursor getIncomeId(String id) {
+		return db.query("INCOME", null, "_id="+id, null, null, null, null);
+	}
+	
+	public Cursor getSpecifiedIncome(String month, String year, boolean allReq) {
 		
 		if (allReq)
 			return db.query("INCOME", null, null, null, null, null, "date asc");
@@ -255,6 +259,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("notification_id", notification_id);
 
 		db.insert("INCOME", null, cv);
+	}
+	
+	public void updateIncome(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+		ContentValues cv = new ContentValues(9);
+		
+		cv.put("name", name);
+		cv.put("amount", amount);
+		cv.put("date", date);
+		cv.put("repetition_period", repetition_period);
+		cv.put("repetition_length", repetition_length);
+		cv.put("notes", notes);
+		cv.put("category_id", categoryId);
+		cv.put("notification_id", notification_id);
+
+		db.update("INCOME", cv, "_id="+id, null);
 	}
 	
 	public void deleteIncome(String id) {
@@ -282,7 +301,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, null, null, null, null, "_id asc");
 		}
 	
-	public Cursor getSpecifiedExpenses(int month, int year, boolean allReq) {
+	public Cursor getExpenseId(String id) {
+		return db.query("EXPENSE", null, "_id="+id, null, null, null, null);
+	}
+	
+	public Cursor getSpecifiedExpenses(String month, String year, boolean allReq) {
 		
 		if (allReq)
 			return db.query("EXPENSE", null, null, null, null, null, "date asc");
@@ -303,6 +326,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("notification_id", notification_id);
 
 		db.insert("EXPENSE", null, cv);
+	}
+	
+	public void updateExpense(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+		ContentValues cv = new ContentValues(9);
+		
+		cv.put("name", name);
+		cv.put("amount", amount);
+		cv.put("date", date);
+		cv.put("repetition_period", repetition_period);
+		cv.put("repetition_length", repetition_length);
+		cv.put("notes", notes);
+		cv.put("category_id", categoryId);
+		cv.put("notification_id", notification_id);
+
+		db.update("EXPENSE", cv, "_id="+id, null);
 	}
 	
 	public void deleteExpense(String id) {

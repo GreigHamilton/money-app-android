@@ -52,10 +52,15 @@ public class IncomeListFragment extends ListFragment
 		Time now = new Time();
 		now.setToNow();
 		
-		monthReq = 1;
+		monthReq = now.month;
 		yearReq = now.year;
 		
-		c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+		String month = ""+monthReq;
+    	if (month.length()<2)
+    		month = "0"+month;
+    	String year = ""+yearReq;
+		
+		c = db.getSpecifiedIncome(month, year, allMonths);
 		ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
 		this.setListAdapter(listAdapter);
 	}
@@ -95,7 +100,12 @@ public class IncomeListFragment extends ListFragment
 		        
 		    	monthReq = position+1;
 		    	
-		    	c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+		    	String month = ""+monthReq;
+		    	if (month.length()<2)
+		    		month = "0"+month;
+		    	String year = ""+yearReq;
+				
+				c = db.getSpecifiedIncome(month, year, allMonths);
 				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
 				setListAdapter(listAdapter);
 		    }
@@ -120,7 +130,12 @@ public class IncomeListFragment extends ListFragment
 		        
 		    	yearReq = Integer.parseInt(years.get(position));
 
-		    	c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+		    	String month = ""+monthReq;
+		    	if (month.length()<2)
+		    		month = "0"+month;
+		    	String year = ""+yearReq;
+				
+				c = db.getSpecifiedIncome(month, year, allMonths);
 				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
 				setListAdapter(listAdapter);
 		    }
@@ -141,7 +156,12 @@ public class IncomeListFragment extends ListFragment
 				else
 					allMonths=false;
 					   
-				c = db.getSpecifiedIncome(monthReq, yearReq, allMonths);
+				String month = ""+monthReq;
+		    	if (month.length()<2)
+		    		month = "0"+month;
+		    	String year = ""+yearReq;
+				
+				c = db.getSpecifiedIncome(month, year, allMonths);
 				ListAdapter listAdapter = new IncomeAdapter(getActivity(), c);
 				setListAdapter(listAdapter);
 			   }
