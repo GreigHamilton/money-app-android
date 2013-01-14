@@ -18,6 +18,7 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
 import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
+import com.greighamilton.moneymanagement.views.ViewIncExpActivity;
 
 public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	
@@ -50,7 +51,6 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             public void onClick(View v) {
                 // When button is clicked, call up to owning activity.
             	Log.i("BUTTON", "Edit clicked");
-            	// TODO
             	dismiss();
             	
             	if (idType.equalsIgnoreCase("INCOME")) {
@@ -66,11 +66,11 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             }
         });
         
-        // Watch for editButton clicks.
+        // Watch for deleteButton clicks.
         Button deleteButton = (Button) view.findViewById(R.id.viewincexp_options_menu_delete_button);
         deleteButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                
+                // TODO 
             	// When delete is clicked, delete the row using the id from the db
             	
             	db = DatabaseHelper.getInstance(getActivity());
@@ -82,6 +82,10 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             		Log.i("EXPENSE", "DELETION");
             		db.deleteExpense(currentId);
             	}
+            	
+            	// TODO work around later
+            	Intent i = new Intent(v.getContext(), ViewIncExpActivity.class);
+            	startActivity(i);
 
             	dismiss();
             }
@@ -92,7 +96,6 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }

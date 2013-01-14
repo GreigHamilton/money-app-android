@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
@@ -187,13 +188,17 @@ public class ExpenseListFragment extends ListFragment implements com.greighamilt
 			TextView expenseAmount = (TextView) view.findViewById(R.id.expense_amount);
 			TextView expenseDate = (TextView) view.findViewById(R.id.expense_date);
 			TextView expenseNotes = (TextView) view.findViewById(R.id.expense_notes);
-			//TextView expenseNotId = (TextView) view.findViewById(R.id.expense_notification);
+			
 			
 			expenseName.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
 			expenseAmount.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_AMOUNT)));
 			expenseDate.setText(c.getString(DatabaseHelper.EXPENSE_DATE));
 			expenseNotes.setText(c.getString(DatabaseHelper.EXPENSE_NOTES));
-			//expenseNotId.setText(Integer.toString(c.getInt(DatabaseHelper.EXPENSE_NOTIFICATION_ID)));
+
+			String catID = c.getString(DatabaseHelper.EXPENSE_CATEGORY_ID);
+			String colour = db.getCategoryColour(Integer.parseInt(catID));		
+			TextView incomeCatId = (TextView) view.findViewById(R.id.expense_category);
+			incomeCatId.setBackgroundColor(Color.parseColor(colour));
 		}
 
 		@Override

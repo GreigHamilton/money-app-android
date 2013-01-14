@@ -370,6 +370,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public Cursor getExpenseCategories() {
 		return db.query("CATEGORY", null, "type=1", null, null, null, "_id asc");
 	}
+	
+	public Cursor getCategories() {
+		return db.query("CATEGORY", null, null, null, null, null, "_id asc");
+	}
 
 	public void addCategory(String name, int type, String colour, String description) {
 		ContentValues cv = new ContentValues(5);
@@ -391,6 +395,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String name = "nothing :(";
 		c.moveToFirst();
 		return (!c.isAfterLast()) ? c.getString(CATEGORY_NAME) : name;
+	}
+	
+	public String getCategoryColour(int index) {
+		Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE _id = "+index, null);
+		String colour = "#A8A8A8";
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getString(CATEGORY_COLOUR) : colour;
 	}
 
 	public int nextCategoryID() {

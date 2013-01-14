@@ -164,7 +164,7 @@ public class AddExpenseActivity extends Activity implements
 				String dayNo = ""+day;
 				if (dayNo.length()<2)
 					dayNo="0"+day;
-				String monthNo = ""+day;
+				String monthNo = ""+month;
 				if (monthNo.length()<2)
 					monthNo="0"+month;
 				String date = dayNo + "/" + monthNo + "/" + year;

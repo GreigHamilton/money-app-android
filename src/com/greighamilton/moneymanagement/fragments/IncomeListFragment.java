@@ -5,9 +5,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -190,16 +192,17 @@ public class IncomeListFragment extends ListFragment
 			TextView incomeAmount = (TextView) view.findViewById(R.id.income_amount);
 			TextView incomeDate = (TextView) view.findViewById(R.id.income_date);
 			TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
-			//TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
-			//TextView incomeNotId = (TextView) view.findViewById(R.id.income_notification);
 
 			incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
 			incomeAmount.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_AMOUNT)));
 			incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
 			incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
-			//incomeCatId.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
-			//.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_CATEGORY_ID)));
-			//incomeNotId.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_NOTIFICATION_ID)));
+			
+			String catID = c.getString(DatabaseHelper.INCOME_CATEGORY_ID);
+			String colour = db.getCategoryColour(Integer.parseInt(catID));		
+			TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
+			incomeCatId.setBackgroundColor(Color.parseColor(colour));
+			
 		}
 
 		@Override
