@@ -12,6 +12,7 @@
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/summary_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.00"
@@ -63,7 +64,7 @@
             android:gravity="center" >
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/income_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IN £xxxx"
@@ -78,7 +79,8 @@
         android:gravity="bottom"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <LinearLayout            
+            android:id="@+id/summary_expenses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1.00"
@@ -144,7 +146,7 @@
             android:gravity="center" >
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/expenses_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OUT £xxxx"

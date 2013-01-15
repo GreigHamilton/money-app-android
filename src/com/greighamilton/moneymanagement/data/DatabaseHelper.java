@@ -245,6 +245,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		else
 			return db.query("INCOME", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "date asc");
 	}
+	
+	public Cursor getIncomeByAmount(String month, String year, boolean allReq) {
+		
+		if (allReq)
+			return db.query("INCOME", null, null, null, null, null, "amount desc");
+		else
+			return db.query("INCOME", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "amount desc");
+	}
 
 	public void addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
@@ -311,6 +319,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, null, null, null, null, "date asc");
 		else
 			return db.query("EXPENSE", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "date asc");
+	}
+	
+	public Cursor getExpensesByAmount(String month, String year, boolean allReq) {
+		
+		if (allReq)
+			return db.query("EXPENSE", null, null, null, null, null, "amount desc");
+		else
+			return db.query("EXPENSE", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "amount desc");
 	}
 
 	public void addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
