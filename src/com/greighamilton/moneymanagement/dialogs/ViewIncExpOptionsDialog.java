@@ -84,8 +84,8 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             	}
             	
             	// TODO work around later
-            	Intent i = new Intent(v.getContext(), ViewIncExpActivity.class);
-            	startActivity(i);
+            	//Intent i = new Intent(v.getContext(), ViewIncExpActivity.class);
+            	//startActivity(i);
 
             	dismiss();
             }

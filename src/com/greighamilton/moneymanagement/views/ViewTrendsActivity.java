@@ -1,24 +1,26 @@
 package com.greighamilton.moneymanagement.views;
 
-import com.greighamilton.moneymanagement.R;
-import com.greighamilton.moneymanagement.R.layout;
-import com.greighamilton.moneymanagement.R.menu;
-
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+import arnodenhond.graphview.GraphView;
+
+import com.greighamilton.moneymanagement.R;
 
 public class ViewTrendsActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_viewtrends);
+		//setContentView(R.layout.activity_viewtrends);
+		
+		super.onCreate(savedInstanceState);
+		float[] values = new float[] { 2.0f,1.5f, 2.5f, 1.0f , 3.0f, 1.0f };
+		String[] verlabels = new String[] { "great", "ok", "bad" };
+		String[] horlabels = new String[] { "today", "tomorrow", "next week", "next month" };
+		GraphView graphView = new GraphView(this, values, "GraphViewDemo",horlabels, verlabels, GraphView.LINE);
+		
+		setContentView(graphView);
 	}
 
 	@Override
