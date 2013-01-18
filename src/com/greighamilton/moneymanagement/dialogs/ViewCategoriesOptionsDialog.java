@@ -1,6 +1,7 @@
 package com.greighamilton.moneymanagement.dialogs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.utilities.AddCategoryActivity;
 
 public class ViewCategoriesOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	
@@ -46,6 +48,10 @@ public class ViewCategoriesOptionsDialog extends DialogFragment implements OnEdi
                 // When button is clicked, call up to owning activity.
             	Log.i("CAT BUTTON", "Edit clicked");
             	// TODO
+            	Intent i = new Intent(v.getContext(), AddCategoryActivity.class);
+            	i.putExtra("CURRENT_ID", currentId);
+            	startActivity(i);
+            	
             	dismiss();
             }
         });

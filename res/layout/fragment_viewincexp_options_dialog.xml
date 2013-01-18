@@ -7,22 +7,18 @@
 
     <Button
         android:id="@+id/viewincexp_options_menu_edit_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Edit      "
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:gravity="left"
+        android:text="   Edit      " />
 
     <Button
         android:id="@+id/viewincexp_options_menu_delete_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" Delete   "
-        android:background="@color/white" />
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="left"
+        android:text="   Delete   " />
 
 </LinearLayout>

@@ -309,6 +309,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, null, null, null, null, "_id asc");
 		}
 	
+	public Cursor getExpensesByDate() {
+		return db.query("EXPENSE", null, null, null, null, null, "date desc");
+	}
+	
 	public Cursor getExpenseId(String id) {
 		return db.query("EXPENSE", null, "_id="+id, null, null, null, null);
 	}
@@ -390,6 +394,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public Cursor getCategories() {
 		return db.query("CATEGORY", null, null, null, null, null, "_id asc");
 	}
+	
+	public Cursor getCategoryId(String id) {
+		return db.query("CATEGORY", null, "_id="+id, null, null, null, null);
+	}
 
 	public void addCategory(String name, int type, String colour, String description) {
 		ContentValues cv = new ContentValues(5);
@@ -400,6 +408,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("description", description);
 
 		db.insert("CATEGORY", null, cv);
+	}
+	
+	public void updateCategory(String id, String name, int type, String colour, String description) {
+		ContentValues cv = new ContentValues(5);
+		
+		cv.put("_id", nextCategoryID());
+		cv.put("name", name);
+		cv.put("type", type);
+		cv.put("colour", colour);
+		cv.put("description", description);
+
+		db.update("CATEGORY", cv, "_id="+id, null);
 	}
 	
 	public void deleteCategory(String id) {

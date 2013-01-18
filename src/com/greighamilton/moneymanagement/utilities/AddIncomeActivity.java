@@ -185,7 +185,6 @@ public class AddIncomeActivity extends Activity implements
 						.isChecked()) {
 					repetition_period = 0;
 					repetition_length = 0;
-					// TODO Create a notification
 				} else {
 					repetition_period = incomeSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
 					repetition_length = (Integer

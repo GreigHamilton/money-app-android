@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -198,9 +199,14 @@ public class IncomeListFragment extends ListFragment
 			incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
 			
 			String catID = c.getString(DatabaseHelper.INCOME_CATEGORY_ID);
-			String colour = db.getCategoryColour(Integer.parseInt(catID));		
-			TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
-			incomeCatId.setBackgroundColor(Color.parseColor(colour));
+			Log.i("CATID", catID);
+			
+			String selectedColour = db.getCategoryColour(Integer.parseInt(catID));
+			Log.i("COLOUR ", selectedColour);
+			
+			//String colour = db.getCategoryColour(Integer.parseInt(catID));		
+			//TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
+			//incomeCatId.setBackgroundColor(Color.parseColor(colour));
 			
 		}
 
@@ -218,5 +224,6 @@ public class IncomeListFragment extends ListFragment
 
 	@Override
 	public void onFinishOptionsDialog(String inputText) {
+		Log.i("BLA", "BLAAAAAA");
 	}
 }

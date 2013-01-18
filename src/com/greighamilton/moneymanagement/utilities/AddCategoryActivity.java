@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,8 +24,11 @@ public class AddCategoryActivity extends Activity {
 	
 	String selectedColour;
 	String colorCode;
-
-	DatabaseHelper db;
+	
+	private DatabaseHelper db;
+	private Cursor c;
+	private Bundle extras;
+	private String currentId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,33 @@ public class AddCategoryActivity extends Activity {
 
 		db = DatabaseHelper.getInstance(this);
 		
-		
+		extras = getIntent().getExtras();
+
+		if (extras != null) {
+		    currentId = extras.getString("CURRENT_ID");
+		    c = db.getCategoryId(currentId);
+		    c.moveToFirst();
+		    TextView categoryName = (TextView) findViewById(R.id.category_name);
+		    categoryName.append(c.getString(DatabaseHelper.CATEGORY_NAME));
+		    
+		    if(c.getString(DatabaseHelper.CATEGORY_TYPE).equals("0")) {
+		    	RadioButton incomeCheck = (RadioButton) findViewById(R.id.category_type_income);
+		    	incomeCheck.setChecked(true);
+		    }
+		    else if (c.getString(DatabaseHelper.CATEGORY_TYPE).equals("1")) {
+		    	RadioButton expenseCheck = (RadioButton) findViewById(R.id.category_type_expense);
+		    	expenseCheck.setChecked(true);
+		    }
+		    
+		    Button colourButton = (Button) findViewById(R.id.category_colour);
+		    colourButton.setTextColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+		    TextView colourBox = (TextView) findViewById(R.id.category_colour_box);
+		    colourBox.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+		    
+		    TextView description = (TextView) findViewById(R.id.category_description);
+		    description.append(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));
+		    
+		}
 	}
 
 	@Override
@@ -73,7 +103,13 @@ public class AddCategoryActivity extends Activity {
 				description = ((EditText) findViewById(R.id.category_description))
 						.getText().toString();
 			
-			db.addCategory(name, type, colorCode, description);
+			if (extras != null) {
+				db.updateCategory(currentId, name, type, colorCode, description);
+			}
+			else {
+				db.addCategory(name, type, colorCode, description);
+			}
+			
 			finish();
 			break;
 		}
