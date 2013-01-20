@@ -1,6 +1,5 @@
 package com.greighamilton.moneymanagement.views;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +22,7 @@ import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
 import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 
@@ -53,45 +52,25 @@ public class ViewSummaryActivity extends Activity {
 		db = DatabaseHelper.getInstance(this);
 
 		// start-up only show current month only
-		Time now = new Time();
-		now.setToNow();
-
-		monthReq = now.month;
-		yearReq = now.year;
-
-		String month = "" + monthReq;
-		if (month.length() < 2)
-			month = "0" + month;
-		String year = "" + yearReq;
+		monthReq = Util.getTodaysMonth();
+		yearReq = Util.getTodaysYear();
+		String month = Util.makeMonthString(monthReq);
+		String year = Util.makeYearString(yearReq);
 		
 		setSpinnerContent();
 		setUpIncome(month, year);
 	}
 
 	private void setSpinnerContent() {
+		
 		// get current month and year
-		Time now = new Time();
-		now.setToNow();
-
-		int month = now.month;
-		int year = now.year;
-		String yearText = "" + year;
+		int month = Util.getTodaysMonth();
+		int year = Util.getTodaysYear();
+		String yearText = Util.makeYearString(year);
 
 		// Spinner for months
 		monthSpinner = (Spinner) findViewById(R.id.incexp_month);
-		List<String> months = new ArrayList<String>();
-		months.add("Jan");
-		months.add("Feb");
-		months.add("Mar");
-		months.add("Apr");
-		months.add("May");
-		months.add("Jun");
-		months.add("Jul");
-		months.add("Aug");
-		months.add("Sep");
-		months.add("Oct");
-		months.add("Nov");
-		months.add("Dec");
+		List<String> months = Util.getListOfMonthsShort();
 
 		ArrayAdapter<String> monthAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, months);
@@ -106,10 +85,8 @@ public class ViewSummaryActivity extends Activity {
 
 				monthReq = position + 1;
 
-				String month = "" + monthReq;
-				if (month.length() < 2)
-					month = "0" + month;
-				String year = "" + yearReq;
+				String month = Util.makeMonthString(monthReq);
+				String year = Util.makeYearString(yearReq);
 
 				setUpIncome(month, year);
 			}
@@ -122,11 +99,7 @@ public class ViewSummaryActivity extends Activity {
 
 		// Spinner for months
 		yearSpinner = (Spinner) findViewById(R.id.incexp_year);
-		final List<String> years = new ArrayList<String>();
-		years.add("2012");
-		years.add("2013");
-		years.add("2014");
-		years.add("2015");
+		final List<String> years = Util.getListOfYears();
 		ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, years);
 		yearAdapter
@@ -140,10 +113,8 @@ public class ViewSummaryActivity extends Activity {
 
 				yearReq = Integer.parseInt(years.get(position));
 
-				String month = "" + monthReq;
-				if (month.length() < 2)
-					month = "0" + month;
-				String year = "" + yearReq;
+				String month = Util.makeMonthString(monthReq);
+				String year = Util.makeYearString(yearReq);
 
 				setUpIncome(month, year);
 			}

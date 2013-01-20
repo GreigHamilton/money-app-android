@@ -19,6 +19,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -61,11 +62,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final int CATEGORY_TYPE = 2;
 	public static final int CATEGORY_COLOUR = 3;
 	public static final int CATEGORY_DESCRIPTION = 4;
-	
-	
-	
-	
-	
 	
 	// The Android's default system path of your application database.
 	private static final String DB_PATH = "/data/data/com.greighamilton.moneymanagement/databases/";
@@ -238,12 +234,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.query("INCOME", null, "_id="+id, null, null, null, null);
 	}
 	
-	public Cursor getSpecifiedIncome(String month, String year, boolean allReq) {
+	public Cursor getSpecifiedIncome(String month, String year, int catId, boolean allIncomes, boolean allCategories) {
 		
-		if (allReq)
+		if (allIncomes && allCategories)
 			return db.query("INCOME", null, null, null, null, null, "date asc");
+		else if (allIncomes && !allCategories)
+			return db.query("INCOME", null, "category_id="+catId, null, null, null, "date asc");
+		else if (!allIncomes && allCategories)
+			return db.query("INCOME", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "date asc");
 		else
-			return db.query("INCOME", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "date asc");
+			return db.query("INCOME", null, "category_id="+catId+" AND date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "date asc");
 	}
 	
 	public Cursor getIncomeByAmount(String month, String year, boolean allReq) {
@@ -251,7 +251,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (allReq)
 			return db.query("INCOME", null, null, null, null, null, "amount desc");
 		else
-			return db.query("INCOME", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "amount desc");
+			return db.query("INCOME", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
 	public void addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
@@ -309,20 +309,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, null, null, null, null, "_id asc");
 		}
 	
-	public Cursor getExpensesByDate() {
-		return db.query("EXPENSE", null, null, null, null, null, "date desc");
+	public Cursor getExpensesByDate(String fromDate, String toDate, boolean ascendingOrder) {
+		String clause = null;
+		String order = (ascendingOrder) ? "date asc" : "date desc";
+		
+		if (fromDate != null && toDate != null) {
+			clause = " date >= '" + fromDate + "'" +
+			     " AND date <= '" + toDate + "'";
+		}
+		else if (fromDate != null) clause = "date >= '" + fromDate + "'";
+		else if (toDate != null) clause = "date <= '" + toDate + "'";
+		
+		Log.i("", clause);
+		
+		return db.query("EXPENSE", null, clause, null, null, null, order);
 	}
 	
 	public Cursor getExpenseId(String id) {
 		return db.query("EXPENSE", null, "_id="+id, null, null, null, null);
 	}
 	
-	public Cursor getSpecifiedExpenses(String month, String year, boolean allReq) {
+	public Cursor getSpecifiedExpenses(String month, String year, int catId, boolean allDates, boolean allCategories) {
 		
-		if (allReq)
+		if (allDates && allCategories)
 			return db.query("EXPENSE", null, null, null, null, null, "date asc");
+		else if (allDates && !allCategories)
+			return db.query("EXPENSE", null, "category_id="+catId, null, null, null, "date asc");
+		else if (!allDates && allCategories)
+			return db.query("EXPENSE", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "date asc");
 		else
-			return db.query("EXPENSE", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "date asc");
+			return db.query("EXPENSE", null, "category_id="+catId+" AND date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "date asc");
 	}
 	
 	public Cursor getExpensesByAmount(String month, String year, boolean allReq) {
@@ -330,7 +346,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if (allReq)
 			return db.query("EXPENSE", null, null, null, null, null, "amount desc");
 		else
-			return db.query("EXPENSE", null, "date LIKE ?", new String[] {"%"+"/"+month+"/"+year}, null, null, "amount desc");
+			return db.query("EXPENSE", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
 	public void addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
@@ -439,6 +455,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.moveToFirst();
 		return (!c.isAfterLast()) ? c.getString(CATEGORY_COLOUR) : colour;
 	}
+	
+	public int getSpecificCategoryId(String categoryName) {
+		Cursor c = db.query("CATEGORY", null, "name=?", new String[] {categoryName}, null, null, "_id asc");
+		int id = -1;
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getInt(CATEGORY_ID) : id;
+	}
 
 	public int nextCategoryID() {
 		Cursor c = db.query("CATEGORY", null, null, null, null, null, "_id desc");
@@ -455,7 +478,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-            	categories.add(c.getString(1));
+            	categories.add(c.getString(DatabaseHelper.CATEGORY_NAME));
+            } while (c.moveToNext());
+        }
+ 
+        return categories;
+    }
+	
+	public List<Integer> getIncomeCategoryIDList() {
+        List<Integer> categories = new ArrayList<Integer>();
+ 
+        Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE type = 0", null);
+ 
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	categories.add(c.getInt(DatabaseHelper.CATEGORY_ID));
             } while (c.moveToNext());
         }
  
@@ -463,20 +501,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 	
 	public List<String> getExpenseCategoryList() {
-        List<String> categories = new ArrayList<String>();
- 
+        List<String> categories = new ArrayList<String>(); 
         Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE type = 1", null);
  
         // looping through all rows and adding to list
         if (c.moveToFirst()) {
             do {
-            	categories.add(c.getString(1));
+            	// either adds all the names of categories, or IDs
+            	categories.add(c.getString(CATEGORY_NAME));
             } while (c.moveToNext());
-        }
- 
+        } 
         return categories;
     }
 	
+	public List<Integer> getExpenseCategoryIDList() {
+        List<Integer> categories = new ArrayList<Integer>(); 
+        Cursor c = db.rawQuery("SELECT * FROM CATEGORY WHERE type = 1", null);
+ 
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	// either adds all the names of categories, or IDs
+            	categories.add(c.getInt(CATEGORY_ID));
+            } while (c.moveToNext());
+        } 
+        return categories;
+    }
 	
 	
 

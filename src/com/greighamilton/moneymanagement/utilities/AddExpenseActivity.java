@@ -12,6 +12,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +29,9 @@ import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 
-public class AddExpenseActivity extends Activity implements
-		OnItemSelectedListener {
+public class AddExpenseActivity extends Activity implements	OnItemSelectedListener {
 
 	int day;
 	int month;
@@ -39,6 +40,7 @@ public class AddExpenseActivity extends Activity implements
 	Spinner expenseSpinner;
 	Spinner repetitionSpinner;
 	List<String> expenseCategories;
+	List<Integer> expenseCategoryIDs;
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -49,24 +51,31 @@ public class AddExpenseActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addexpense);
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
 
 		db = DatabaseHelper.getInstance(this);
+		
+		day = Util.getTodaysDay();
+		month = Util.getTodaysMonth();
+		year = Util.getTodaysYear();
 		
 		// Spinner for expense categories
 		expenseSpinner = (Spinner) findViewById(R.id.expense_category);
 		expenseCategories = db.getExpenseCategoryList();
-
-		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, expenseCategories);
-		expenseAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		expenseCategoryIDs = db.getExpenseCategoryIDList();
+		
+		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, expenseCategories);
+		expenseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		expenseSpinner.setAdapter(expenseAdapter);
-		if (expenseCategories.isEmpty())
-			expenseSpinner.setEnabled(false);
+		if (expenseCategories.isEmpty()) expenseSpinner.setEnabled(false);
+		
 		// Spinner for repetition period
 		repetitionSpinner = (Spinner) findViewById(R.id.expense_repetition_period);
-		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter
-				.createFromResource(this, R.array.repetition_array,
+		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array,
 						android.R.layout.simple_spinner_item);
 		repetitionAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -90,11 +99,13 @@ public class AddExpenseActivity extends Activity implements
 		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		    String date = c.getString(DatabaseHelper.INCOME_DATE);
 		    
-		    day = Integer.parseInt(date.substring(0, 2));
-		    month = Integer.parseInt(date.substring(3, 5));
-		    year = Integer.parseInt(date.substring(6));
+		    day = Util.getDayFromString(date);
+		    month = Util.getMonthFromString(date);
+		    year = Util.getYearFromString(date);
 		    
-		    expenseSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_CATEGORY_ID)));
+		    int category = c.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID);
+		    int index = expenseCategoryIDs.indexOf((Integer) category);
+		    expenseSpinner.setSelection((index >= 0 && index < expenseCategories.size()) ? index : 0);
 		    
 		    if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals(0)) {
 		    	CheckBox oneoff = (CheckBox) findViewById(R.id.expense_oneoff_checkbox);
@@ -111,7 +122,7 @@ public class AddExpenseActivity extends Activity implements
 		    else {
 		    	TextView expenseRepLen = (TextView) findViewById(R.id.expense_repetition_length);
 		    	expenseRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
-		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD)));
+		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD))-1);  // add one so one-off is period 0
 		    }
 		}
 		else {
@@ -160,23 +171,8 @@ public class AddExpenseActivity extends Activity implements
 						.parseInt(((EditText) findViewById(R.id.expense_amount))
 								.getText().toString()));
 
-				// Get date after fragment chooser
-				String dayNo = ""+day;
-				if (dayNo.length()<2)
-					dayNo="0"+day;
-				String monthNo = ""+month;
-				if (monthNo.length()<2)
-					monthNo="0"+month;
-				String date = dayNo + "/" + monthNo + "/" + year;
-				// if the date hasn't been set, sets it to current date
-				if (date.equals("00/00/0")) {
-					Calendar c = Calendar.getInstance();
-					c.getTime();
-
-					SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",
-							Locale.UK);
-					date = df.format(c.getTime());
-				}
+				// Get date		
+				String date = Util.makeDateString(day, month, year);
 
 				// Get repetition data
 				int repetition_period;
@@ -187,7 +183,7 @@ public class AddExpenseActivity extends Activity implements
 					repetition_length = 0;
 					// TODO Create a notification
 				} else {
-					repetition_period = expenseSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
+					repetition_period = repetitionSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
 					repetition_length = (Integer
 							.parseInt(((EditText) findViewById(R.id.expense_repetition_length))
 									.getText().toString()));
@@ -203,7 +199,7 @@ public class AddExpenseActivity extends Activity implements
 							.getText().toString();
 
 				// Get category id data
-				int categoryId = expenseSpinner.getSelectedItemPosition();
+				int categoryId = expenseCategoryIDs.get(expenseSpinner.getSelectedItemPosition());
 
 				// Get data for notification checkbox
 				int notification_id;

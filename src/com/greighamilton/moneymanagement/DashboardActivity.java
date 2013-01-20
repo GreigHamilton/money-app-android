@@ -1,25 +1,27 @@
 package com.greighamilton.moneymanagement;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.joda.time.Days;
-import org.joda.time.DateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
 import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 import com.greighamilton.moneymanagement.views.ViewCategoriesActivity;
@@ -31,52 +33,57 @@ import com.greighamilton.moneymanagement.views.ViewTrendsActivity;
 public class DashboardActivity extends Activity {
 
 	DatabaseHelper db;
+	List<LinearLayout> widgets;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_dashboard);
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    
 		db = DatabaseHelper.getInstance(this);
-
-		Button b = ((Button) findViewById(R.id.button_top_left));
-		b.setText(DatabaseHelper.getInstance(this).getIncomeName(1));
-
-		Button d = ((Button) findViewById(R.id.button_top_centre));
-		d.setText(DatabaseHelper.getInstance(this).getExpenseName(1));
-
-		LinearLayout top = ((LinearLayout) findViewById(R.id.top));
-		top.removeAllViews();
-		LinearLayout widget = (LinearLayout) getLayoutInflater().inflate(
-				R.layout.widget_countdown, top);
-		TextView days = (TextView) widget.findViewById(R.id.days);
-		TextView description = (TextView) widget.findViewById(R.id.description);
-
-		Cursor c = db.getExpensesByDate();
-		c.moveToFirst();
+		widgets = new ArrayList<LinearLayout>();
 		
-		String daysText = c.getString(DatabaseHelper.EXPENSE_DATE);
+		setUpWidgets();
+		
+	}
 
-		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date itemDate = (Date) sdf.parse(daysText);
-			Time now = new Time();
-			now.setToNow();
-			Date nowDate = (Date) sdf.parse(now.year + "-" +
-			((now.month < 10)    ? "0" + now.month    : now.month    ) + 
-			((now.monthDay < 10) ? "0" + now.monthDay : now.monthDay ));
-			daysText = "" + Days.daysBetween(new DateTime(nowDate), new DateTime(itemDate));
-		} catch (ParseException e) {
-			e.printStackTrace();
+	private void setUpWidgets() {
+
+		// Query upcoming expenses
+		Cursor c = db.getExpensesByDate(Util.getTodaysDate(), null,	Util.ASCENDING);
+		c.moveToFirst();
+		while (!c.isAfterLast()) {
+
+			LinearLayout widget;
+			String daysUntil;
+			
+			widget = (LinearLayout) getLayoutInflater().inflate(R.layout.widget_countdown, null);
+			daysUntil = c.getString(DatabaseHelper.EXPENSE_DATE);
+			int colour = Color.parseColor(db.getCategoryColour(c.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID)));
+			
+			try {
+				daysUntil = "" + Util.daysUntil(c.getString(DatabaseHelper.EXPENSE_DATE));
+				TextView days = (TextView) widget.findViewById(R.id.days);
+				TextView description = (TextView) widget.findViewById(R.id.description);
+				days.setText(daysUntil);
+				description.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
+				widget.setTag("" + c.getInt(DatabaseHelper.EXPENSE_ID));
+				widget.setBackgroundColor(colour);
+				widgets.add(widget);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			c.moveToNext();
 		}
-
-		days.setText(daysText);
-		description.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
-
-		// while (!c.isAfterLast()){
-		// // TODO
-		// c.moveToNext();
-		// }
-
+		
+		GridView grid = (GridView) findViewById(R.id.grid_of_widgets);
+		grid.setAdapter(new WidgetAdapter(this, widgets));
+		
 	}
 
 	@Override
@@ -134,6 +141,46 @@ public class DashboardActivity extends Activity {
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void clickWidget(View v){
+		String expenseID = (String) v.getTag();
+		Intent i = new Intent(this, AddExpenseActivity.class);
+		i.putExtra("CURRENT_ID", expenseID);
+		startActivity(i);	
+	}
+
+	public class WidgetAdapter extends BaseAdapter {
+
+		private Context context;
+		private List<LinearLayout> widgets;
+
+		// Constructor
+		public WidgetAdapter(Context c, List<LinearLayout> w) {
+			context = c;
+			widgets = w;
+		}
+
+		@Override
+		public int getCount() {
+			return widgets.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return widgets.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return widgets.get(position);
+		}
+
 	}
 
 }

@@ -35,8 +35,7 @@ public class AddCategoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addcategory);
 
-		db = DatabaseHelper.getInstance(this);
-		
+		db = DatabaseHelper.getInstance(this);		
 		extras = getIntent().getExtras();
 
 		if (extras != null) {
