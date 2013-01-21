@@ -3,7 +3,6 @@ package com.greighamilton.moneymanagement.adapters;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +38,8 @@ public class IncomeListAdapter extends CursorAdapter {
 		incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
 		
 		String catID = c.getString(DatabaseHelper.INCOME_CATEGORY_ID);
-		Log.i("CATID", catID);
 		
-		String selectedColour = db.getCategoryColour(Integer.parseInt(catID));
-		Log.i("COLOUR ", selectedColour);
-		
-		String colour = db.getCategoryColour(Integer.parseInt(catID));		
+		String colour = db.getCategoryColour(Integer.parseInt(catID));
 		TextView incomeCatId = (TextView) view.findViewById(R.id.income_category);
 		incomeCatId.setBackgroundColor(Color.parseColor(colour));
 		

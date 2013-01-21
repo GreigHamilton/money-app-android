@@ -8,7 +8,9 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ActionMode;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -19,6 +21,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.adapters.ExpenseListAdapter;
@@ -28,26 +31,17 @@ import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
 import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 
-
-
 public class ViewIncExpActivity extends ListActivity implements ActionBar.TabListener {
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final int TAB_INCOME = 0;
     private static final int TAB_EXPENSES = 1;
     
-//    private IncomeListFragment incomeFragment;
-//    private ExpenseListFragment expenseFragment;
-    
     private DatabaseHelper db;
     private Cursor c;
     
-    private int selectedTab;    
-//    private boolean allDatesSelected = false;
-//    private boolean allCategoriesSelected = true;    
-//    private int selectedCategory = -1;
-//    private int selectedMonth = Util.getTodaysMonth();
-//    private int selectedYear = Util.getTodaysYear();
+    private int selectedTab;
+    private String selectedItem;
 
     private CheckBox allDatesCheckBox;
     private CheckBox allCategoriesCheckBox;
@@ -77,10 +71,17 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
         actionBar.addTab(actionBar.newTab().setText("Expenses").setTabListener(this));
         selectedTab = TAB_INCOME;
         
-    	setUpList();        
+        init();        
+    }
+    
+    @Override
+    public void onResume() {
+    	super.onResume();
+    	init();
     }
 
-	private void setUpList() {
+    // Initialise form filters and fill list with data! :)
+	private void init() {
 		
 		// Check initial states of spinners and checkboxes
 		if (allDatesCheckBox == null || allCategoriesCheckBox == null) initCheckboxState();
@@ -95,9 +96,13 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 		
 		// Query db and set list adapter
     	if (selectedTab == TAB_INCOME) {
+    		listOfCategories = db.getIncomeCategoryList();
+    		listOfCategoryIDs = db.getIncomeCategoryIDList();
     		c = db.getSpecifiedIncome(month, year, category, allDates, allCategories);
-    		setListAdapter(new IncomeListAdapter(this, c));    		
+    		setListAdapter(new IncomeListAdapter(this, c));
     	} else {
+    		listOfCategories = db.getExpenseCategoryList();
+    		listOfCategoryIDs = db.getExpenseCategoryIDList();
     		c = db.getSpecifiedExpenses(month, year, category, allDates, allCategories);
     		setListAdapter(new ExpenseListAdapter(this, c));
     	}
@@ -107,29 +112,28 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 	private void initCheckboxState() {		
 		
 		// Set up check boxes
+    	allDatesCheckBox = (CheckBox) findViewById(R.id.incexp_all_dates);
     	allCategoriesCheckBox = (CheckBox) findViewById(R.id.incexp_all_categories);
-    	allDatesCheckBox = (CheckBox) findViewById(R.id.incexp_all_categories);
     	
     	allDatesCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				setUpList();
-				monthSpinner.setEnabled(!isChecked);
-				yearSpinner.setEnabled(!isChecked);
+				init();
+				monthSpinner.setVisibility((isChecked) ? View.INVISIBLE : View.VISIBLE);
+				yearSpinner.setVisibility((isChecked) ? View.INVISIBLE : View.VISIBLE);
 			   }
 			});
 		
 		allCategoriesCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {					   
-				setUpList();
-				categorySpinner.setEnabled(!isChecked);
+				init();
+				categorySpinner.setVisibility((isChecked) ? View.INVISIBLE : View.VISIBLE);
 			}
 			});
 		
-		// Default values
-    	allCategoriesCheckBox.setChecked(true); // all categories
-    	allDatesCheckBox.setChecked(false); // only current month
+		allDatesCheckBox.setChecked(true);
+		allCategoriesCheckBox.setChecked(true);
 	}
 	
     private void initSpinnerState() {
@@ -157,7 +161,7 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
     	monthSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    @Override
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		    	setUpList();
+		    	init();
 		    }
 	
 		    @Override
@@ -172,7 +176,7 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 		yearSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    @Override
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		        setUpList();
+		    	init();
 		    }
 
 		    @Override
@@ -187,7 +191,7 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 		categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-				setUpList();
+				init();
 			}
 
 			@Override
@@ -199,21 +203,22 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
     	monthSpinner.setSelection(currentMonth-1); // -1 because of zero based indexing
 		yearSpinner.setSelection(listOfYears.indexOf(currentYearText));
 		//categorySpinner.setSelection( DEFAULT );
+		
+    	// Initially hide
+    	monthSpinner.setVisibility(View.INVISIBLE);
+    	yearSpinner.setVisibility(View.INVISIBLE);
+    	categorySpinner.setVisibility(View.INVISIBLE);
 	}
     
     @Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
-		//showOptionsDialog();
+		// Show context action bar
     	if (selectedTab == TAB_INCOME) {
-    		String income_id = v.getTag(R.id.list_item_income).toString();
-    		Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
-    		i.putExtra("CURRENT_ID", income_id);
-    		startActivity(i);
+    		selectedItem = v.getTag(R.id.list_item_income).toString();
+    		startActionMode(mActionModeCallback);
     	} else {
-    		String expense_id = v.getTag(R.id.list_item_expense).toString();
-    		Intent i = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
-    		i.putExtra("CURRENT_ID", expense_id);
-    		startActivity(i);
+    		selectedItem = v.getTag(R.id.list_item_expense).toString();
+    		startActionMode(mActionModeCallback);
     	}
     }
 
@@ -259,27 +264,76 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        
-    	/**
-    	 * On first tab we will show the Income list
-    	 */
     	selectedTab = tab.getPosition();
-    	setUpList();
-    	if (tab.getPosition() == TAB_INCOME) {
-//    		incomeFragment = new IncomeListFragment();
-//    		getSupportFragmentManager().beginTransaction().replace(R.id.container, incomeFragment).commit();
-    		
-    	} else if (tab.getPosition() == TAB_EXPENSES) {
-//    		expenseFragment = new ExpenseListFragment();
-//    		getSupportFragmentManager().beginTransaction().replace(R.id.container, expenseFragment).commit();    	
-    	}
-    	else {
-    		// do nothing
-    	}
+    	selectedItem = null;
+    	init();
     }
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+    
+	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+		
+	    // Called when the action mode is created; startActionMode() was called
+	    @Override
+	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+	        // Inflate a menu resource providing context menu items
+	        MenuInflater inflater = mode.getMenuInflater();
+	        inflater.inflate(R.menu.context_incexp, menu);			
+	        return true;
+	    }
+
+	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
+	    // may be called multiple times if the mode is invalidated.
+	    @Override
+	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+	        return false; // Return false if nothing is done
+	    }
+
+	    // Called when the user selects a contextual menu item
+	    @Override
+	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+	    	Intent i;
+	    	// Get selected item ID
+	        switch (item.getItemId()) {
+	        	
+	        // Edit clicked
+	            case R.id.context_incexp_edit:
+	            	if (selectedTab == TAB_INCOME) {
+	            		i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
+	            		i.putExtra("CURRENT_ID", selectedItem);
+	            		startActivity(i);
+	            	} else {
+	            		i = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
+	            		i.putExtra("CURRENT_ID", selectedItem);
+	            		startActivity(i);
+	            	} return true;
+	            
+	            // Delete clicked
+	            case R.id.context_incexp_delete:
+	            	if (selectedTab == TAB_INCOME) {
+	            		db.deleteIncome(selectedItem);
+	            		init();
+	            		Toast.makeText(ViewIncExpActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
+	            		mode.finish();
+	            	} else {
+	            		db.deleteExpense(selectedItem);
+	            		init();
+	            		Toast.makeText(ViewIncExpActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
+	            		mode.finish();
+	            	} return true;
+	            	
+	            default:
+	            	mode.finish();
+	                return false;
+	        }
+	    }
+	    // Called when the user exits the action mode
+	    @Override
+	    public void onDestroyActionMode(ActionMode mode) {
+	    	mode = null;
+	    }
+	};
     
 }
