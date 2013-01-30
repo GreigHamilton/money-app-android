@@ -3,10 +3,8 @@ package com.greighamilton.moneymanagement.views;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
@@ -15,10 +13,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import arnodenhond.graphview.LineGraph;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -95,12 +91,6 @@ public class ViewTrendsActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_viewtrends, menu);
 		return true;
-	}
-
-	public void lineGraphHandler(View view) {
-		LineGraph line = new LineGraph();
-		Intent lineIntent = line.getIntent(this);
-		startActivity(lineIntent);
 	}
 
 	private View createMonthView(String year, int month) {
