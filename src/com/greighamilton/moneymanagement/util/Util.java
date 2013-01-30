@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import android.text.format.Time;
+import android.util.Log;
 
 
 public class Util {
@@ -148,6 +149,48 @@ public class Util {
 		Date nowDate = (Date) sdf.parse(getTodaysDate());
 		return Days.daysBetween(new DateTime(nowDate), new DateTime(itemDate)).getDays();
 		
+	}
+	
+	public static String addWeeksToDate(String date, int numberOfWeeks) {
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+			DateTime dt = new DateTime((Date) sdf.parse(date));
+			DateTime dt2 = dt.plusWeeks(numberOfWeeks);
+			Log.i("New date: ", dt2.toString());
+			return dt2.toString("yyyy-MM-dd");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return date;
+		}
+	}
+	
+	public static String addMonthsToDate(String date, int numberOfMonths) {
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+			DateTime dt = new DateTime((Date) sdf.parse(date));
+			DateTime dt2 = dt.plusMonths(numberOfMonths);
+			Log.i("New date: ", dt2.toString());
+			return dt2.toString("yyyy-MM-dd");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return date;
+		}
+	}
+	
+	public static String addYearsToDate(String date, int numberOfYears) {
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+			DateTime dt = new DateTime((Date) sdf.parse(date));
+			DateTime dt2 = dt.plusYears(numberOfYears);
+			Log.i("New date: ", dt2.toString());
+			return dt2.toString("yyyy-MM-dd");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return date;
+		}
 	}
 
 }

@@ -35,7 +35,7 @@ public class AddCategoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addcategory);
 
-		db = DatabaseHelper.getInstance(this);		
+		db = DatabaseHelper.getInstance(this);
 		extras = getIntent().getExtras();
 
 		if (extras != null) {
@@ -43,7 +43,9 @@ public class AddCategoryActivity extends Activity {
 		    c = db.getCategoryId(currentId);
 		    c.moveToFirst();
 		    TextView categoryName = (TextView) findViewById(R.id.category_name);
-		    categoryName.append(c.getString(DatabaseHelper.CATEGORY_NAME));
+		    String name = c.getString(DatabaseHelper.CATEGORY_NAME);
+		    categoryName.append(name);
+		    this.setTitle("Edit Category: "+name);
 		    
 		    if(c.getString(DatabaseHelper.CATEGORY_TYPE).equals("0")) {
 		    	RadioButton incomeCheck = (RadioButton) findViewById(R.id.category_type_income);
@@ -54,10 +56,11 @@ public class AddCategoryActivity extends Activity {
 		    	expenseCheck.setChecked(true);
 		    }
 		    
+		    colorCode =  c.getString(DatabaseHelper.CATEGORY_COLOUR);
 		    Button colourButton = (Button) findViewById(R.id.category_colour);
-		    colourButton.setTextColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+		    colourButton.setTextColor(Color.parseColor(colorCode));
 		    TextView colourBox = (TextView) findViewById(R.id.category_colour_box);
-		    colourBox.setBackgroundColor(Color.parseColor(c.getString(DatabaseHelper.CATEGORY_COLOUR)));
+		    colourBox.setBackgroundColor(Color.parseColor(colorCode));
 		    
 		    TextView description = (TextView) findViewById(R.id.category_description);
 		    description.append(c.getString(DatabaseHelper.CATEGORY_DESCRIPTION));

@@ -26,7 +26,7 @@ public class IncomeListAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor c) {
 		view.setTag(R.id.list_item_income, c.getInt(DatabaseHelper.INCOME_ID));
-
+		
 		TextView incomeName = (TextView) view.findViewById(R.id.income_name);
 		TextView incomeAmount = (TextView) view.findViewById(R.id.income_amount);
 		TextView incomeDate = (TextView) view.findViewById(R.id.income_date);

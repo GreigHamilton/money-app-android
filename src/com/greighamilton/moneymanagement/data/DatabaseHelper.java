@@ -63,6 +63,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final int CATEGORY_COLOUR = 3;
 	public static final int CATEGORY_DESCRIPTION = 4;
 	
+	public static final int GOAL_ID = 0;
+	public static final int GOAL_NAME = 1;
+	public static final int GOAL_NEEDED = 2;
+	public static final int GOAL_SAVED = 3;
+	public static final int GOAL_IMAGE = 4;
+	
 	// The Android's default system path of your application database.
 	private static final String DB_PATH = "/data/data/com.greighamilton.moneymanagement/databases/";
 	private static final String DB_NAME = "moneymanagement.db";
@@ -246,6 +252,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("INCOME", null, "category_id="+catId+" AND date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "date asc");
 	}
 	
+	public int getTotalIncomeAmountForMonth(String year, String month) {
+		Cursor c = db.rawQuery("SELECT SUM(amount) FROM INCOME WHERE date LIKE '"+year+"-"+month+"-%'", null);
+		c.moveToFirst();
+		if (!c.isAfterLast()) return c.getInt(0);
+		else return 0;		
+	}
+	
+	public int getTotalExpenseAmountForMonth(String year, String month) {
+		Cursor c = db.rawQuery("SELECT SUM(amount) FROM EXPENSE WHERE date LIKE '"+year+"-"+month+"-%'", null);
+		c.moveToFirst();
+		if (!c.isAfterLast()) return c.getInt(0);
+		else return 0;		
+	}
+	
 	public Cursor getIncomeByAmount(String month, String year, boolean allReq) {
 		
 		if (allReq)
@@ -254,7 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("INCOME", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
-	public void addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public int addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextIncomeID());
 		cv.put("name", name);
@@ -266,7 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("category_id", categoryId);
 		cv.put("notification_id", notification_id);
 
-		db.insert("INCOME", null, cv);
+		return (int) db.insert("INCOME", null, cv);
 	}
 	
 	public void updateIncome(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
@@ -287,12 +307,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void deleteIncome(String id) {
 		db.delete("INCOME", "_id="+id, null);
 	}
+	
+	public void deleteIncomeSeries(String id) {
+		db.delete("INCOME", "_id="+id+" OR (repetition_period = 4 AND repetition_length = "+id+")", null);
+	}
+	
+	public String getIncomeSeriesID(String id) {
+		Cursor c = db.rawQuery("SELECT * FROM INCOME WHERE _id = "+id, null);
+		c.moveToFirst();
+		if (!c.isAfterLast()) {
+			return (c.getInt(INCOME_REPETITION_PERIOD)==4) ? ""+c.getInt(INCOME_REPETITION_LENGTH) : id;
+		}
+		return id;
+	}
 
 	public String getIncomeName(int index) {
 		Cursor c = db.rawQuery("SELECT * FROM INCOME WHERE _id = "+index, null);
 		String name = "nothing :(";
 		c.moveToFirst();
 		return (!c.isAfterLast()) ? c.getString(INCOME_NAME) : name;
+	}
+	
+	public int getIncomeRepetitionPeriod(String index) {
+		Cursor c = db.rawQuery("SELECT * FROM INCOME WHERE _id = "+index, null);
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getInt(INCOME_REPETITION_PERIOD) : 0;
+	}
+	
+	public int getExpenseRepetitionPeriod(String index) {
+		Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getInt(EXPENSE_REPETITION_PERIOD) : 0;
 	}
 
 	public int nextIncomeID() {
@@ -349,7 +394,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
-	public void addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public int addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextExpenseID());
 		cv.put("name", name);
@@ -361,7 +406,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("category_id", categoryId);
 		cv.put("notification_id", notification_id);
 
-		db.insert("EXPENSE", null, cv);
+		return (int) db.insert("EXPENSE", null, cv);
 	}
 	
 	public void updateExpense(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
@@ -381,6 +426,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	public void deleteExpense(String id) {
 		db.delete("EXPENSE", "_id="+id, null);
+	}
+	
+	public void deleteExpenseSeries(String id) {
+		db.delete("EXPENSE", "_id="+id+" OR (repetition_period = 4 AND repetition_length = "+id+")", null);
+	}
+	
+	public String getExpenseSeriesID(String id) {
+		Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+id, null);
+		c.moveToFirst();
+		if (!c.isAfterLast()) {
+			return (c.getInt(EXPENSE_REPETITION_PERIOD)==4) ? ""+c.getInt(EXPENSE_REPETITION_LENGTH) : id;
+		}
+		return id;
 	}
 
 	public String getExpenseName(int index) {
@@ -429,7 +487,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void updateCategory(String id, String name, int type, String colour, String description) {
 		ContentValues cv = new ContentValues(5);
 		
-		cv.put("_id", nextCategoryID());
+		cv.put("_id", id);
 		cv.put("name", name);
 		cv.put("type", type);
 		cv.put("colour", colour);
@@ -529,6 +587,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 	
 	
+	// GOAL Queries
+	
+	public int nextGoalID() {
+		Cursor c = db.query("GOAL", null, null, null, null, null, "_id desc");
+		c.moveToFirst();
+		return ((!c.isAfterLast()) ? c.getInt(GOAL_ID)+1 : 1);
+	}
+	
+	public List<String> getListOfGoals() {
+		List<String> goals = new ArrayList<String>();
+		Cursor c = db.rawQuery("SELECT * FROM GOAL", null);
+		
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	goals.add(c.getString(DatabaseHelper.GOAL_NAME));
+            } while (c.moveToNext());
+        }
+        return goals;
+	}
+		
+	public List<Integer> getListOfGoalIDs() {
+		List<Integer> goals = new ArrayList<Integer>();
+		Cursor c = db.rawQuery("SELECT * FROM GOAL", null);
+		
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+            	goals.add(c.getInt(DatabaseHelper.GOAL_ID));
+            } while (c.moveToNext());
+        }
+        return goals;
+	}
+	
+	public Cursor getGoal(Integer id) {
+		return db.query("GOAL", null, "_id="+id, null, null, null, null);
+	}
+	
+	public int addGoal(String name, int needed, int saved, String image) {
+		ContentValues cv = new ContentValues(5);
+		cv.put("_id", nextGoalID());
+		cv.put("name", name);
+		cv.put("needed", needed);
+		cv.put("saved", saved);
+		cv.put("image", image);
+
+		return (int) db.insert("GOAL", null, cv);
+	}
+	
+	//
+	// TODO end of Queries
+	//	
 
 	/* AsyncTask to create database on first run. */
 	private class CreateDatabaseTask extends
@@ -582,4 +692,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			instance.openDatabase();
 		}
 	}
+
 }

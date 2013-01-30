@@ -32,6 +32,12 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.util.Util;
 
 public class AddExpenseActivity extends Activity implements	OnItemSelectedListener {
+	
+	private static final int ONE_0FF = 0;
+	private static final int WEEK = 1;
+	private static final int MONTH = 2;
+	private static final int YEAR = 3;
+	private static final int SERIES = 4;
 
 	int day;
 	int month;
@@ -41,6 +47,11 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 	Spinner repetitionSpinner;
 	List<String> expenseCategories;
 	List<Integer> expenseCategoryIDs;
+	
+	CheckBox oneOff;
+	EditText repLength;
+	TextView repText;
+	Spinner repPeriod;
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -81,7 +92,17 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
 		
-		Button button = (Button) findViewById(R.id.expense_date);
+		Button button = (Button) findViewById(R.id.expense_date);		
+		
+		oneOff = (CheckBox) findViewById(R.id.expense_oneoff_checkbox);
+		repLength = (EditText) findViewById(R.id.expense_repetition_length);
+		repText = (TextView) findViewById(R.id.expense_repetition_text);
+		repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
+		
+		oneOff.setChecked(true);
+		repLength.setEnabled(false);
+		repText.setEnabled(false);
+		repPeriod.setEnabled(false);
 		
 		extras = getIntent().getExtras();
 		
@@ -90,11 +111,15 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		    c = db.getExpenseId(currentId);
 		    c.moveToFirst();
 		    TextView expenseName = (TextView) findViewById(R.id.expense_name);
-		    expenseName.append(c.getString(DatabaseHelper.INCOME_NAME));
+		    String name = c.getString(DatabaseHelper.EXPENSE_NAME);
+		    expenseName.append(name);
 		    TextView expenseAmount = (TextView) findViewById(R.id.expense_amount);
-		    expenseAmount.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    String amount = c.getString(DatabaseHelper.EXPENSE_AMOUNT);
+		    expenseAmount.append(amount);
 		    //TextView expenseCategory = (TextView) findViewById(R.id.expense_category);
-		    //expenseCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    //expenseCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));		    
+
+			this.setTitle("Edit Expense: "+name+" (£"+amount+")");
 		    
 		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		    String date = c.getString(DatabaseHelper.INCOME_DATE);
@@ -107,22 +132,27 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		    int index = expenseCategoryIDs.indexOf((Integer) category);
 		    expenseSpinner.setSelection((index >= 0 && index < expenseCategories.size()) ? index : 0);
 		    
-		    if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals(0)) {
-		    	CheckBox oneoff = (CheckBox) findViewById(R.id.expense_oneoff_checkbox);
-		    	oneoff.setChecked(!oneoff.isChecked());
-		    	
-		    	EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
-				TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
-				Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
-				
+		    Log.i("Exp Rep Per", c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD));
+		    
+		    if (c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD).equals("0")) {
+		    	oneOff.setChecked(true);
 		    	repLength.setEnabled(false);
 				repText.setEnabled(false);
 				repPeriod.setEnabled(false);
-		    }
-		    else {
+		    } else if (c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD).equals("4")) {
+		    	oneOff.setVisibility(View.GONE);
+		    	repLength.setVisibility(View.GONE);
+				repPeriod.setVisibility(View.GONE);
+				repText.setEnabled(true);
+				repText.setText("Part of a series");
+		    } else {
 		    	TextView expenseRepLen = (TextView) findViewById(R.id.expense_repetition_length);
-		    	expenseRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
-		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD))-1);  // add one so one-off is period 0
+		    	expenseRepLen.setText(c.getString(DatabaseHelper.EXPENSE_REPETITION_LENGTH));
+		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD))-1);  // add one so one-off is period 0
+		    	oneOff.setChecked(false);
+		    	repLength.setEnabled(true);
+				repText.setEnabled(true);
+				repPeriod.setEnabled(true);
 		    }
 		}
 		else {
@@ -158,9 +188,8 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 
 			if (nameBox.getText().toString().length() > 0
 					&& amountBox.getText().toString().length() > 0
-					&& ((((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
-							.isChecked()) || repBox.getText().toString()
-							.length() > 0) && expenseCategories.size() > 0) {
+					&& ((oneOff.isChecked()) || repBox.getText().toString().length() > 0)
+					&& expenseCategories.size() > 0) {
 
 				// Get name data
 				String name = ((EditText) findViewById(R.id.expense_name))
@@ -177,8 +206,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 				// Get repetition data
 				int repetition_period;
 				int repetition_length;
-				if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
-						.isChecked()) {
+				if (oneOff.isChecked()) {
 					repetition_period = 0;
 					repetition_length = 0;
 					// TODO Create a notification
@@ -216,8 +244,23 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 							repetition_length, notes, categoryId, notification_id);
 				}
 				else {
-					db.addExpense(name, amount, date, repetition_period,
+					// Add to db
+					int seriesID = db.addExpense(name, amount, date, repetition_period,
 							repetition_length, notes, categoryId, notification_id);
+
+					// Series
+					if (repetition_length != ONE_0FF) {
+						for (int i=0; i<repetition_length; i++) {
+							switch (repetition_period) {
+								case WEEK :	date = Util.addWeeksToDate(date, 1); break;
+								case MONTH : date = Util.addMonthsToDate(date, 1); break;
+								case YEAR :	date = Util.addYearsToDate(date, 1); break;
+								default : break;
+							}
+							db.addExpense(name, amount, date, SERIES, seriesID,
+									notes, categoryId, notification_id);
+						}
+					}
 				}
 				
 				finish();
@@ -229,9 +272,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 					nameBox.setError("Name is required.");
 				if (amountBox.getText().toString().length() == 0)
 					amountBox.setError("Amount is required.");
-				if (!(((CheckBox) findViewById(R.id.expense_oneoff_checkbox))
-						.isChecked())
-						&& repBox.getText().toString().length() == 0)
+				if (!oneOff.isChecked()	&& repBox.getText().toString().length() == 0)
 					Toast.makeText(this, "A Repetition Must Be Set.",
 							Toast.LENGTH_SHORT).show();
 				if (expenseCategories.size() == 0)
@@ -289,19 +330,8 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 	}
 
 	public void clickCheckbox(View v) {
-
-		EditText repLength = (EditText) findViewById(R.id.expense_repetition_length);
-		TextView repText = (TextView) findViewById(R.id.expense_repetition_text);
-		Spinner repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
-
-		if (((CheckBox) findViewById(R.id.expense_oneoff_checkbox)).isChecked()) {
-			repLength.setEnabled(false);
-			repText.setEnabled(false);
-			repPeriod.setEnabled(false);
-		} else {
-			repLength.setEnabled(true);
-			repText.setEnabled(true);
-			repPeriod.setEnabled(true);
-		}
+		repLength.setEnabled(!oneOff.isChecked());
+		repText.setEnabled(!oneOff.isChecked());
+		repPeriod.setEnabled(!oneOff.isChecked());
 	}
 }

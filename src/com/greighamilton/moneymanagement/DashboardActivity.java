@@ -67,13 +67,15 @@ public class DashboardActivity extends Activity {
 			int colour = Color.parseColor(db.getCategoryColour(c.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID)));
 			
 			try {
-				daysUntil = "" + Util.daysUntil(c.getString(DatabaseHelper.EXPENSE_DATE));
 				TextView days = (TextView) widget.findViewById(R.id.days);
 				TextView description = (TextView) widget.findViewById(R.id.description);
-				days.setText(daysUntil);
+				LinearLayout colourBlock = (LinearLayout) widget.findViewById(R.id.colour);
+				
+				days.setText("" + Util.daysUntil(c.getString(DatabaseHelper.EXPENSE_DATE)));
 				description.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
+				colourBlock.setBackgroundColor(colour);
+				
 				widget.setTag("" + c.getInt(DatabaseHelper.EXPENSE_ID));
-				widget.setBackgroundColor(colour);
 				widgets.add(widget);
 			} catch (ParseException e) {
 				e.printStackTrace();

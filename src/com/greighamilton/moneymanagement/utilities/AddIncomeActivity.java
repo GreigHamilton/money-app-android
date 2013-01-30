@@ -32,15 +32,26 @@ import com.greighamilton.moneymanagement.util.Util;
 
 public class AddIncomeActivity extends Activity implements
 		OnItemSelectedListener {
+	
+	private static final int ONE_0FF = 0;
+	private static final int WEEK = 1;
+	private static final int MONTH = 2;
+	private static final int YEAR = 3;
+	private static final int SERIES = 4;
 
-	int day;
-	int month;
-	int year;
+	private int day;
+	private int month;
+	private int year;
 
-	Spinner incomeSpinner;
-	Spinner repetitionSpinner;
-	List<String> incomeCategories;
-	List<Integer> incomeCategoryIDs;
+	private Spinner incomeSpinner;
+	private Spinner repetitionSpinner;
+	private List<String> incomeCategories;
+	private List<Integer> incomeCategoryIDs;
+	
+	private CheckBox oneOff;
+	private EditText repLength;
+	private TextView repText;
+	private Spinner repPeriod;
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -83,6 +94,16 @@ public class AddIncomeActivity extends Activity implements
 		
 		Button button = (Button) findViewById(R.id.income_date);
 		
+		oneOff = (CheckBox) findViewById(R.id.income_oneoff_checkbox);
+		repLength = (EditText) findViewById(R.id.income_repetition_length);
+		repText = (TextView) findViewById(R.id.income_repetition_text);
+		repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
+		
+		oneOff.setChecked(true);
+		repLength.setEnabled(false);
+		repText.setEnabled(false);
+		repPeriod.setEnabled(false);
+		
 		extras = getIntent().getExtras();
 		
 		if (extras != null) {
@@ -90,11 +111,15 @@ public class AddIncomeActivity extends Activity implements
 		    c = db.getIncomeId(currentId);
 		    c.moveToFirst();
 		    TextView incomeName = (TextView) findViewById(R.id.income_name);
-		    incomeName.append(c.getString(DatabaseHelper.INCOME_NAME));
+		    String name = c.getString(DatabaseHelper.INCOME_NAME);
+		    incomeName.setText(name);
 		    TextView incomeAmount = (TextView) findViewById(R.id.income_amount);
-		    incomeAmount.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    String amount = c.getString(DatabaseHelper.INCOME_AMOUNT);
+		    incomeAmount.setText(amount);
 		    //TextView incomeCategory = (TextView) findViewById(R.id.income_category);
-		    //incomeCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));
+		    //incomeCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));		    
+
+			this.setTitle("Edit Income: "+name+" (£"+amount+")");
 		    
 		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		    String date = c.getString(DatabaseHelper.INCOME_DATE);
@@ -108,21 +133,25 @@ public class AddIncomeActivity extends Activity implements
 		    incomeSpinner.setSelection((index >= 0 && index < incomeCategories.size()) ? index : 0);
 		    
 		    if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals("0")) {
-		    	CheckBox oneoff = (CheckBox) findViewById(R.id.income_oneoff_checkbox);
-		    	oneoff.setChecked(!oneoff.isChecked());
-		    	
-		    	EditText repLength = (EditText) findViewById(R.id.income_repetition_length);
-				TextView repText = (TextView) findViewById(R.id.income_repetition_text);
-				Spinner repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
-				
+		    	oneOff.setChecked(true);
 		    	repLength.setEnabled(false);
 				repText.setEnabled(false);
 				repPeriod.setEnabled(false);
+		    } else if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals("4")) {
+		    	oneOff.setVisibility(View.GONE);
+		    	repLength.setVisibility(View.GONE);
+				repPeriod.setVisibility(View.GONE);
+				repText.setEnabled(true);
+				repText.setText("Part of a series");
 		    }
 		    else {
 		    	TextView incomeRepLen = (TextView) findViewById(R.id.income_repetition_length);
 		    	incomeRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
 		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD)));
+		    	oneOff.setChecked(false);
+		    	repLength.setEnabled(true);
+				repText.setEnabled(true);
+				repPeriod.setEnabled(true);
 		    }
 		}
 		else {
@@ -158,9 +187,8 @@ public class AddIncomeActivity extends Activity implements
 
 			if (nameBox.getText().toString().length() > 0
 					&& amountBox.getText().toString().length() > 0
-					&& ((((CheckBox) findViewById(R.id.income_oneoff_checkbox))
-							.isChecked()) || repBox.getText().toString()
-							.length() > 0) && incomeCategories.size() > 0) {
+					&& (oneOff.isChecked() || repBox.getText().toString().length() > 0)
+					&& incomeCategories.size() > 0) {
 
 				// Get name data
 				String name = ((EditText) findViewById(R.id.income_name))
@@ -177,8 +205,7 @@ public class AddIncomeActivity extends Activity implements
 				// Get repetition data
 				int repetition_period;
 				int repetition_length;
-				if (((CheckBox) findViewById(R.id.income_oneoff_checkbox))
-						.isChecked()) {
+				if (oneOff.isChecked()) {
 					repetition_period = 0;
 					repetition_length = 0;
 				} else {
@@ -215,10 +242,24 @@ public class AddIncomeActivity extends Activity implements
 							repetition_length, notes, categoryId, notification_id);
 				}
 				else {
-					db.addIncome(name, amount, date, repetition_period,
+					// Add to db
+					int seriesID = db.addIncome(name, amount, date, repetition_period,
 							repetition_length, notes, categoryId, notification_id);
+					
+					// Series
+					if (repetition_length != ONE_0FF) {
+						for (int i=0; i<repetition_length; i++) {
+							switch (repetition_period) {
+								case WEEK :	date = Util.addWeeksToDate(date, 1); break;
+								case MONTH : date = Util.addMonthsToDate(date, 1); break;
+								case YEAR :	date = Util.addYearsToDate(date, 1); break;
+								default : break;
+							}
+							db.addIncome(name, amount, date, SERIES, seriesID,
+									notes, categoryId, notification_id);
+						}
+					}
 				}
-				
 				finish();
 			}
 
@@ -288,19 +329,8 @@ public class AddIncomeActivity extends Activity implements
 	}
 
 	public void clickCheckbox(View v) {
-
-		EditText repLength = (EditText) findViewById(R.id.income_repetition_length);
-		TextView repText = (TextView) findViewById(R.id.income_repetition_text);
-		Spinner repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
-
-		if (((CheckBox) findViewById(R.id.income_oneoff_checkbox)).isChecked()) {
-			repLength.setEnabled(false);
-			repText.setEnabled(false);
-			repPeriod.setEnabled(false);
-		} else {
-			repLength.setEnabled(true);
-			repText.setEnabled(true);
-			repPeriod.setEnabled(true);
-		}
+		repLength.setEnabled(!oneOff.isChecked());
+		repText.setEnabled(!oneOff.isChecked());
+		repPeriod.setEnabled(!oneOff.isChecked());
 	}
 }

@@ -3,8 +3,10 @@ package com.greighamilton.moneymanagement.views;
 import java.util.List;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -90,7 +92,6 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 		// Get selection status
 		String month = Util.makeMonthString(monthSpinner.getSelectedItemPosition()+1);
 		String year = (String) yearSpinner.getSelectedItem();
-		int category = listOfCategoryIDs.get(categorySpinner.getSelectedItemPosition());
 		boolean allDates = allDatesCheckBox.isChecked();
 		boolean allCategories = allCategoriesCheckBox.isChecked();
 		
@@ -98,11 +99,15 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
     	if (selectedTab == TAB_INCOME) {
     		listOfCategories = db.getIncomeCategoryList();
     		listOfCategoryIDs = db.getIncomeCategoryIDList();
+    		int category = 0;
+    		if (!listOfCategoryIDs.isEmpty()) category = listOfCategoryIDs.get(categorySpinner.getSelectedItemPosition());    		
     		c = db.getSpecifiedIncome(month, year, category, allDates, allCategories);
     		setListAdapter(new IncomeListAdapter(this, c));
     	} else {
     		listOfCategories = db.getExpenseCategoryList();
     		listOfCategoryIDs = db.getExpenseCategoryIDList();
+    		int category = 0;
+    		if (!listOfCategoryIDs.isEmpty()) category = listOfCategoryIDs.get(categorySpinner.getSelectedItemPosition());    	
     		c = db.getSpecifiedExpenses(month, year, category, allDates, allCategories);
     		setListAdapter(new ExpenseListAdapter(this, c));
     	}
@@ -266,12 +271,117 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     	selectedTab = tab.getPosition();
     	selectedItem = null;
+    	
+    	if (categorySpinner != null) {
+    	
+	    	// Change list of categories
+	    	if (selectedTab == 0) {
+	    		listOfCategories = db.getIncomeCategoryList();
+	    		listOfCategoryIDs = db.getIncomeCategoryIDList();
+	    	} else {
+	    		listOfCategories = db.getExpenseCategoryList();
+	    		listOfCategoryIDs = db.getExpenseCategoryIDList();
+	    	}
+	    	
+	    	// Update listadapter for categories spinner
+			ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listOfCategories);
+			categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			categorySpinner.setAdapter(categoryAdapter);
+			categorySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+					init();
+				}
+	
+				@Override
+				public void onNothingSelected(AdapterView<?> parentView) {
+				}
+			});
+		
+    	}
     	init();
     }
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
+    
+	protected void showDeleteDialog() {
+
+    	new AlertDialog.Builder(ViewIncExpActivity.this)
+        .setTitle("Delete")
+        .setMessage("Are you sure you want to delete this?")
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	
+            	// Continue with delete
+            	if (selectedTab == TAB_INCOME) {
+            		if (db.getIncomeRepetitionPeriod(selectedItem) != 0) {
+                		showDeleteSeriesDialog();
+            		} else {
+                		db.deleteIncome(selectedItem);
+	            		init();
+                		Toast.makeText(ViewIncExpActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
+                	}
+            	} else {
+            		if (db.getExpenseRepetitionPeriod(selectedItem) != 0) {
+                		showDeleteSeriesDialog();
+                	} else {
+                		db.deleteExpense(selectedItem);
+                		init();
+                		Toast.makeText(ViewIncExpActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
+                	}            		
+            	}
+            }
+         })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+                // do nothing
+            }
+         })
+         .show();
+	}
+	
+	protected void showDeleteSeriesDialog() {
+
+    	new AlertDialog.Builder(ViewIncExpActivity.this)
+        .setTitle("Delete Series")
+        .setMessage("Delete the whole series, or just this one?")
+        .setPositiveButton("Whole Series", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            	// Delete series
+            	if (selectedTab == TAB_INCOME) {
+               		db.deleteIncomeSeries(db.getIncomeSeriesID(selectedItem));
+        			init();
+                	Toast.makeText(ViewIncExpActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+            	} else {
+               		db.deleteExpenseSeries(db.getExpenseSeriesID(selectedItem));
+               		init();
+            		Toast.makeText(ViewIncExpActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            	}
+            }
+         })
+        .setNeutralButton("Just This", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            	// Just delete this
+            	if (selectedTab == TAB_INCOME) {
+               		db.deleteIncome(selectedItem);
+               		init();
+                	Toast.makeText(ViewIncExpActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+            	} else {
+            		db.deleteExpense(selectedItem);
+            		init();
+            		Toast.makeText(ViewIncExpActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            	}
+            }
+         })
+        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+            	// Do nothing
+            }
+         })
+         .show();    	
+	}
     
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 		
@@ -312,17 +422,9 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 	            
 	            // Delete clicked
 	            case R.id.context_incexp_delete:
-	            	if (selectedTab == TAB_INCOME) {
-	            		db.deleteIncome(selectedItem);
-	            		init();
-	            		Toast.makeText(ViewIncExpActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
-	            		mode.finish();
-	            	} else {
-	            		db.deleteExpense(selectedItem);
-	            		init();
-	            		Toast.makeText(ViewIncExpActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
-	            		mode.finish();
-	            	} return true;
+	            	showDeleteDialog();
+	            	mode.finish();
+	            	return true;
 	            	
 	            default:
 	            	mode.finish();
