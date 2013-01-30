@@ -10,16 +10,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
+        android:background="@color/grey1"
         android:gravity="center" >
-
-        <TextView
-            android:id="@+id/summary_filter_textview_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Filter: "
-            android:textStyle="italic"
-            android:gravity="center" />
 
         <Spinner
             android:id="@+id/incexp_month"
@@ -100,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="IN £xxxx"
+                    android:textColor="@color/green1"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
         </LinearLayout>
@@ -182,6 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="OUT £xxxx"
+                    android:textColor="@color/red1"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
             </LinearLayout>
         </LinearLayout>

@@ -63,9 +63,9 @@
     <EditText
         android:id="@+id/category_description"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:ems="10"
-        android:hint="Description"
+        android:hint="Description (optional)"
         android:inputType="textMultiLine" />
 
 </LinearLayout>

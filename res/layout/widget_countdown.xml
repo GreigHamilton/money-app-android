@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/grey1"
     android:gravity="center"
+    android:onClick="clickWidget"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:onClick="clickWidget" >
+    android:padding="10dp" >
 
     <TextView
         android:id="@+id/days"
@@ -32,4 +32,12 @@
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/colour"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@color/grey2"
+        android:paddingTop="10dp" >
+    </LinearLayout>
+    
+ </LinearLayout>

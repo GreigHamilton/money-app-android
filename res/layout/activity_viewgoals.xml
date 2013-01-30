@@ -4,21 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <Spinner
+        android:id="@+id/goal_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/goal_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="My Goal"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="ITEM"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +24,7 @@
         android:padding="20dp" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/goal_image"
             android:layout_width="match_parent"
             android:layout_height="fill_parent" />
     </LinearLayout>
@@ -56,7 +53,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/TextView03"
+                android:id="@+id/goal_needed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="£xxxx.xx"
@@ -89,7 +86,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/TextView01"
+                android:id="@+id/goal_saved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="£xxxx.xx"
@@ -122,7 +119,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/goal_to_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="£xxxx.xx"

@@ -2,24 +2,15 @@
  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
          android:orientation="vertical"
          android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:paddingLeft="8dp"
-         android:paddingRight="8dp">
+         android:layout_height="match_parent">
 
      <LinearLayout
-        android:id="@+id/incexp_linearlayout_1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-         <TextView
-             android:id="@+id/incexp_textview_1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_weight="2"
-             android:textStyle="italic"
-             android:text="Filter: " />
+         android:id="@+id/incexp_linearlayout_1"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/grey1"
+         android:orientation="horizontal"
+         android:padding="10dp" >
 
          <CheckBox
              android:id="@+id/incexp_all_dates"
@@ -60,10 +51,14 @@
                android:layout_width="match_parent"
                android:layout_height="0dp"
                android:layout_weight="1"
-               android:drawSelectorOnTop="false"/>
+               android:choiceMode="singleChoice"
+               android:listSelector="@color/blue1"
+               android:drawSelectorOnTop="false"
+               android:padding="5dp"/>
 
      <TextView android:id="@id/android:empty"
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:text="At the moment it is empty"/>
+               android:text="At the moment it is empty"
+               android:padding="5dp"/>
  </LinearLayout>

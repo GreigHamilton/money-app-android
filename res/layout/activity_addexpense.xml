@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="20dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="OR Repeat for" />
+                android:text="Repeat for" />
 
             <EditText
                 android:id="@+id/expense_repetition_length"
