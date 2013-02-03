@@ -231,13 +231,13 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 
 				// Get data for notification checkbox
 				int notification_id;
-				if (((CheckBox) findViewById(R.id.expense_notification))
-						.isChecked()) {
-					notification_id = 1;
-					// TODO Create a notification
-				} else {
+//				if (((CheckBox) findViewById(R.id.expense_notification))
+//						.isChecked()) {
+//					notification_id = 1;
+//					// TODO Create a notification
+//				} else {
 					notification_id = 0;
-				}
+//				}
 				
 				if (extras != null) {
 					db.updateExpense(currentId, name, amount, date, repetition_period,

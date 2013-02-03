@@ -53,11 +53,6 @@ public class ViewSummaryActivity extends Activity {
 	private String selectedItem;			// income or expense ID
 	private LinearLayout selectedView;		// selected block
 
-	private int[] greens = new int[] { R.color.green1, R.color.green2,
-			R.color.green3, R.color.green4, R.color.green5, R.color.green6 };
-	private int[] reds = new int[] { R.color.red1, R.color.red2, R.color.red3,
-			R.color.red4, R.color.red5, R.color.red6 };
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -256,7 +251,7 @@ public class ViewSummaryActivity extends Activity {
 			block.setBackgroundColor(Color.parseColor(categoryColour));
 			block.setTag(categoryColour);
 			block.setGravity(Gravity.CENTER);
-			block.setPadding(0, 0, 0, 5);
+			block.setPadding(0, 5, 0, 5);
 			TextView text = new TextView(this);
 			text.setText(name + " - £" + amount);
 			block.addView(text);

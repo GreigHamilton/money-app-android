@@ -56,13 +56,13 @@ public class AddGoalActivity extends Activity {
 					.getText().toString();
 
 			// Get amount to save data
-			int needed = (Integer
-					.parseInt(((EditText) findViewById(R.id.add_goal_amount_to_save))
+			float needed = (Float
+					.parseFloat(((EditText) findViewById(R.id.add_goal_amount_to_save))
 							.getText().toString()));
 
 			// Get amount saved data
-			int saved = (Integer
-					.parseInt(((EditText) findViewById(R.id.add_goal_amount_saved))
+			float saved = (Float
+					.parseFloat(((EditText) findViewById(R.id.add_goal_amount_saved))
 							.getText().toString()));
 
 			String image = imagePath; // TODO add image
@@ -75,9 +75,10 @@ public class AddGoalActivity extends Activity {
 	}
 
 	public void clickImage(View v) {
-		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-		photoPickerIntent.setType("image/*");
-		startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+		Toast.makeText(this, "This feature is not supported yet.", Toast.LENGTH_SHORT).show();
+//		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+//		photoPickerIntent.setType("image/*");
+//		startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 	}
 
 	public void clickSave(View v) {

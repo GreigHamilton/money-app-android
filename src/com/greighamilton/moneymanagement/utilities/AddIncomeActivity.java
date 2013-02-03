@@ -229,13 +229,13 @@ public class AddIncomeActivity extends Activity implements
 
 				// Get data for notification checkbox
 				int notification_id;
-				if (((CheckBox) findViewById(R.id.income_notification))
-						.isChecked()) {
-					notification_id = 1;
-					// TODO Create a notification
-				} else {
+//				if (((CheckBox) findViewById(R.id.income_notification))
+//						.isChecked()) {
+//					notification_id = 1;
+//					// TODO Create a notification
+//				} else {
 					notification_id = 0;
-				}
+//				}
 				
 				if (extras != null) {
 					db.updateIncome(currentId, name, amount, date, repetition_period,

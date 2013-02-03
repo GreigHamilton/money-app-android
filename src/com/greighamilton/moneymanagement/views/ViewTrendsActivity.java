@@ -103,7 +103,7 @@ public class ViewTrendsActivity extends Activity {
 		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		frame.setOrientation(LinearLayout.VERTICAL);
 		frame.setGravity(Gravity.CENTER_HORIZONTAL);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue1 : R.color.blue2);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
 		
 		// Month text
 		TextView text = new TextView(this);
@@ -117,7 +117,7 @@ public class ViewTrendsActivity extends Activity {
 		layout.setLayoutParams(new LayoutParams(150, LayoutParams.MATCH_PARENT));
 		layout.setOrientation(LinearLayout.HORIZONTAL);
 		layout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue1 : R.color.blue2);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
 		layout.setWeightSum(2.0f);
 		layout.setPadding(10, 10, 10, 10);		
 
@@ -126,7 +126,7 @@ public class ViewTrendsActivity extends Activity {
 		incomeLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 		incomeLayout.setOrientation(LinearLayout.VERTICAL);
 		incomeLayout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue1 : R.color.blue2);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
 		incomeLayout.setWeightSum(scale);
 		incomeLayout.setPadding(10, 10, 0, 10);
 		
@@ -156,7 +156,7 @@ public class ViewTrendsActivity extends Activity {
 		expenseLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 		expenseLayout.setOrientation(LinearLayout.VERTICAL);
 		expenseLayout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue1 : R.color.blue2);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
 		expenseLayout.setWeightSum(scale);
 		expenseLayout.setPadding(0, 10, 10, 10);
 		

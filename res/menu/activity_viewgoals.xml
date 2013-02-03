@@ -1,8 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/viewgoals_menu_addgoal"
-          android:icon="@drawable/ic_menu_add"
-          android:title="Add Goal"
-          android:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/viewgoals_menu_addgoal"
+        android:icon="@drawable/ic_menu_add"
+        android:showAsAction="ifRoom|withText"
+        android:title="Add Goal"/>
+    <item
+        android:id="@+id/viewgoals_menu_removegoal"
+        android:icon="@drawable/ic_menu_delete"
+        android:showAsAction="ifRoom|withText"
+        android:title="Remove Goal"/>
 
 </menu>

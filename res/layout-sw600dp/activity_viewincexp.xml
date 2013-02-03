@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+         android:orientation="vertical"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+     <LinearLayout
+         android:id="@+id/incexp_linearlayout_1"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@color/grey1"
+         android:orientation="horizontal"
+         android:padding="10dp" >
+
+         <CheckBox
+             android:id="@+id/incexp_all_dates"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="All Dates" />
+
+        <Spinner
+            android:id="@+id/incexp_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+        <Spinner
+            android:id="@+id/incexp_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+        
+        <CheckBox
+             android:id="@+id/incexp_all_categories"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="All Categories"
+             android:checked="true" />
+        
+        <Spinner
+            android:id="@+id/incexp_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+     <ListView android:id="@id/android:list"
+               android:layout_width="match_parent"
+               android:layout_height="0dp"
+               android:layout_weight="1"
+               android:choiceMode="singleChoice"
+               android:listSelector="@color/blue1"
+               android:drawSelectorOnTop="false"
+               android:padding="5dp"/>
+
+     <TextView android:id="@id/android:empty"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:text="At the moment it is empty"
+               android:padding="5dp"/>
+ </LinearLayout>

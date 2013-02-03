@@ -1,103 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/expense_linearlayout_1"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_height="fill_parent" >
 
-    <!-- Name -->
-    <EditText
-        android:id="@+id/expense_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Name" >
-        <requestFocus />
-    </EditText>
-
-    <!-- Amount -->
-    <EditText
-        android:id="@+id/expense_amount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Amount"
-        android:inputType="numberDecimal" >
-    </EditText>
-
-    <!-- Category -->
     <LinearLayout
-        android:id="@+id/expense_linearlayout_2"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/expense_linearlayout_1"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp" >
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/expense_category_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Category" />
+            android:layout_gravity="center"
+            android:text="NAME AND AMOUNT"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blue1" />
 
-        <Spinner
-            android:id="@+id/expense_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="20" />
-
-        <Button
-            android:id="@+id/expense_addcategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add Category"
-            android:onClick="addCategory" />
-
-    </LinearLayout>
-
-    <!-- Date -->
-    <Button
-        android:id="@+id/expense_date"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="selectDate"
-        android:padding="10dp"
-        android:text="Date" />
-
-    <RelativeLayout
-        android:id="@+id/expense_relativelayout_1"
-        android:layout_width="fill_parent"
-        android:layout_height="241dp"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <CheckBox
-            android:id="@+id/expense_notification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Set Notification" />
-
+        <!-- Name -->
 
         <EditText
-            android:id="@+id/expense_notes"
+            android:id="@+id/expense_name"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@id/expense_notification"
-            android:layout_below="@+id/expense_linearlayout_3"
+            android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Notes (Optional)"
-            android:inputType="textMultiLine" />
+            android:hint="Name (e.g. Rent)" >
+
+            <requestFocus />
+        </EditText>
+
+        <!-- Amount -->
+
+        <EditText
+            android:id="@+id/expense_amount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Amount (e.g. 400)"
+            android:inputType="numberDecimal" >
+        </EditText>
+
+        <!-- Category -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="20dp"
+            android:text="CATEGORY"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blue1" />
+
+        <!-- Category -->
+
+        <LinearLayout
+            android:id="@+id/expense_linearlayout_2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp" >
+
+            <Spinner
+                android:id="@+id/expense_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="20" />
+
+            <Button
+                android:id="@+id/expense_addcategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="addCategory"
+                android:text="Add Category" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="20dp"
+            android:text="DATE AND RECURRENCE"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blue1" />
+
+        <!-- Date -->
+
+        <Button
+            android:id="@+id/expense_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:onClick="selectDate"
+            android:padding="10dp"
+            android:text="Date" />
+
+        <!-- Repetition -->
 
         <LinearLayout
             android:id="@+id/expense_linearlayout_3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:orientation="horizontal"
-            android:padding="10dp" >
+            android:orientation="vertical"
+            android:padding="5dp" >
 
             <CheckBox
                 android:id="@+id/expense_oneoff_checkbox"
@@ -107,28 +112,52 @@
                 android:onClick="clickCheckbox"
                 android:text="One-Off" />
 
-            <TextView
-                android:id="@+id/expense_repetition_text"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Repeat for" />
+                android:orientation="horizontal" >
 
-            <EditText
-                android:id="@+id/expense_repetition_length"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="19"
-                android:ems="10"
-                android:inputType="number" />
+                <TextView
+                    android:id="@+id/expense_repetition_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Repeat for"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <Spinner
-                android:id="@+id/expense_repetition_period"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="19" />
+                <EditText
+                    android:id="@+id/expense_repetition_length"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:ems="10"
+                    android:inputType="number" />
+
+                <Spinner
+                    android:id="@+id/expense_repetition_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="15" />
+            </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="20dp"
+            android:text="NOTES"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blue1" />
+
+        <EditText
+            android:id="@+id/expense_notes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Additional Info (Optional)"
+            android:inputType="textMultiLine" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="My Goal"
+        android:textColor="@color/blue1"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
@@ -25,25 +26,55 @@
 
         <ImageView
             android:id="@+id/goal_image"
+        	android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:src="@drawable/ic_add_picture"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:onClick="clickImage" />
+        
+            <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/add_to_savings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Add to Savings"
+                    android:onClick="clickAddToSavings" />
+
+                <Button
+                    android:id="@+id/remove_from_savings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="Remove from Savings"
+                    android:onClick="clickRemoveFromSavings" />
+        
+                </LinearLayout>"
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="2" >
+        android:layout_weight="2"
+        android:gravity="center" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="              "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/TextView04"
@@ -65,18 +96,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="2" >
+        android:layout_weight="2"
+        android:gravity="center" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/TextView05"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="              "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_height="wrap_content"
+        android:gravity="center" >
 
             <TextView
                 android:id="@+id/TextView02"
@@ -98,18 +124,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="2" >
+        android:layout_weight="2"
+        android:gravity="center" >
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/TextView06"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="              "
-                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/textView3"

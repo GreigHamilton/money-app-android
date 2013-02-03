@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -102,6 +103,7 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
     		int category = 0;
     		if (!listOfCategoryIDs.isEmpty()) category = listOfCategoryIDs.get(categorySpinner.getSelectedItemPosition());    		
     		c = db.getSpecifiedIncome(month, year, category, allDates, allCategories);
+    		Log.i("", ""+c.getCount());
     		setListAdapter(new IncomeListAdapter(this, c));
     	} else {
     		listOfCategories = db.getExpenseCategoryList();
@@ -245,23 +247,30 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
         return true;
     }
     
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-      
-      case R.id.viewincexp_menu_addincome:
-    	  Intent i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
-    	  ViewIncExpActivity.this.startActivity(i);
-      break;
-        
-      case R.id.viewincexp_menu_addexpense:
-  	  	Intent j = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
-  	  	ViewIncExpActivity.this.startActivity(j);
-      break;
-      
-      }
-      return super.onOptionsItemSelected(item);
-    }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+
+		switch (item.getItemId()) {
+
+		case R.id.viewincexp_menu_addincome:
+			i = new Intent(ViewIncExpActivity.this, AddIncomeActivity.class);
+			ViewIncExpActivity.this.startActivity(i);
+			break;
+
+		case R.id.viewincexp_menu_addexpense:
+			i = new Intent(ViewIncExpActivity.this, AddExpenseActivity.class);
+			ViewIncExpActivity.this.startActivity(i);
+			break;
+
+		case R.id.viewincexp_menu_categories:
+			i = new Intent(ViewIncExpActivity.this, ViewCategoriesActivity.class);
+			ViewIncExpActivity.this.startActivity(i);
+			break;
+
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

@@ -625,7 +625,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return db.query("GOAL", null, "_id="+id, null, null, null, null);
 	}
 	
-	public int addGoal(String name, int needed, int saved, String image) {
+	public void deleteGoal(int id) {
+		db.delete("GOAL", "_id="+id, null);
+	}
+	
+	public int addGoal(String name, float needed, float saved, String image) {
 		ContentValues cv = new ContentValues(5);
 		cv.put("_id", nextGoalID());
 		cv.put("name", name);
@@ -634,6 +638,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		cv.put("image", image);
 
 		return (int) db.insert("GOAL", null, cv);
+	}
+	
+	public void updateGoalSaved(int id, float amount) {
+		Cursor c = getGoal(id);
+		if (c.moveToFirst()) {
+			ContentValues cv = new ContentValues(5);
+			cv.put("name", c.getString(DatabaseHelper.GOAL_NAME));
+			cv.put("needed", c.getFloat(DatabaseHelper.GOAL_NEEDED));
+			cv.put("saved", amount);
+			cv.put("image", c.getString(DatabaseHelper.GOAL_IMAGE));
+			db.update("GOAL", cv, "_id="+id, null);	
+		}
+		Log.w("Update Goal", "Goal not found");
+	}
+	
+	public float getGoalSaved(int id) {
+		Cursor c = db.rawQuery("SELECT * " +
+				"    			FROM GOAL "+
+				"               WHERE _id = "+id, null);
+		if (c.moveToFirst()) return c.getFloat(DatabaseHelper.GOAL_SAVED);
+		else return 0f;
 	}
 	
 	//
