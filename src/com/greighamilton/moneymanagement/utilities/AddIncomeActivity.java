@@ -195,8 +195,8 @@ public class AddIncomeActivity extends Activity implements
 						.getText().toString();
 
 				// Get amount data
-				int amount = (Integer
-						.parseInt(((EditText) findViewById(R.id.income_amount))
+				float amount = (Float
+						.parseFloat(((EditText) findViewById(R.id.income_amount))
 								.getText().toString()));
 
 				// Get date		

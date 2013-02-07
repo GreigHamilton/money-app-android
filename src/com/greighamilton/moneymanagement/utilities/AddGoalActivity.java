@@ -50,24 +50,32 @@ public class AddGoalActivity extends Activity {
 			break;
 
 		case R.id.goal_menu_save:
+			
+			try {
 
-			// Get name data
-			String name = ((EditText) findViewById(R.id.add_goal_name))
-					.getText().toString();
+				// Get name data
+				String name = ((EditText) findViewById(R.id.add_goal_name))
+						.getText().toString();
 
-			// Get amount to save data
-			float needed = (Float
-					.parseFloat(((EditText) findViewById(R.id.add_goal_amount_to_save))
-							.getText().toString()));
+				// Get amount to save data
+				float needed = (Float
+						.parseFloat(((EditText) findViewById(R.id.add_goal_amount_to_save))
+								.getText().toString()));
 
-			// Get amount saved data
-			float saved = (Float
-					.parseFloat(((EditText) findViewById(R.id.add_goal_amount_saved))
-							.getText().toString()));
+				// Get amount saved data
+				float saved = (Float
+						.parseFloat(((EditText) findViewById(R.id.add_goal_amount_saved))
+								.getText().toString()));
 
-			String image = imagePath; // TODO add image
+				String image = imagePath; // TODO add image
 
-			db.addGoal(name, needed, saved, image); 
+				db.addGoal(name, needed, saved, image);
+
+			} catch (Exception e) {
+				Toast.makeText(this, "Please complete all fields",
+						Toast.LENGTH_SHORT).show();
+			}
+			
 			finish();
 			break;
 		}

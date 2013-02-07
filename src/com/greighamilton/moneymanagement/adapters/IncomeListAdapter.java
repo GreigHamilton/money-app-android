@@ -33,7 +33,7 @@ public class IncomeListAdapter extends CursorAdapter {
 		TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
 
 		incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
-		incomeAmount.setText(Integer.toString(c.getInt(DatabaseHelper.INCOME_AMOUNT)));
+		incomeAmount.setText("£"+Float.toString(c.getFloat(DatabaseHelper.INCOME_AMOUNT)));
 		incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
 		

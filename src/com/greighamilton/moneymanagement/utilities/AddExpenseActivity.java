@@ -196,8 +196,8 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 						.getText().toString();
 
 				// Get amount data
-				int amount = (Integer
-						.parseInt(((EditText) findViewById(R.id.expense_amount))
+				float amount = (Float
+						.parseFloat(((EditText) findViewById(R.id.expense_amount))
 								.getText().toString()));
 
 				// Get date		

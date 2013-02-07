@@ -274,7 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("INCOME", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
-	public int addIncome(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public int addIncome(String name, float amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextIncomeID());
 		cv.put("name", name);
@@ -289,7 +289,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return (int) db.insert("INCOME", null, cv);
 	}
 	
-	public void updateIncome(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public void updateIncome(String id, String name, float amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		
 		cv.put("name", name);
@@ -394,7 +394,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			return db.query("EXPENSE", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
 
-	public int addExpense(String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public int addExpense(String name, float amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		cv.put("_id", nextExpenseID());
 		cv.put("name", name);
@@ -409,7 +409,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return (int) db.insert("EXPENSE", null, cv);
 	}
 	
-	public void updateExpense(String id, String name, int amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
+	public void updateExpense(String id, String name, float amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
 		
 		cv.put("name", name);
