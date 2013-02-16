@@ -104,6 +104,13 @@ public class AddCategoryActivity extends Activity {
 			else
 				description = ((EditText) findViewById(R.id.category_description))
 						.getText().toString();
+			// check status of color code
+			if (colorCode == null) {
+				if (((RadioButton) findViewById(R.id.category_type_income)).isChecked())
+					colorCode = getResources().getString(R.color.Green);
+				else
+					colorCode = getResources().getString(R.color.Red);
+			}
 			
 			if (extras != null) {
 				db.updateCategory(currentId, name, type, colorCode, description);
