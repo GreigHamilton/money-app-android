@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
@@ -45,6 +46,8 @@ public class DashboardActivity extends Activity {
 		super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 		setContentView(R.layout.activity_dashboard);
+		
+		Update.doUpdate(this);
 	}
 	
 	@Override
