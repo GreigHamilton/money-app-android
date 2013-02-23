@@ -1,5 +1,6 @@
 package com.greighamilton.moneymanagement.util;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -192,5 +193,22 @@ public class Util {
 			return date;
 		}
 	}
+	
+	public static String floatFormat(float number) {
+		BigDecimal bd = new BigDecimal(number);
+		BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return ""+rounded;
+	}
 
+	public static String floatFormat(int number) {
+		BigDecimal bd = new BigDecimal(number);
+		BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return ""+rounded;
+	}
+	
+	public static String floatFormat(String number) {
+		BigDecimal bd = new BigDecimal(number);
+		BigDecimal rounded = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return ""+rounded;
+	}
 }

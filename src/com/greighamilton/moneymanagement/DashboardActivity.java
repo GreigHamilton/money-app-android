@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.external.HintsActivity;
 import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
@@ -142,6 +143,12 @@ public class DashboardActivity extends Activity {
 		case R.id.dashboard_menu_viewincexp:
 			i = new Intent(DashboardActivity.this,
 					ViewIncExpActivity.class);
+			DashboardActivity.this.startActivity(i);
+			break;
+			
+		case R.id.dashboard_menu_viewhints:
+			i = new Intent(DashboardActivity.this,
+					HintsActivity.class);
 			DashboardActivity.this.startActivity(i);
 			break;
 			

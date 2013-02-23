@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 
 public class IncomeListAdapter extends CursorAdapter {
 	
@@ -33,7 +34,7 @@ public class IncomeListAdapter extends CursorAdapter {
 		TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
 
 		incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
-		incomeAmount.setText("£"+Float.toString(c.getFloat(DatabaseHelper.INCOME_AMOUNT)));
+		incomeAmount.setText("£"+Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.INCOME_AMOUNT))));
 		incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
 		

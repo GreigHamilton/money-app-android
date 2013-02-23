@@ -12,6 +12,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -147,7 +148,7 @@ public class AddIncomeActivity extends Activity implements
 		    else {
 		    	TextView incomeRepLen = (TextView) findViewById(R.id.income_repetition_length);
 		    	incomeRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
-		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD)));
+		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD))-1);
 		    	oneOff.setChecked(false);
 		    	repLength.setEnabled(true);
 				repText.setEnabled(true);

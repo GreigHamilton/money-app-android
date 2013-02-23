@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.utilities.AddGoalActivity;
@@ -68,6 +70,9 @@ public class ViewGoalsActivity extends Activity {
 		progress = (ProgressBar) findViewById(R.id.progress);
 
 		setUpSpinner();
+		
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
 	private void setUpSpinner() {
@@ -205,6 +210,14 @@ public class ViewGoalsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
+		case android.R.id.home:
+        	
+            // app icon in action bar clicked; go home
+            Intent intent = new Intent(this, DashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+            
 		case R.id.viewgoals_menu_addgoal:
 			Intent k = new Intent(ViewGoalsActivity.this, AddGoalActivity.class);
 			ViewGoalsActivity.this.startActivity(k);

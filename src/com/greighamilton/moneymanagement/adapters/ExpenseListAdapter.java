@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 
 public class ExpenseListAdapter extends CursorAdapter {
 	private LayoutInflater inflater;
@@ -35,7 +36,7 @@ public class ExpenseListAdapter extends CursorAdapter {
 		TextView expenseNotes = (TextView) view.findViewById(R.id.expense_notes);
 
 		expenseName.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
-		expenseAmount.setText("£"+Float.toString(c.getFloat(DatabaseHelper.EXPENSE_AMOUNT)));
+		expenseAmount.setText("£"+Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.EXPENSE_AMOUNT))));
 		expenseDate.setText(c.getString(DatabaseHelper.EXPENSE_DATE));
 		expenseNotes.setText(c.getString(DatabaseHelper.EXPENSE_NOTES));
 
