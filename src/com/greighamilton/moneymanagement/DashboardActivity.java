@@ -30,6 +30,7 @@ import com.greighamilton.moneymanagement.external.HintsActivity;
 import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
+import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 import com.greighamilton.moneymanagement.views.ViewIncExpActivity;
 import com.greighamilton.moneymanagement.views.ViewSummaryActivity;
@@ -149,6 +150,16 @@ public class DashboardActivity extends Activity {
 		case R.id.dashboard_menu_viewhints:
 			i = new Intent(DashboardActivity.this,
 					HintsActivity.class);
+			DashboardActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewincexp_menu_addincome:
+			i = new Intent(DashboardActivity.this, AddIncomeActivity.class);
+			DashboardActivity.this.startActivity(i);
+			break;
+
+		case R.id.viewincexp_menu_addexpense:
+			i = new Intent(DashboardActivity.this, AddExpenseActivity.class);
 			DashboardActivity.this.startActivity(i);
 			break;
 			

@@ -3,12 +3,12 @@
     <item android:id="@+id/viewincexp_menu_addincome"
           android:icon="@drawable/ic_menu_add_income"
           android:title="Add Income"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="always|withText" />"
     
     <item android:id="@+id/viewincexp_menu_addexpense"
           android:icon="@drawable/ic_menu_add_expense"
           android:title="Add Expense"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="always|withText" />
     
     <item android:id="@+id/viewincexp_menu_categories"
           android:title="Categories"

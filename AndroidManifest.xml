@@ -39,7 +39,7 @@
         <activity android:name="com.greighamilton.moneymanagement.views.ViewCategoriesActivity" android:label="Categories" />
         <activity android:name="com.greighamilton.moneymanagement.views.ViewTrendsActivity" android:label="Income/Expense Trends" />
         <activity android:name="com.greighamilton.moneymanagement.views.ViewSummaryActivity" android:label="Income/Expense Visualiser" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewIncExpActivity" android:label="Income/Expense List" />
+        <activity android:name="com.greighamilton.moneymanagement.views.ViewIncExpActivity" android:label="Income/Expense List" android:uiOptions="splitActionBarWhenNarrow" />
         
         <activity android:name="com.greighamilton.moneymanagement.external.HintsActivity" android:label="Hints &amp; Tips" />
     </application>

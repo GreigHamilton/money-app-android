@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.adapters.CategoryListAdapter;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -47,7 +48,9 @@ public class ViewCategoriesActivity extends ListActivity implements ActionBar.Ta
         actionBar.addTab(actionBar.newTab().setText("Income").setTabListener(this));
         actionBar.addTab(actionBar.newTab().setText("Expenses").setTabListener(this));
         
-        refreshList();		
+        refreshList();
+        
+	    actionBar.setDisplayHomeAsUpEnabled(true);
     }
     
     public void refreshList() {    	
@@ -79,17 +82,26 @@ public class ViewCategoriesActivity extends ListActivity implements ActionBar.Ta
         getMenuInflater().inflate(R.menu.activity_viewcategories, menu);
         return true;
     }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-          case R.id.viewcategories_menu_addcategory:
-    	  Intent i = new Intent(ViewCategoriesActivity.this, AddCategoryActivity.class);
-    	  ViewCategoriesActivity.this.startActivity(i);
-    	  break;      
-      }
-      return super.onOptionsItemSelected(item);
-    }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.viewcategories_menu_addcategory:
+			Intent i = new Intent(ViewCategoriesActivity.this,
+					AddCategoryActivity.class);
+			ViewCategoriesActivity.this.startActivity(i);
+			break;
+
+		case android.R.id.home:
+
+			// app icon in action bar clicked; go home
+			Intent intent = new Intent(this, ViewIncExpActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
     @Override
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
