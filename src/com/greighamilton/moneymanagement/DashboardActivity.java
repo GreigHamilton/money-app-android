@@ -153,12 +153,12 @@ public class DashboardActivity extends Activity {
 			DashboardActivity.this.startActivity(i);
 			break;
 			
-		case R.id.viewincexp_menu_addincome:
+		case R.id.dashboard_menu_addincome:
 			i = new Intent(DashboardActivity.this, AddIncomeActivity.class);
 			DashboardActivity.this.startActivity(i);
 			break;
 
-		case R.id.viewincexp_menu_addexpense:
+		case R.id.dashboard_menu_addexpense:
 			i = new Intent(DashboardActivity.this, AddExpenseActivity.class);
 			DashboardActivity.this.startActivity(i);
 			break;
