@@ -238,12 +238,27 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 //				} else {
 					notification_id = 0;
 //				}
+					
+				boolean reAdd = false;
 				
+				// Edit (not Add)
 				if (extras != null) {
-					db.updateExpense(currentId, name, amount, date, repetition_period,
-							repetition_length, notes, categoryId, notification_id);
+					
+					boolean repetitionPeriodChanged = db.getExpenseRepetitionPeriod(currentId) != repetition_period;
+					boolean repetitionLengthChanged = db.getExpenseRepetitionLength(currentId) != repetition_length;
+					
+					if (repetitionPeriodChanged || repetitionLengthChanged) {
+						db.deleteExpenseSeries(currentId);
+						reAdd = true; // we need to delete the series, and re-add this entry
+					} else {
+						db.updateExpense(currentId, name, amount, date, repetition_period,
+								repetition_length, notes, categoryId, notification_id);
+					}
 				}
-				else {
+				
+				// Add
+				if (extras == null || reAdd) {
+					
 					// Add to db
 					int seriesID = db.addExpense(name, amount, date, repetition_period,
 							repetition_length, notes, categoryId, notification_id);
@@ -261,8 +276,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 									notes, categoryId, notification_id);
 						}
 					}
-				}
-				
+				}				
 				finish();
 			}
 

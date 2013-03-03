@@ -334,10 +334,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return (!c.isAfterLast()) ? c.getInt(INCOME_REPETITION_PERIOD) : 0;
 	}
 	
+	public int getIncomeRepetitionLength(String index) {
+		Cursor c = db.rawQuery("SELECT * FROM INCOME WHERE _id = "+index, null);
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getInt(INCOME_REPETITION_LENGTH) : 0;
+	}
+	
 	public int getExpenseRepetitionPeriod(String index) {
 		Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
 		c.moveToFirst();
 		return (!c.isAfterLast()) ? c.getInt(EXPENSE_REPETITION_PERIOD) : 0;
+	}
+	
+	public int getExpenseRepetitionLength(String index) {
+		Cursor c = db.rawQuery("SELECT * FROM EXPENSE WHERE _id = "+index, null);
+		c.moveToFirst();
+		return (!c.isAfterLast()) ? c.getInt(EXPENSE_REPETITION_LENGTH) : 0;
 	}
 
 	public int nextIncomeID() {
@@ -658,6 +670,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				"    			FROM GOAL "+
 				"               WHERE _id = "+id, null);
 		if (c.moveToFirst()) return c.getFloat(DatabaseHelper.GOAL_SAVED);
+		else return 0f;
+	}
+	
+	public float getGoalNeeded(int id) {
+		Cursor c = db.rawQuery("SELECT * " +
+				"    			FROM GOAL "+
+				"               WHERE _id = "+id, null);
+		if (c.moveToFirst()) return c.getFloat(DatabaseHelper.GOAL_NEEDED);
 		else return 0f;
 	}
 	

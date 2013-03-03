@@ -139,7 +139,7 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 			}
 			});
 		
-		allDatesCheckBox.setChecked(true);
+		allDatesCheckBox.setChecked(false);
 		allCategoriesCheckBox.setChecked(true);
 	}
 	
@@ -211,9 +211,9 @@ public class ViewIncExpActivity extends ListActivity implements ActionBar.TabLis
 		yearSpinner.setSelection(listOfYears.indexOf(currentYearText));
 		//categorySpinner.setSelection( DEFAULT );
 		
-    	// Initially hide
-    	monthSpinner.setVisibility(View.INVISIBLE);
-    	yearSpinner.setVisibility(View.INVISIBLE);
+    	// Initially show dates and hide categories
+    	monthSpinner.setVisibility(View.VISIBLE);
+    	yearSpinner.setVisibility(View.VISIBLE);
     	categorySpinner.setVisibility(View.INVISIBLE);
 	}
     

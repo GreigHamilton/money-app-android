@@ -237,12 +237,27 @@ public class AddIncomeActivity extends Activity implements
 //				} else {
 					notification_id = 0;
 //				}
+					
+				boolean reAdd = false;
 				
+				// Edit (not Add)
 				if (extras != null) {
-					db.updateIncome(currentId, name, amount, date, repetition_period,
-							repetition_length, notes, categoryId, notification_id);
+					
+					boolean repetitionPeriodChanged = db.getIncomeRepetitionPeriod(currentId) != repetition_period;
+					boolean repetitionLengthChanged = db.getIncomeRepetitionLength(currentId) != repetition_length;
+					
+					if (repetitionPeriodChanged || repetitionLengthChanged) {
+						db.deleteIncomeSeries(currentId);
+						reAdd = true; // we need to delete the series, and re-add this entry
+					} else {
+						db.updateIncome(currentId, name, amount, date, repetition_period,
+								repetition_length, notes, categoryId, notification_id);
+					}
 				}
-				else {
+				
+				// Add
+				if (extras == null || reAdd) {
+					
 					// Add to db
 					int seriesID = db.addIncome(name, amount, date, repetition_period,
 							repetition_length, notes, categoryId, notification_id);

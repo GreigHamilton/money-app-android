@@ -33,10 +33,14 @@ import android.widget.Toast;
 import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.utilities.AddGoalActivity;
 
 public class ViewGoalsActivity extends Activity {
 
+	private static final boolean ADD = true;
+	private static final boolean REMOVE = false;	
+	
 	private DatabaseHelper db;
 
 	private List<String> listOfGoals;
@@ -119,9 +123,9 @@ public class ViewGoalsActivity extends Activity {
 				String imagePath = c.getString(DatabaseHelper.GOAL_IMAGE);
 
 				nameText.setText(c.getString(DatabaseHelper.GOAL_NAME));
-				neededText.setText("£ " + selectedNeeded);
-				savedText.setText("£ " + selectedSaved);
-				toSaveText.setText("£ " + (selectedNeeded - selectedSaved));
+				neededText.setText("£ " + Util.floatFormat(selectedNeeded));
+				savedText.setText("£ " + Util.floatFormat(selectedSaved));
+				toSaveText.setText("£ " + Util.floatFormat((selectedNeeded - selectedSaved)));
 				
 				progress.setMax(selectedNeeded);
 				progress.setProgress(selectedSaved);
@@ -226,10 +230,7 @@ public class ViewGoalsActivity extends Activity {
 			break;
 		case R.id.viewgoals_menu_removegoal:
 			if (!listOfGoals.isEmpty()) {
-				db.deleteGoal(listOfGoalIDs.get(selectedItem));
-				Toast.makeText(this, "Goal Removed", Toast.LENGTH_SHORT).show();
-				setUpSpinner();
-				refreshView();
+				showDeleteDialog();
 			} else {
 				Toast.makeText(this, "No Goal Selected", Toast.LENGTH_SHORT).show();
 			}
@@ -240,11 +241,11 @@ public class ViewGoalsActivity extends Activity {
 	}
 	
 	public void clickAddToSavings(View v) {
-		showAddDialog(true);
+		showAddRemoveDialog(ADD);
 	}
 	
 	public void clickRemoveFromSavings(View v) {
-		showAddDialog(false);
+		showAddRemoveDialog(REMOVE);
 	}
 	
 	public void clickImage(View v) {
@@ -254,7 +255,7 @@ public class ViewGoalsActivity extends Activity {
 //		startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 	}
 	
-	protected void showAddDialog(final boolean add) {
+	protected void showAddRemoveDialog(final boolean add) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setTitle((add) ? "Add to Savings" : "Remove from Savings"); 
@@ -269,15 +270,27 @@ public class ViewGoalsActivity extends Activity {
         public void onClick(DialogInterface dialog, int whichButton) {
             try {
             	if (add) {
+            		float amountSaved = db.getGoalSaved(listOfGoalIDs.get(selectedItem));
+            		float amountNeeded = db.getGoalNeeded(listOfGoalIDs.get(selectedItem));            		
             		float amountToAdd = Integer.parseInt(input.getText().toString());
-            		float amountSaved = db.getGoalSaved(listOfGoalIDs.get(selectedItem)) + amountToAdd;
+            		
+            		amountToAdd = Math.min(amountToAdd, amountNeeded-amountSaved); // cap at maximum
+            		amountSaved += amountToAdd;
+            		
             		db.updateGoalSaved(listOfGoalIDs.get(selectedItem), amountSaved);
-            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+amountSaved, Toast.LENGTH_SHORT).show();
+            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
+            		if (amountSaved == amountNeeded) {
+            			Toast.makeText(ViewGoalsActivity.this, "Congratulations! You have reached your goal!", Toast.LENGTH_SHORT).show();        		
+            		}
             	} else {
+            		float amountSaved = db.getGoalSaved(listOfGoalIDs.get(selectedItem));
             		float amountToRemove = Integer.parseInt(input.getText().toString());
-            		float amountSaved = db.getGoalSaved(listOfGoalIDs.get(selectedItem)) - amountToRemove;
+            		
+            		amountToRemove = Math.min(amountToRemove, amountSaved); // cap at maximum
+            		amountSaved -= amountToRemove;
+            		
             		db.updateGoalSaved(listOfGoalIDs.get(selectedItem), amountSaved);
-            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+amountSaved, Toast.LENGTH_SHORT).show();
+            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
             	}
             } catch(NumberFormatException nfe) {
                System.out.println("Could not parse " + nfe);
@@ -293,5 +306,26 @@ public class ViewGoalsActivity extends Activity {
           }
         });
         alert.show();
+	}
+	
+	protected void showDeleteDialog() {
+
+    	new AlertDialog.Builder(ViewGoalsActivity.this)
+        .setTitle("Delete")
+        .setMessage("Are you sure you want to delete this?")
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {            	
+            	db.deleteGoal(listOfGoalIDs.get(selectedItem));
+	            setUpSpinner();
+	            refreshView();
+                Toast.makeText(ViewGoalsActivity.this, "Goal removed", Toast.LENGTH_SHORT).show();
+            }
+         })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) { 
+                // do nothing
+            }
+         })
+         .show();
 	}
 }

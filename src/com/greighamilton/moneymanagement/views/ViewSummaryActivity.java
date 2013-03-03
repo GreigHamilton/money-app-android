@@ -1,5 +1,6 @@
 package com.greighamilton.moneymanagement.views;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,13 +60,18 @@ public class ViewSummaryActivity extends Activity {
 		setContentView(R.layout.activity_viewsummary);
 
 		db = DatabaseHelper.getInstance(this);
-
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    
 		// start-up only show current month only
 		monthReq = Util.getTodaysMonth();
 		yearReq = Util.getTodaysYear();
 		
 		setSpinnerContent();
-		setUpVisualisation();
+		setUpVisualisation();		
 	}
 
 	private void setSpinnerContent() {
@@ -187,7 +193,7 @@ public class ViewSummaryActivity extends Activity {
 			extraBlock.setGravity(Gravity.CENTER);
 			
 			TextView t = new TextView(this);
-			t.setText("Disposable Income - £" + disposableIncome);
+			t.setText("Disposable Income: £" + disposableIncome);
 			t.setTypeface(Typeface.DEFAULT_BOLD);
 			
 			LinearLayout whiteBlock = new LinearLayout(this);
@@ -212,7 +218,7 @@ public class ViewSummaryActivity extends Activity {
 			extraBlock.setGravity(Gravity.CENTER);
 			
 			TextView t = new TextView(this);
-			t.setText("Overspending - £" + -disposableIncome);
+			t.setText("Overspending: £" + -disposableIncome);
 			t.setTypeface(Typeface.DEFAULT_BOLD);
 			
 			LinearLayout whiteBlock = new LinearLayout(this);
@@ -253,7 +259,7 @@ public class ViewSummaryActivity extends Activity {
 			block.setGravity(Gravity.CENTER);
 			block.setPadding(0, 5, 0, 5);
 			TextView text = new TextView(this);
-			text.setText(name + " - £" + amount);
+			text.setText(name + ": £" + amount);
 			block.addView(text);
 			block.setOnClickListener(new OnClickListener() {
 				   @Override
@@ -296,7 +302,7 @@ public class ViewSummaryActivity extends Activity {
 			block.setTag(categoryColour);
 			block.setGravity(Gravity.CENTER);
 			TextView text = new TextView(this);
-			text.setText(name + " - £" + amount);
+			text.setText(name + ": £" + amount);
 			block.addView(text);
 			block.setOnClickListener(new OnClickListener() {
 				   @Override
@@ -438,7 +444,7 @@ public class ViewSummaryActivity extends Activity {
 	        // Inflate a menu resource providing context menu items
 	        MenuInflater inflater = mode.getMenuInflater();
 	        inflater.inflate(R.menu.context_incexp, menu);
-		    selectedView.setBackgroundColor(getResources().getColor(R.color.blue1));
+		    selectedView.setBackgroundColor(getResources().getColor(R.color.blue2));
 	        return true;
 	    }
 

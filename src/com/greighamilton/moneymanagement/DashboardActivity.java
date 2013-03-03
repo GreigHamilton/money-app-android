@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +42,8 @@ public class DashboardActivity extends Activity {
 	private DatabaseHelper db;
 	private List<LinearLayout> widgets;
 	
-	private int selectedItem;
+	private LinearLayout selectedWidget;
+	private int selectedExpenseID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,16 @@ public class DashboardActivity extends Activity {
 	    
 		db = DatabaseHelper.getInstance(this);
 		widgets = new ArrayList<LinearLayout>();
-		selectedItem = 0;
+		selectedWidget = null;
+		selectedExpenseID = 0;
 		
 		setUpWidgets();
 		
 	}
 
-	private void setUpWidgets() {		
+	private void setUpWidgets() {
+		
+		widgets.clear();
 		
 		// Query upcoming expenses
 		Cursor c = db.getExpensesByDate(Util.getTodaysDate(), null,	Util.ASCENDING);
@@ -103,9 +108,15 @@ public class DashboardActivity extends Activity {
 				}
 				c.moveToNext();
 			}
-
+			
 			GridView grid = (GridView) findViewById(R.id.grid_of_widgets);
-			grid.setAdapter(new WidgetAdapter(this, widgets));
+			if (grid.getAdapter() == null) {
+				grid.setAdapter(new WidgetAdapter(this, widgets));
+			} else {
+				((WidgetAdapter) grid.getAdapter()).setWidgets(widgets);
+				grid.invalidateViews();
+			}			
+			
 		}
 	}
 
@@ -181,8 +192,15 @@ public class DashboardActivity extends Activity {
 	}
 	
 	public void clickWidget(View v) {
-		String expenseID = (String) v.getTag();
-		selectedItem = Integer.parseInt(expenseID);
+		
+		// if a widget is already selected - 'deselect it'
+		if (selectedWidget != null) {
+			selectedWidget.setBackgroundColor(getResources().getColor(R.color.grey1));
+		}
+		
+		selectedWidget = (LinearLayout) v;
+		String expenseID = (String) selectedWidget.getTag();
+		selectedExpenseID = Integer.parseInt(expenseID);	
 		startActionMode(mActionModeCallback);
 	}
 	
@@ -221,6 +239,10 @@ public class DashboardActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			return widgets.get(position);
 		}
+		
+		public void setWidgets(List<LinearLayout> w) {
+			widgets = w;
+		}
 
 	}
 	
@@ -231,7 +253,10 @@ public class DashboardActivity extends Activity {
 	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 	        // Inflate a menu resource providing context menu items
 	        MenuInflater inflater = mode.getMenuInflater();
-	        inflater.inflate(R.menu.context_incexp, menu);			
+	        inflater.inflate(R.menu.context_incexp, menu);
+			TextView description = (TextView) (selectedWidget.findViewById(R.id.description));
+			description.setSelected(true); // start marquee			
+			selectedWidget.setBackgroundColor(getResources().getColor(R.color.blue2));
 	        return true;
 	    }
 
@@ -245,32 +270,34 @@ public class DashboardActivity extends Activity {
 	    // Called when the user selects a contextual menu item
 	    @Override
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-	    	Intent i;
-	    	// Get selected item ID
-	        switch (item.getItemId()) {
-	        	
-	        // Edit clicked
-	            case R.id.context_incexp_edit:
-	            	i = new Intent(DashboardActivity.this, AddExpenseActivity.class);
-	            	i.putExtra("CURRENT_ID", ""+selectedItem);
-	            	startActivity(i);
-	            	mode.finish();
-	            	return true;
-	            
-	            // Delete clicked
-	            case R.id.context_incexp_delete:
-	            	showDeleteDialog();
-	            	mode.finish();
-	            	return true;
-	            	
-	            default:
-	            	mode.finish();
-	                return false;
-	        }
+			Intent i;
+			
+			// Get selected item ID
+			switch (item.getItemId()) {
+
+			// Edit clicked
+			case R.id.context_incexp_edit:
+				i = new Intent(DashboardActivity.this, AddExpenseActivity.class);
+				i.putExtra("CURRENT_ID", "" + selectedExpenseID);
+				startActivity(i);
+				mode.finish();
+				return true;
+
+				// Delete clicked
+			case R.id.context_incexp_delete:
+				showDeleteDialog();
+				mode.finish();
+				return true;
+
+			default:
+				mode.finish();
+				return false;
+			}
 	    }
 	    // Called when the user exits the action mode
 	    @Override
 	    public void onDestroyActionMode(ActionMode mode) {
+			selectedWidget.setBackgroundColor(getResources().getColor(R.color.grey1));
 	    	mode = null;
 	    }
 	};
@@ -282,10 +309,10 @@ public class DashboardActivity extends Activity {
         .setMessage("Are you sure you want to delete this?")
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {            	
-        		if (db.getExpenseRepetitionPeriod(""+selectedItem) != 0) {
+        		if (db.getExpenseRepetitionPeriod(""+selectedExpenseID) != 0) {
             		showDeleteSeriesDialog();
             	} else {
-            		db.deleteExpense(""+selectedItem);
+            		db.deleteExpense(""+selectedExpenseID);
             		setUpWidgets();
             		Toast.makeText(DashboardActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
             	}
@@ -307,14 +334,14 @@ public class DashboardActivity extends Activity {
         .setPositiveButton("Whole Series", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
             	// Delete series
-            	db.deleteExpenseSeries(db.getExpenseSeriesID(""+selectedItem));
+            	db.deleteExpenseSeries(db.getExpenseSeriesID(""+selectedExpenseID));
                	setUpWidgets();
             	Toast.makeText(DashboardActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
          })
         .setNeutralButton("Just This", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) { 
-            	    db.deleteExpense(""+selectedItem);
+            	    db.deleteExpense(""+selectedExpenseID);
             		setUpWidgets();
             		Toast.makeText(DashboardActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();
             }
