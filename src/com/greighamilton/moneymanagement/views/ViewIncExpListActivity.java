@@ -69,7 +69,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        setContentView(R.layout.activity_viewincexp);        
+        setContentView(R.layout.activity_incexp_list);        
 
         setUpActionBar();
         db = DatabaseHelper.getInstance(this);
@@ -300,7 +300,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_viewincexp, menu);
+        getMenuInflater().inflate(R.menu.activity_incexp_list, menu);
         return true;
     }
     

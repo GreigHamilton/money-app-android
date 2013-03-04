@@ -41,7 +41,7 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_viewincexp_options_dialog, container);
+        View view = inflater.inflate(R.layout.fragment_incexp_list_options_dialog, container);
         getDialog().setTitle("Options");
         
         // Watch for editButton clicks.
