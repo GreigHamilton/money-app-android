@@ -2,11 +2,15 @@ package com.greighamilton.moneymanagement.views;
 
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -14,14 +18,20 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
+import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
+import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 
-public class ViewTrendsActivity extends Activity {
+public class ViewIncExpTrendsActivity extends Activity {
 
+	private OnNavigationListener mOnNavigationListener;
 	private DatabaseHelper db;
 
 	private LinearLayout myGallery;
@@ -35,13 +45,52 @@ public class ViewTrendsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_viewtrends);
 
+		setUpActionBar();
 		db = DatabaseHelper.getInstance(this);
 
 		myGallery = (LinearLayout) findViewById(R.id.gallery_view);
 		
 		setUpSpinner();
 		resetView();
-
+	}
+	
+	private void setUpActionBar() {
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setTitle(null);
+		
+		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.incexp_views_2,
+				R.layout.spinner_item_navigator);
+		
+		mOnNavigationListener = new OnNavigationListener() {
+			  @Override
+			  public boolean onNavigationItemSelected(int position, long itemId) {
+				  Intent i;
+				  switch (position) {
+				  case 0:	break;
+				  case 1:	i = new Intent(ViewIncExpTrendsActivity.this, DashboardActivity.class);
+		  					startActivity(i);
+		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+		  					break;
+				  case 2:	i = new Intent(ViewIncExpTrendsActivity.this, ViewIncExpVisualiserActivity.class);
+		  					startActivity(i);
+		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+		  					break;
+				  case 3:	i = new Intent(ViewIncExpTrendsActivity.this, ViewIncExpListActivity.class);
+		  					startActivity(i);
+		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+				  			break;
+				  default:	break;
+				  }
+				  return true;
+			  }
+		};
+		
+		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);		
 	}
 
 	public void setUpSpinner() {		
@@ -91,6 +140,50 @@ public class ViewTrendsActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_viewtrends, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+
+		switch (item.getItemId()) {
+
+		case R.id.viewtrends_menu_addincome:
+			i = new Intent(ViewIncExpTrendsActivity.this, AddIncomeActivity.class);
+			ViewIncExpTrendsActivity.this.startActivity(i);
+			break;
+
+		case R.id.viewtrends_menu_addexpense:
+			i = new Intent(ViewIncExpTrendsActivity.this, AddExpenseActivity.class);
+			ViewIncExpTrendsActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewtrends_menu_feedback:
+			i = new Intent(Intent.ACTION_SEND);
+			i.setType("text/plain");
+			i.putExtra(Intent.EXTRA_EMAIL, "greigyboi@gmail.com");
+			i.putExtra(Intent.EXTRA_SUBJECT, "Money Management Evaluation Feedback");
+			i.putExtra(Intent.EXTRA_TEXT, "What is going well: " + '\n' + '\n' + '\n' +
+					"What I'm having problems with: " + '\n' + '\n' + '\n' +
+					"What I like: " + '\n' + '\n' + '\n' +
+					"What I would change: " + '\n' + '\n' + '\n' +
+					"Other comments: " + '\n');
+
+			startActivity(Intent.createChooser(i, "Send Feedback"));
+			break;
+
+		case R.id.viewtrends_menu_viewgoals:
+			i = new Intent(ViewIncExpTrendsActivity.this, ViewGoalsActivity.class);
+			ViewIncExpTrendsActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewtrends_menu_viewhints:
+			i = new Intent(ViewIncExpTrendsActivity.this, HintsTipsActivity.class);
+			ViewIncExpTrendsActivity.this.startActivity(i);
+			break;
+
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private View createMonthView(String year, int month) {

@@ -11,6 +11,29 @@
         android:background="@color/grey1"
         android:orientation="vertical"
         android:padding="5dp" >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            
+            <Button
+                android:id="@+id/incexp_income_button"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:text="Income"
+            	android:onClick="onIncomeButtonClick" />
+            
+            <Button
+                android:id="@+id/incexp_expenses_button"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:text="Expenses"
+            	android:onClick="onExpensesButtonClick" />
+            
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -33,8 +33,8 @@ import android.widget.Toast;
 import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.entry.AddGoalActivity;
 import com.greighamilton.moneymanagement.util.Util;
-import com.greighamilton.moneymanagement.utilities.AddGoalActivity;
 
 public class ViewGoalsActivity extends Activity {
 

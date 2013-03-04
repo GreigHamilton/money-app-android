@@ -37,7 +37,7 @@ import android.widget.TextView;
 import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 
-public class HintsActivity extends ListActivity {
+public class HintsTipsActivity extends ListActivity {
 
 	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
 
@@ -70,7 +70,7 @@ public class HintsActivity extends ListActivity {
 		private ProgressDialog progressDialog;
 
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(HintsActivity.this, "", "Loading Feed. Please wait...", true);
+			progressDialog = ProgressDialog.show(HintsTipsActivity.this, "", "Loading Feed. Please wait...", true);
 		}
 
 		@Override
@@ -131,7 +131,7 @@ public class HintsActivity extends ListActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			progressDialog.dismiss();
-			setListAdapter(new TweetListAdaptor(HintsActivity.this, R.layout.list_item, tweets));
+			setListAdapter(new TweetListAdaptor(HintsTipsActivity.this, R.layout.list_item, tweets));
 			getListView().setOnItemClickListener(new OnItemClickListener()
 			{
 			    @Override

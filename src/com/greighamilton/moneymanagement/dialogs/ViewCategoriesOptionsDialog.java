@@ -16,7 +16,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
-import com.greighamilton.moneymanagement.utilities.AddCategoryActivity;
+import com.greighamilton.moneymanagement.entry.AddCategoryActivity;
 
 public class ViewCategoriesOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	

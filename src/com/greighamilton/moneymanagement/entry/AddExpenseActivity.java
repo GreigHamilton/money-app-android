@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement.utilities;
+package com.greighamilton.moneymanagement.entry;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -31,8 +31,7 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.util.Util;
 
-public class AddIncomeActivity extends Activity implements
-		OnItemSelectedListener {
+public class AddExpenseActivity extends Activity implements	OnItemSelectedListener {
 	
 	private static final int ONE_0FF = 0;
 	private static final int WEEK = 1;
@@ -40,19 +39,19 @@ public class AddIncomeActivity extends Activity implements
 	private static final int YEAR = 3;
 	private static final int SERIES = 4;
 
-	private int day;
-	private int month;
-	private int year;
+	int day;
+	int month;
+	int year;
 
-	private Spinner incomeSpinner;
-	private Spinner repetitionSpinner;
-	private List<String> incomeCategories;
-	private List<Integer> incomeCategoryIDs;
+	Spinner expenseSpinner;
+	Spinner repetitionSpinner;
+	List<String> expenseCategories;
+	List<Integer> expenseCategoryIDs;
 	
-	private CheckBox oneOff;
-	private EditText repLength;
-	private TextView repText;
-	private Spinner repPeriod;
+	CheckBox oneOff;
+	EditText repLength;
+	TextView repText;
+	Spinner repPeriod;
 
 	private DatabaseHelper db;
 	private Cursor c;
@@ -62,43 +61,43 @@ public class AddIncomeActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_addincome);
+		setContentView(R.layout.activity_addexpense);
 	}
 	
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    
+
 		db = DatabaseHelper.getInstance(this);
 		
 		day = Util.getTodaysDay();
 		month = Util.getTodaysMonth();
 		year = Util.getTodaysYear();
 		
-		// Spinner for income categories
-		incomeSpinner = (Spinner) findViewById(R.id.income_category);
-		incomeCategories = db.getIncomeCategoryList();
-		incomeCategoryIDs = db.getIncomeCategoryIDList();
-
-		ArrayAdapter<String> incomeAdapter = new ArrayAdapter<String>(this,	android.R.layout.simple_spinner_item, incomeCategories);
-		incomeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		incomeSpinner.setAdapter(incomeAdapter);
-		if (incomeCategories.isEmpty())	incomeSpinner.setEnabled(false);
+		// Spinner for expense categories
+		expenseSpinner = (Spinner) findViewById(R.id.expense_category);
+		expenseCategories = db.getExpenseCategoryList();
+		expenseCategoryIDs = db.getExpenseCategoryIDList();
+		
+		ArrayAdapter<String> expenseAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, expenseCategories);
+		expenseAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		expenseSpinner.setAdapter(expenseAdapter);
+		if (expenseCategories.isEmpty()) expenseSpinner.setEnabled(false);
+		
 		// Spinner for repetition period
-		repetitionSpinner = (Spinner) findViewById(R.id.income_repetition_period);
-		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter
-				.createFromResource(this, R.array.repetition_array,
+		repetitionSpinner = (Spinner) findViewById(R.id.expense_repetition_period);
+		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array,
 						android.R.layout.simple_spinner_item);
 		repetitionAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
 		
-		Button button = (Button) findViewById(R.id.income_date);
+		Button button = (Button) findViewById(R.id.expense_date);		
 		
-		oneOff = (CheckBox) findViewById(R.id.income_oneoff_checkbox);
-		repLength = (EditText) findViewById(R.id.income_repetition_length);
-		repText = (TextView) findViewById(R.id.income_repetition_text);
-		repPeriod = (Spinner) findViewById(R.id.income_repetition_period);
+		oneOff = (CheckBox) findViewById(R.id.expense_oneoff_checkbox);
+		repLength = (EditText) findViewById(R.id.expense_repetition_length);
+		repText = (TextView) findViewById(R.id.expense_repetition_text);
+		repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
 		
 		oneOff.setChecked(true);
 		repLength.setEnabled(false);
@@ -109,18 +108,18 @@ public class AddIncomeActivity extends Activity implements
 		
 		if (extras != null) {
 		    currentId = extras.getString("CURRENT_ID");
-		    c = db.getIncomeId(currentId);
+		    c = db.getExpenseId(currentId);
 		    c.moveToFirst();
-		    TextView incomeName = (TextView) findViewById(R.id.income_name);
-		    String name = c.getString(DatabaseHelper.INCOME_NAME);
-		    incomeName.setText(name);
-		    TextView incomeAmount = (TextView) findViewById(R.id.income_amount);
-		    String amount = c.getString(DatabaseHelper.INCOME_AMOUNT);
-		    incomeAmount.setText(amount);
-		    //TextView incomeCategory = (TextView) findViewById(R.id.income_category);
-		    //incomeCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));		    
+		    TextView expenseName = (TextView) findViewById(R.id.expense_name);
+		    String name = c.getString(DatabaseHelper.EXPENSE_NAME);
+		    expenseName.append(name);
+		    TextView expenseAmount = (TextView) findViewById(R.id.expense_amount);
+		    String amount = c.getString(DatabaseHelper.EXPENSE_AMOUNT);
+		    expenseAmount.append(amount);
+		    //TextView expenseCategory = (TextView) findViewById(R.id.expense_category);
+		    //expenseCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));		    
 
-			this.setTitle("Edit Income: "+name+" (£"+amount+")");
+			this.setTitle("Edit Expense: "+name+" (£"+amount+")");
 		    
 		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		    String date = c.getString(DatabaseHelper.INCOME_DATE);
@@ -129,26 +128,27 @@ public class AddIncomeActivity extends Activity implements
 		    month = Util.getMonthFromString(date);
 		    year = Util.getYearFromString(date);
 		    
-		    int category = c.getInt(DatabaseHelper.INCOME_CATEGORY_ID);
-		    int index = incomeCategoryIDs.indexOf((Integer) category);
-		    incomeSpinner.setSelection((index >= 0 && index < incomeCategories.size()) ? index : 0);
+		    int category = c.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID);
+		    int index = expenseCategoryIDs.indexOf((Integer) category);
+		    expenseSpinner.setSelection((index >= 0 && index < expenseCategories.size()) ? index : 0);
 		    
-		    if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals("0")) {
+		    Log.i("Exp Rep Per", c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD));
+		    
+		    if (c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD).equals("0")) {
 		    	oneOff.setChecked(true);
 		    	repLength.setEnabled(false);
 				repText.setEnabled(false);
 				repPeriod.setEnabled(false);
-		    } else if (c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD).equals("4")) {
+		    } else if (c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD).equals("4")) {
 		    	oneOff.setVisibility(View.GONE);
 		    	repLength.setVisibility(View.GONE);
 				repPeriod.setVisibility(View.GONE);
 				repText.setEnabled(true);
 				repText.setText("Part of a series");
-		    }
-		    else {
-		    	TextView incomeRepLen = (TextView) findViewById(R.id.income_repetition_length);
-		    	incomeRepLen.append(c.getString(DatabaseHelper.INCOME_REPETITION_LENGTH));
-		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.INCOME_REPETITION_PERIOD))-1);
+		    } else {
+		    	TextView expenseRepLen = (TextView) findViewById(R.id.expense_repetition_length);
+		    	expenseRepLen.setText(c.getString(DatabaseHelper.EXPENSE_REPETITION_LENGTH));
+		    	repetitionSpinner.setSelection(Integer.parseInt(c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD))-1);  // add one so one-off is period 0
 		    	oneOff.setChecked(false);
 		    	repLength.setEnabled(true);
 				repText.setEnabled(true);
@@ -164,11 +164,11 @@ public class AddIncomeActivity extends Activity implements
 			button.setText(date);
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_addincome, menu);
+		getMenuInflater().inflate(R.menu.activity_addexpense, menu);
 		return true;
 	}
 
@@ -176,28 +176,28 @@ public class AddIncomeActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-		case R.id.income_menu_cancel:
+		case R.id.expense_menu_cancel:
 			finish();
 			break;
 
-		case R.id.income_menu_save:
+		case R.id.expense_menu_save:
 
-			EditText nameBox = (EditText) findViewById(R.id.income_name);
-			EditText amountBox = (EditText) findViewById(R.id.income_amount);
-			EditText repBox = (EditText) findViewById(R.id.income_repetition_length);
+			EditText nameBox = (EditText) findViewById(R.id.expense_name);
+			EditText amountBox = (EditText) findViewById(R.id.expense_amount);
+			EditText repBox = (EditText) findViewById(R.id.expense_repetition_length);
 
 			if (nameBox.getText().toString().length() > 0
 					&& amountBox.getText().toString().length() > 0
-					&& (oneOff.isChecked() || repBox.getText().toString().length() > 0)
-					&& incomeCategories.size() > 0) {
+					&& ((oneOff.isChecked()) || repBox.getText().toString().length() > 0)
+					&& expenseCategories.size() > 0) {
 
 				// Get name data
-				String name = ((EditText) findViewById(R.id.income_name))
+				String name = ((EditText) findViewById(R.id.expense_name))
 						.getText().toString();
 
 				// Get amount data
 				float amount = (Float
-						.parseFloat(((EditText) findViewById(R.id.income_amount))
+						.parseFloat(((EditText) findViewById(R.id.expense_amount))
 								.getText().toString()));
 
 				// Get date		
@@ -209,28 +209,29 @@ public class AddIncomeActivity extends Activity implements
 				if (oneOff.isChecked()) {
 					repetition_period = 0;
 					repetition_length = 0;
+					// TODO Create a notification
 				} else {
 					repetition_period = repetitionSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
 					repetition_length = (Integer
-							.parseInt(((EditText) findViewById(R.id.income_repetition_length))
+							.parseInt(((EditText) findViewById(R.id.expense_repetition_length))
 									.getText().toString()));
 				}
 
 				// Get notes data
 				String notes;
-				if (((EditText) findViewById(R.id.income_notes)).getText()
+				if (((EditText) findViewById(R.id.expense_notes)).getText()
 						.length() == 0)
 					notes = "";
 				else
-					notes = ((EditText) findViewById(R.id.income_notes))
+					notes = ((EditText) findViewById(R.id.expense_notes))
 							.getText().toString();
 
 				// Get category id data
-				int categoryId = incomeCategoryIDs.get(incomeSpinner.getSelectedItemPosition());
+				int categoryId = expenseCategoryIDs.get(expenseSpinner.getSelectedItemPosition());
 
 				// Get data for notification checkbox
 				int notification_id;
-//				if (((CheckBox) findViewById(R.id.income_notification))
+//				if (((CheckBox) findViewById(R.id.expense_notification))
 //						.isChecked()) {
 //					notification_id = 1;
 //					// TODO Create a notification
@@ -243,14 +244,14 @@ public class AddIncomeActivity extends Activity implements
 				// Edit (not Add)
 				if (extras != null) {
 					
-					boolean repetitionPeriodChanged = db.getIncomeRepetitionPeriod(currentId) != repetition_period;
-					boolean repetitionLengthChanged = db.getIncomeRepetitionLength(currentId) != repetition_length;
+					boolean repetitionPeriodChanged = db.getExpenseRepetitionPeriod(currentId) != repetition_period;
+					boolean repetitionLengthChanged = db.getExpenseRepetitionLength(currentId) != repetition_length;
 					
 					if (repetitionPeriodChanged || repetitionLengthChanged) {
-						db.deleteIncomeSeries(currentId);
+						db.deleteExpenseSeries(currentId);
 						reAdd = true; // we need to delete the series, and re-add this entry
 					} else {
-						db.updateIncome(currentId, name, amount, date, repetition_period,
+						db.updateExpense(currentId, name, amount, date, repetition_period,
 								repetition_length, notes, categoryId, notification_id);
 					}
 				}
@@ -259,9 +260,9 @@ public class AddIncomeActivity extends Activity implements
 				if (extras == null || reAdd) {
 					
 					// Add to db
-					int seriesID = db.addIncome(name, amount, date, repetition_period,
+					int seriesID = db.addExpense(name, amount, date, repetition_period,
 							repetition_length, notes, categoryId, notification_id);
-					
+
 					// Series
 					if (repetition_length != ONE_0FF) {
 						for (int i=0; i<repetition_length; i++) {
@@ -271,11 +272,11 @@ public class AddIncomeActivity extends Activity implements
 								case YEAR :	date = Util.addYearsToDate(date, 1); break;
 								default : break;
 							}
-							db.addIncome(name, amount, date, SERIES, seriesID,
+							db.addExpense(name, amount, date, SERIES, seriesID,
 									notes, categoryId, notification_id);
 						}
 					}
-				}
+				}				
 				finish();
 			}
 
@@ -285,12 +286,10 @@ public class AddIncomeActivity extends Activity implements
 					nameBox.setError("Name is required.");
 				if (amountBox.getText().toString().length() == 0)
 					amountBox.setError("Amount is required.");
-				if (!(((CheckBox) findViewById(R.id.income_oneoff_checkbox))
-						.isChecked())
-						&& repBox.getText().toString().length() == 0)
+				if (!oneOff.isChecked()	&& repBox.getText().toString().length() == 0)
 					Toast.makeText(this, "A Repetition Must Be Set.",
 							Toast.LENGTH_SHORT).show();
-				if (incomeCategories.size() == 0)
+				if (expenseCategories.size() == 0)
 					Toast.makeText(this, "Please add a category.",
 							Toast.LENGTH_SHORT).show();
 			}
@@ -300,8 +299,8 @@ public class AddIncomeActivity extends Activity implements
 	}
 
 	public void addCategory(View v) {
-		Intent i = new Intent(AddIncomeActivity.this, AddCategoryActivity.class);
-		AddIncomeActivity.this.startActivity(i);
+		Intent i = new Intent(AddExpenseActivity.this, AddCategoryActivity.class);
+		AddExpenseActivity.this.startActivity(i);
 	}
 
 	public void selectDate(View view) {
@@ -311,7 +310,7 @@ public class AddIncomeActivity extends Activity implements
 
 	public void populateSetDate(int year, int month, int day) {
 		// Add selected date text to button
-		Button button = (Button) findViewById(R.id.income_date);
+		Button button = (Button) findViewById(R.id.expense_date);
 		button.setText(day + "/" + month + "/" + year);
 	}
 

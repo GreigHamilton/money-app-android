@@ -16,8 +16,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
-import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
-import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
+import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
+import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 
 public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	

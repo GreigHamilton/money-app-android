@@ -1,9 +1,10 @@
 package com.greighamilton.moneymanagement.views;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
@@ -25,21 +27,25 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
+import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
+import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
+import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.util.Util;
-import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
-import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 
-public class ViewSummaryActivity extends Activity {
+public class ViewIncExpVisualiserActivity extends Activity {
 
 	private static int TYPE_INCOME = 0;
 	private static int TYPE_EXPENSE = 1;
 	
 	private DatabaseHelper db;
+	private OnNavigationListener mOnNavigationListener;
 
 	private List<Integer> incomes;
 	private List<Integer> expenses;
@@ -59,6 +65,7 @@ public class ViewSummaryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_viewsummary);
 
+		setUpActionBar();
 		db = DatabaseHelper.getInstance(this);
 	}
 	
@@ -72,6 +79,46 @@ public class ViewSummaryActivity extends Activity {
 		
 		setSpinnerContent();
 		setUpVisualisation();		
+	}
+	
+	private void setUpActionBar() {
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setTitle(null);
+		
+		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.incexp_views_1,
+					R.layout.spinner_item_navigator);
+		
+		mOnNavigationListener = new OnNavigationListener() {
+			  @Override
+			  public boolean onNavigationItemSelected(int position, long itemId) {
+				  Log.i("", ""+position);
+				  Intent i;
+				  switch (position) {
+				  case 0:	break;
+				  case 1:	i = new Intent(ViewIncExpVisualiserActivity.this, DashboardActivity.class);
+							startActivity(i);
+							ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+							break;
+				  case 2:	i = new Intent(ViewIncExpVisualiserActivity.this, ViewIncExpTrendsActivity.class);
+				  			startActivity(i);
+				  			ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+				  			break;
+				  case 3:	i = new Intent(ViewIncExpVisualiserActivity.this, ViewIncExpListActivity.class);
+		  					startActivity(i);
+		  					ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							finish();
+				  			break;
+				  default:	break;
+				  }
+				  return true;
+			  }
+		};
+		
+		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 	}
 
 	private void setSpinnerContent() {
@@ -336,32 +383,51 @@ public class ViewSummaryActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent i;
+
 		switch (item.getItemId()) {
 
-		case R.id.viewsummary_menu_addincome:
-			Intent i = new Intent(ViewSummaryActivity.this,
-					AddIncomeActivity.class);
-			ViewSummaryActivity.this.startActivity(i);
+		case R.id.viewtrends_menu_addincome:
+			i = new Intent(ViewIncExpVisualiserActivity.this, AddIncomeActivity.class);
+			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
 
-		case R.id.viewsummary_menu_addexpense:
-			Intent j = new Intent(ViewSummaryActivity.this,
-					AddExpenseActivity.class);
-			ViewSummaryActivity.this.startActivity(j);
+		case R.id.viewtrends_menu_addexpense:
+			i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
+			ViewIncExpVisualiserActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewtrends_menu_feedback:
+			i = new Intent(Intent.ACTION_SEND);
+			i.setType("text/plain");
+			i.putExtra(Intent.EXTRA_EMAIL, "greigyboi@gmail.com");
+			i.putExtra(Intent.EXTRA_SUBJECT, "Money Management Evaluation Feedback");
+			i.putExtra(Intent.EXTRA_TEXT, "What is going well: " + '\n' + '\n' + '\n' +
+					"What I'm having problems with: " + '\n' + '\n' + '\n' +
+					"What I like: " + '\n' + '\n' + '\n' +
+					"What I would change: " + '\n' + '\n' + '\n' +
+					"Other comments: " + '\n');
+
+			startActivity(Intent.createChooser(i, "Send Feedback"));
 			break;
 
-		case R.id.viewsummary_menu_viewtrends:
-			Intent l = new Intent(ViewSummaryActivity.this,
-					ViewTrendsActivity.class);
-			ViewSummaryActivity.this.startActivity(l);
+		case R.id.viewtrends_menu_viewgoals:
+			i = new Intent(ViewIncExpVisualiserActivity.this, ViewGoalsActivity.class);
+			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
+			
+		case R.id.viewtrends_menu_viewhints:
+			i = new Intent(ViewIncExpVisualiserActivity.this, HintsTipsActivity.class);
+			ViewIncExpVisualiserActivity.this.startActivity(i);
+			break;
+
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
 	protected void showDeleteDialog() {
 
-    	new AlertDialog.Builder(ViewSummaryActivity.this)
+    	new AlertDialog.Builder(ViewIncExpVisualiserActivity.this)
         .setTitle("Delete")
         .setMessage("Are you sure you want to delete this?")
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -374,7 +440,7 @@ public class ViewSummaryActivity extends Activity {
                 	} else {
                 		db.deleteIncome(selectedItem);
         				setUpVisualisation();
-                		Toast.makeText(ViewSummaryActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(ViewIncExpVisualiserActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
                 	}            		
             	} else {
             		if (db.getExpenseRepetitionPeriod(selectedItem) != 0) {
@@ -382,7 +448,7 @@ public class ViewSummaryActivity extends Activity {
                 	} else {
                 		db.deleteExpense(selectedItem);
         				setUpVisualisation();
-                		Toast.makeText(ViewSummaryActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
                 	}            		
             	}
             }
@@ -397,7 +463,7 @@ public class ViewSummaryActivity extends Activity {
 	
 	protected void showDeleteSeriesDialog() {
 
-    	new AlertDialog.Builder(ViewSummaryActivity.this)
+    	new AlertDialog.Builder(ViewIncExpVisualiserActivity.this)
         .setTitle("Delete Series")
         .setMessage("Delete the whole series, or just this one?")
         .setPositiveButton("Whole Series", new DialogInterface.OnClickListener() {
@@ -406,11 +472,11 @@ public class ViewSummaryActivity extends Activity {
             	if (selectedType == TYPE_INCOME) {
                		db.deleteIncomeSeries(db.getIncomeSeriesID(selectedItem));
         			setUpVisualisation();
-                	Toast.makeText(ViewSummaryActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(ViewIncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
                		db.deleteExpenseSeries(db.getExpenseSeriesID(selectedItem));
             		setUpVisualisation();
-            		Toast.makeText(ViewSummaryActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -420,11 +486,11 @@ public class ViewSummaryActivity extends Activity {
             	if (selectedType == TYPE_INCOME) {
                		db.deleteIncome(selectedItem);
         			setUpVisualisation();
-                	Toast.makeText(ViewSummaryActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(ViewIncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
             		db.deleteExpense(selectedItem);
             		setUpVisualisation();
-            		Toast.makeText(ViewSummaryActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -465,13 +531,13 @@ public class ViewSummaryActivity extends Activity {
 	        	// Edit clicked
 	            case R.id.context_incexp_edit:
 	            	if (selectedType == TYPE_INCOME) {
-					    i = new Intent(ViewSummaryActivity.this, AddIncomeActivity.class);
+					    i = new Intent(ViewIncExpVisualiserActivity.this, AddIncomeActivity.class);
 					    i.putExtra("CURRENT_ID", selectedItem);
-					    ViewSummaryActivity.this.startActivity(i);
+					    ViewIncExpVisualiserActivity.this.startActivity(i);
 	            	} else {
-					    i = new Intent(ViewSummaryActivity.this, AddExpenseActivity.class);
+					    i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
 					    i.putExtra("CURRENT_ID", selectedItem);
-					    ViewSummaryActivity.this.startActivity(i);
+					    ViewIncExpVisualiserActivity.this.startActivity(i);
 	            	} return true;
 	            
 	            // Delete clicked

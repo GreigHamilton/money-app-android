@@ -26,6 +26,34 @@
         <item>Brown</item>
     </string-array>
     
+    <string-array name="incexp_views_0">
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense Trends</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_1">
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Trends</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_2">
+        <item>Income &amp; Expense Trends</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_3">
+        <item>Income &amp; Expense List</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense Trends</item>
+    </string-array>
+    
     <string name="edit_options"></string>
     <string-array name="edit_options">
         <item>Edit</item>

@@ -1,17 +1,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/viewincexp_menu_addincome"
-          android:icon="@drawable/ic_menu_add_income"
-          android:title="Add Income"
-          android:showAsAction="always|withText" />"
-    
-    <item android:id="@+id/viewincexp_menu_addexpense"
-          android:icon="@drawable/ic_menu_add_expense"
-          android:title="Add Expense"
-          android:showAsAction="always|withText" />
-    
-    <item android:id="@+id/viewincexp_menu_categories"
-          android:title="Categories"
-          android:showAsAction="never" />"
+    <item
+        android:id="@+id/viewincexp_menu_viewgoals"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Goals"/>
+    <item
+        android:id="@+id/viewincexp_menu_viewhints"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Hints &amp; Tips"/>
+    <item
+        android:id="@+id/viewincexp_menu_addincome"
+        android:icon="@drawable/ic_menu_add_income"
+        android:showAsAction="always|withText"
+        android:title="Add Income"/>
+    <item
+        android:id="@+id/viewincexp_menu_addexpense"
+        android:icon="@drawable/ic_menu_add_expense"
+        android:showAsAction="always|withText"
+        android:title="Add Expense"/>
+    <item
+        android:id="@+id/viewincexp_menu_feedback"
+        android:icon="@drawable/ic_menu_feedback"
+        android:showAsAction="always|withText"
+        android:title="Send Feedback"/>
+    <item
+        android:id="@+id/viewincexp_menu_categories"
+        android:showAsAction="never"
+        android:title="Categories"/>
 
 </menu>

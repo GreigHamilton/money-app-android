@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement.utilities;
+package com.greighamilton.moneymanagement.entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;

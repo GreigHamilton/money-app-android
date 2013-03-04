@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,7 +14,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,40 +21,84 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
-import com.greighamilton.moneymanagement.external.HintsActivity;
+import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
+import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
+import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
-import com.greighamilton.moneymanagement.utilities.AddExpenseActivity;
-import com.greighamilton.moneymanagement.utilities.AddIncomeActivity;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
-import com.greighamilton.moneymanagement.views.ViewIncExpActivity;
-import com.greighamilton.moneymanagement.views.ViewSummaryActivity;
-import com.greighamilton.moneymanagement.views.ViewTrendsActivity;
+import com.greighamilton.moneymanagement.views.ViewIncExpListActivity;
+import com.greighamilton.moneymanagement.views.ViewIncExpVisualiserActivity;
+import com.greighamilton.moneymanagement.views.ViewIncExpTrendsActivity;
 
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends Activity implements ActionBar.OnNavigationListener {
 
 	private DatabaseHelper db;
 	private List<LinearLayout> widgets;
 	
 	private LinearLayout selectedWidget;
 	private int selectedExpenseID;
+	
+	private OnNavigationListener mOnNavigationListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-		setContentView(R.layout.activity_dashboard);
+		setContentView(R.layout.activity_dashboard);		
 		
+		setUpActionBar();
 		Update.doUpdate(this);
 	}
 	
+	private void setUpActionBar() {
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setTitle(null);
+		
+		SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array.incexp_views_0,
+				R.layout.spinner_item_navigator);
+		
+		mOnNavigationListener = new OnNavigationListener() {
+			  @Override
+			  public boolean onNavigationItemSelected(int position, long itemId) {
+				  Intent i;
+				  switch (position) {
+				  case 0:	break;
+				  case 1:	i = new Intent(DashboardActivity.this, ViewIncExpVisualiserActivity.class);
+				  			startActivity(i);
+				  			DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			finish();
+				  			break;
+				  case 2:	i = new Intent(DashboardActivity.this, ViewIncExpTrendsActivity.class);
+				  			startActivity(i);
+				  			DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			finish();
+				  			break;
+				  case 3:	i = new Intent(DashboardActivity.this, ViewIncExpListActivity.class);
+		  					startActivity(i);
+		  					DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			finish();
+				  			break;
+				  default:	break;
+				  }
+				  return true;
+			  }
+		};
+		
+		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);		
+	}
+
 	@Override
 	protected void onResume() {
 	    super.onResume();
@@ -140,27 +185,9 @@ public class DashboardActivity extends Activity {
 			DashboardActivity.this.startActivity(i);
 			break;
 
-		case R.id.dashboard_menu_summary:
-			i = new Intent(DashboardActivity.this,
-					ViewSummaryActivity.class);
-			DashboardActivity.this.startActivity(i);
-			break;
-
-		case R.id.dashboard_menu_viewtrends:
-			i = new Intent(DashboardActivity.this,
-					ViewTrendsActivity.class);
-			DashboardActivity.this.startActivity(i);
-			break;
-
-		case R.id.dashboard_menu_viewincexp:
-			i = new Intent(DashboardActivity.this,
-					ViewIncExpActivity.class);
-			DashboardActivity.this.startActivity(i);
-			break;
-			
 		case R.id.dashboard_menu_viewhints:
 			i = new Intent(DashboardActivity.this,
-					HintsActivity.class);
+					HintsTipsActivity.class);
 			DashboardActivity.this.startActivity(i);
 			break;
 			
@@ -205,7 +232,7 @@ public class DashboardActivity extends Activity {
 	}
 	
 	public void clickIncExp(View v) {
-		Intent i = new Intent(this, ViewIncExpActivity.class);
+		Intent i = new Intent(this, ViewIncExpListActivity.class);
 		startActivity(i);
 	}
 
@@ -352,5 +379,11 @@ public class DashboardActivity extends Activity {
             }
          })
          .show();    	
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
