@@ -15,8 +15,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +30,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddGoalActivity;
@@ -57,6 +56,7 @@ public class ViewGoalsActivity extends Activity {
 	private TextView toSaveText;
 	private ImageView goalImage;
 	private ProgressBar progress;
+	private TextView percentProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class ViewGoalsActivity extends Activity {
 		toSaveText = (TextView) findViewById(R.id.goal_to_save);
 		goalImage = (ImageView) findViewById(R.id.goal_image);
 		progress = (ProgressBar) findViewById(R.id.progress);
+		percentProgress = (TextView) findViewById(R.id.goal_progress_percent);
 
 		setUpSpinner();
 		
@@ -129,29 +130,40 @@ public class ViewGoalsActivity extends Activity {
 				
 				progress.setMax(selectedNeeded);
 				progress.setProgress(selectedSaved);
+				
+				percentProgress.setText((int)(((float)selectedSaved/(float)selectedNeeded)*100)+"%");
+				
+				
+				
+				ImageView imageView = (ImageView)
+				findViewById(R.id.goal_image);
 
-				Log.i("", "Path: " + imagePath);
-
-				if (imagePath != null) {
-
-					try {
-						Uri uri = Uri.parse(imagePath);
-						// Bitmap image =
-						// MediaStore.Images.Media.getBitmap(this.getContentResolver(),
-						// uri);
-						// ByteArrayOutputStream out = new
-						// ByteArrayOutputStream();
-						// image.compress(Bitmap.CompressFormat.JPEG, 50, out);
-						// Bitmap miniImage = BitmapFactory.decodeStream(new
-						// ByteArrayInputStream(out.toByteArray()));
-						// //Bitmap image = BitmapFactory.decodeFile(imagePath);
-						Bitmap miniImage = getThumbnail(uri);
-						goalImage.setImageBitmap(miniImage);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				try {
+				if (!imagePath.equals("")) {
+		
+					 String[] filePathColumn = { MediaStore.Images.Media.DATA
+					 };
+					 
+					 Uri selectedImage = Uri.parse(imagePath);
+					
+					 Cursor cursor = getContentResolver().query(selectedImage,
+					 filePathColumn, null, null, null);
+					 cursor.moveToFirst();
+					
+					 int columnIndex =
+					 cursor.getColumnIndex(filePathColumn[0]);
+					 String picturePath = cursor.getString(columnIndex);
+					 cursor.close();
+					 
+					 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+				}
+				else {
+					
+					imageView.setImageBitmap(BitmapFactory.decodeFile("@drawable/ic_add_picture.png"));
+				}
+				} catch (Exception e) {
+					e.printStackTrace();
+					imageView.setImageBitmap(BitmapFactory.decodeFile("@drawable/ic_add_picture.png"));
 				}
 			}
 			c.close();
@@ -216,11 +228,8 @@ public class ViewGoalsActivity extends Activity {
 
 		case android.R.id.home:
         	
-            // app icon in action bar clicked; go home
-            Intent intent = new Intent(this, DashboardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            return true;
+            finish();
+            break;
             
 		case R.id.viewgoals_menu_addgoal:
 			Intent k = new Intent(ViewGoalsActivity.this, AddGoalActivity.class);
@@ -246,13 +255,6 @@ public class ViewGoalsActivity extends Activity {
 	
 	public void clickRemoveFromSavings(View v) {
 		showAddRemoveDialog(REMOVE);
-	}
-	
-	public void clickImage(View v) {
-		Toast.makeText(this, "This feature is not supported yet.", Toast.LENGTH_SHORT).show();
-//		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//		photoPickerIntent.setType("image/*");
-//		startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 	}
 	
 	protected void showAddRemoveDialog(final boolean add) {

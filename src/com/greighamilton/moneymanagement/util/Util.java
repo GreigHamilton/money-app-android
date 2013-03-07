@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import android.text.format.Time;
-import android.util.Log;
 
 
 public class Util {
@@ -158,7 +157,6 @@ public class Util {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 			DateTime dt = new DateTime((Date) sdf.parse(date));
 			DateTime dt2 = dt.plusWeeks(numberOfWeeks);
-			Log.i("New date: ", dt2.toString());
 			return dt2.toString("yyyy-MM-dd");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -172,7 +170,6 @@ public class Util {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 			DateTime dt = new DateTime((Date) sdf.parse(date));
 			DateTime dt2 = dt.plusMonths(numberOfMonths);
-			Log.i("New date: ", dt2.toString());
 			return dt2.toString("yyyy-MM-dd");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,7 +183,6 @@ public class Util {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
 			DateTime dt = new DateTime((Date) sdf.parse(date));
 			DateTime dt2 = dt.plusYears(numberOfYears);
-			Log.i("New date: ", dt2.toString());
 			return dt2.toString("yyyy-MM-dd");
 		} catch (Exception e) {
 			e.printStackTrace();

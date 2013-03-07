@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.adapters.CategoryListAdapter;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -94,11 +93,8 @@ public class ViewCategoriesActivity extends ListActivity implements ActionBar.Ta
 
 		case android.R.id.home:
 
-			// app icon in action bar clicked; go home
-			Intent intent = new Intent(this, ViewIncExpListActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
+			finish();
+            break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

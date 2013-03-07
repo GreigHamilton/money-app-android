@@ -25,5 +25,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Hints &amp; Tips"/>
+    <item
+        android:id="@+id/viewsummary_menu_password"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Settings"/>
 
 </menu>

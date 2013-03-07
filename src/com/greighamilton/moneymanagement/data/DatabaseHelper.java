@@ -19,7 +19,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -273,6 +272,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		else
 			return db.query("INCOME", null, "date LIKE ?", new String[] {year+"-"+month+"-%"}, null, null, "amount desc");
 	}
+	
+	public Cursor getIncomeByDate(String fromDate, String toDate, boolean ascendingOrder) {
+		String clause = null;
+		String order = (ascendingOrder) ? "date asc" : "date desc";
+		
+		if (fromDate != null && toDate != null) {
+			clause = " date >= '" + fromDate + "'" +
+			     " AND date <= '" + toDate + "'";
+		}
+		else if (fromDate != null) clause = "date >= '" + fromDate + "'";
+		else if (toDate != null) clause = "date <= '" + toDate + "'";
+		
+		
+		return db.query("INCOME", null, clause, null, null, null, order);
+	}
 
 	public int addIncome(String name, float amount, String date, int repetition_period, int repetition_length, String notes, int categoryId, int notification_id) {
 		ContentValues cv = new ContentValues(9);
@@ -377,7 +391,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		else if (fromDate != null) clause = "date >= '" + fromDate + "'";
 		else if (toDate != null) clause = "date <= '" + toDate + "'";
 		
-		Log.i("", clause);
 		
 		return db.query("EXPENSE", null, clause, null, null, null, order);
 	}
@@ -662,7 +675,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			cv.put("image", c.getString(DatabaseHelper.GOAL_IMAGE));
 			db.update("GOAL", cv, "_id="+id, null);	
 		}
-		Log.w("Update Goal", "Goal not found");
 	}
 	
 	public float getGoalSaved(int id) {

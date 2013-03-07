@@ -15,15 +15,17 @@
     <string name="prompt_category">Select Category</string>
     
     <string name="pick_color">Pick A Colour</string>
-    <string-array name="colors_array">
-        <item>Red</item>
+    <string-array name="colors_array_income">
         <item>Green</item>
         <item>Blue</item>
-        <item>Yellow</item>
+        <item>Purple</item>
+    </string-array>
+    
+    <string name="pick_color">Pick A Colour</string>
+    <string-array name="colors_array_expenses">
+        <item>Red</item>
         <item>Pink</item>
         <item>Orange</item>
-        <item>Purple</item>
-        <item>Brown</item>
     </string-array>
     
     <string-array name="incexp_views_0">

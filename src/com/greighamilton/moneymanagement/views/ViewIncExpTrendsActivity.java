@@ -27,6 +27,8 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
 import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 import com.greighamilton.moneymanagement.external.HintsTipsActivity;
+import com.greighamilton.moneymanagement.external.VerticalTextView;
+import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 
 public class ViewIncExpTrendsActivity extends Activity {
@@ -70,6 +72,7 @@ public class ViewIncExpTrendsActivity extends Activity {
 				  switch (position) {
 				  case 0:	break;
 				  case 1:	i = new Intent(ViewIncExpTrendsActivity.this, DashboardActivity.class);
+		  					i.putExtra("PASSWORD", false);
 		  					startActivity(i);
 		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
@@ -181,6 +184,11 @@ public class ViewIncExpTrendsActivity extends Activity {
 			i = new Intent(ViewIncExpTrendsActivity.this, HintsTipsActivity.class);
 			ViewIncExpTrendsActivity.this.startActivity(i);
 			break;
+			
+		case R.id.viewtrends_menu_password:
+			i = new Intent(ViewIncExpTrendsActivity.this, SettingsActivity.class);
+			ViewIncExpTrendsActivity.this.startActivity(i);
+			break;
 
 		}
 		return super.onOptionsItemSelected(item);
@@ -196,7 +204,7 @@ public class ViewIncExpTrendsActivity extends Activity {
 		frame.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		frame.setOrientation(LinearLayout.VERTICAL);
 		frame.setGravity(Gravity.CENTER_HORIZONTAL);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.grey4 : R.color.grey1);
 		
 		// Month text
 		TextView text = new TextView(this);
@@ -205,12 +213,27 @@ public class ViewIncExpTrendsActivity extends Activity {
 		text.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
 		frame.addView(text);
 		
+		// Monthly Summary text
+		TextView summaryText = new TextView(this);
+		if (income-expense > 0) {
+			summaryText.setTextColor(getResources().getColor(R.color.green1));
+			summaryText.setText('\n'+ "      + £"+(income-expense));
+		}
+		else {
+			summaryText.setTextColor(getResources().getColor(R.color.red1));
+			summaryText.setText('\n'+ "      - £"+(expense-income));
+		}
+		summaryText.setGravity(Gravity.CENTER_HORIZONTAL);
+		summaryText.setGravity(Gravity.TOP);
+		summaryText.setTypeface(Typeface.DEFAULT, Typeface.ITALIC);
+		frame.addView(summaryText);
+		
 		// Create frame
 		LinearLayout layout = new LinearLayout(getApplicationContext());
 		layout.setLayoutParams(new LayoutParams(150, LayoutParams.MATCH_PARENT));
 		layout.setOrientation(LinearLayout.HORIZONTAL);
 		layout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.grey4 : R.color.grey1);
 		layout.setWeightSum(2.0f);
 		layout.setPadding(10, 10, 10, 10);		
 
@@ -219,18 +242,18 @@ public class ViewIncExpTrendsActivity extends Activity {
 		incomeLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 		incomeLayout.setOrientation(LinearLayout.VERTICAL);
 		incomeLayout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.grey4 : R.color.grey1);
 		incomeLayout.setWeightSum(scale);
 		incomeLayout.setPadding(10, 10, 0, 10);
 		
-		// Incomme Bar
+		// Income Bar
 		LinearLayout incomeBar = new LinearLayout(getApplicationContext());
 		incomeBar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, scale-income));
 		incomeBar.setGravity(Gravity.CENTER_HORIZONTAL);
 		incomeBar.setBackgroundResource(R.color.green1);
 		
 		// Income text
-		TextView incomeText = new TextView(this);
+		VerticalTextView incomeText = new VerticalTextView(this);
 		incomeText.setText("£" + income);
 		incomeText.setScaleX(0.7f);
 		incomeText.setScaleY(0.7f);
@@ -249,7 +272,7 @@ public class ViewIncExpTrendsActivity extends Activity {
 		expenseLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1));
 		expenseLayout.setOrientation(LinearLayout.VERTICAL);
 		expenseLayout.setGravity(Gravity.CENTER);
-		frame.setBackgroundResource((month%2 == 0) ? R.color.blue2 : R.color.blue3);
+		frame.setBackgroundResource((month%2 == 0) ? R.color.grey4 : R.color.grey1);
 		expenseLayout.setWeightSum(scale);
 		expenseLayout.setPadding(0, 10, 10, 10);
 		
@@ -258,8 +281,8 @@ public class ViewIncExpTrendsActivity extends Activity {
 		expenseBar.setGravity(Gravity.CENTER_HORIZONTAL);
 		expenseBar.setBackgroundResource(R.color.red1);
 		
-		// Income text
-		TextView expenseText = new TextView(this);
+		// Expense text
+		VerticalTextView expenseText = new VerticalTextView(this);
 		expenseText.setText("£" + expense);
 		expenseText.setScaleX(0.7f);
 		expenseText.setScaleY(0.7f);

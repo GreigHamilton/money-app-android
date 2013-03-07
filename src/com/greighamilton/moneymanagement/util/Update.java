@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
@@ -16,13 +15,12 @@ public class Update {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);		
 		int version = sp.getInt("VERSION", 0);
 		
-		Log.i("","ENTER doUpdate");
 		
 		if (version < 1) fixColorParser(c, sp);
 	}
 	
 	private static void fixColorParser(Context context, SharedPreferences sp) {
-		Log.i("","ENTER fixColorParser");
+		
 		DatabaseHelper db = DatabaseHelper.getInstance(context);
 		Cursor c = db.getCategories();
 		while (c.moveToNext()) {

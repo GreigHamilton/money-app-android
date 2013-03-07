@@ -48,8 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:onClick="clickImage"
-            android:text="Select Image" />
+            android:onClick="showColourPickerDialog"
+            android:text="Select Image (Optional)" />
 
     </RelativeLayout>
 

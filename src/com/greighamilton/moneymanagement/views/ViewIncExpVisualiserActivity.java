@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
@@ -37,6 +36,7 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
 import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 import com.greighamilton.moneymanagement.external.HintsTipsActivity;
+import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 
 public class ViewIncExpVisualiserActivity extends Activity {
@@ -93,11 +93,12 @@ public class ViewIncExpVisualiserActivity extends Activity {
 		mOnNavigationListener = new OnNavigationListener() {
 			  @Override
 			  public boolean onNavigationItemSelected(int position, long itemId) {
-				  Log.i("", ""+position);
+				  
 				  Intent i;
 				  switch (position) {
 				  case 0:	break;
 				  case 1:	i = new Intent(ViewIncExpVisualiserActivity.this, DashboardActivity.class);
+		  					i.putExtra("PASSWORD", false);
 							startActivity(i);
 							ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
@@ -387,17 +388,17 @@ public class ViewIncExpVisualiserActivity extends Activity {
 
 		switch (item.getItemId()) {
 
-		case R.id.viewtrends_menu_addincome:
+		case R.id.viewsummary_menu_addincome:
 			i = new Intent(ViewIncExpVisualiserActivity.this, AddIncomeActivity.class);
 			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
 
-		case R.id.viewtrends_menu_addexpense:
+		case R.id.viewsummary_menu_addexpense:
 			i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
 			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
 			
-		case R.id.viewtrends_menu_feedback:
+		case R.id.viewsummary_menu_feedback:
 			i = new Intent(Intent.ACTION_SEND);
 			i.setType("text/plain");
 			i.putExtra(Intent.EXTRA_EMAIL, "greigyboi@gmail.com");
@@ -411,13 +412,18 @@ public class ViewIncExpVisualiserActivity extends Activity {
 			startActivity(Intent.createChooser(i, "Send Feedback"));
 			break;
 
-		case R.id.viewtrends_menu_viewgoals:
+		case R.id.viewsummary_menu_viewgoals:
 			i = new Intent(ViewIncExpVisualiserActivity.this, ViewGoalsActivity.class);
 			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
 			
-		case R.id.viewtrends_menu_viewhints:
+		case R.id.viewsummary_menu_viewhints:
 			i = new Intent(ViewIncExpVisualiserActivity.this, HintsTipsActivity.class);
+			ViewIncExpVisualiserActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewsummary_menu_password:
+			i = new Intent(ViewIncExpVisualiserActivity.this, SettingsActivity.class);
 			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
 

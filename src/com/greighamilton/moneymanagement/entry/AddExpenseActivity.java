@@ -12,7 +12,6 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -132,7 +131,6 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		    int index = expenseCategoryIDs.indexOf((Integer) category);
 		    expenseSpinner.setSelection((index >= 0 && index < expenseCategories.size()) ? index : 0);
 		    
-		    Log.i("Exp Rep Per", c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD));
 		    
 		    if (c.getString(DatabaseHelper.EXPENSE_REPETITION_PERIOD).equals("0")) {
 		    	oneOff.setChecked(true);

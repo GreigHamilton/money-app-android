@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,7 +135,14 @@ public class AddCategoryActivity extends Activity {
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.pick_color);
-			final String[] colours = getResources().getStringArray(R.array.colors_array);
+			final String[] colours;
+			
+			if (((RadioButton) findViewById(R.id.category_type_income)).isChecked()) {
+				colours = getResources().getStringArray(R.array.colors_array_income);
+			}
+			else {
+				colours = getResources().getStringArray(R.array.colors_array_expenses);
+			}
 			builder.setItems(colours,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
@@ -159,10 +165,6 @@ public class AddCategoryActivity extends Activity {
 					        	button.setTextColor(getResources().getColor(R.color.Blue));
 					        	colorCode = getResources().getString(R.color.Blue);
 					        }
-					        else if (selectedColour.equalsIgnoreCase("Yellow")) {
-					        	button.setTextColor(getResources().getColor(R.color.Yellow));
-					        	colorCode = getResources().getString(R.color.Yellow);
-					        }
 					        else if (selectedColour.equalsIgnoreCase("Pink")) {
 					        	button.setTextColor(getResources().getColor(R.color.Pink));
 					        	colorCode = getResources().getString(R.color.Pink);
@@ -175,16 +177,13 @@ public class AddCategoryActivity extends Activity {
 					        	button.setTextColor(getResources().getColor(R.color.Purple));
 					        	colorCode = getResources().getString(R.color.Purple);
 					        }
-					        else if (selectedColour.equalsIgnoreCase("Brown")) {
-					        	button.setTextColor(getResources().getColor(R.color.Brown));
-					        	colorCode = getResources().getString(R.color.Brown);
-					        }
+					        else
+					        	colorCode = getResources().getString(R.color.grey1);
 					        
 					        boxColor = colorCode;
 					        TextView box = (TextView) findViewById(R.id.category_colour_box);
 							box.setBackgroundColor(Color.parseColor(colorCode));
 					        
-							Log.i("COLOR ", selectedColour);
 					        button.setText(selectedColour);
 						}
 					});

@@ -33,12 +33,4 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:onClick="clickIncExp" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Income and Expenses"
-        android:padding="10dp"
-        android:onClick="clickIncExp" />
-
 </LinearLayout>

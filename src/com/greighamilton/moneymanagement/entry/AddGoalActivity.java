@@ -2,16 +2,12 @@ package com.greighamilton.moneymanagement.entry;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,9 +16,9 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
 public class AddGoalActivity extends Activity {
 
-	private static final int SELECT_PHOTO = 100;
 	private DatabaseHelper db;
 	
+	private static int RESULT_LOAD_IMAGE = 1;
 	private String imagePath;
 
 	@Override
@@ -32,6 +28,20 @@ public class AddGoalActivity extends Activity {
 
 		db = DatabaseHelper.getInstance(this);
 		imagePath = "";
+		
+		Button buttonLoadImage = (Button) findViewById(R.id.add_goal_select_image);
+        buttonLoadImage.setOnClickListener(new View.OnClickListener() {
+             
+            @Override
+            public void onClick(View arg0) {
+                 
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                 
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
 	}
 
 	@Override
@@ -67,9 +77,9 @@ public class AddGoalActivity extends Activity {
 						.parseFloat(((EditText) findViewById(R.id.add_goal_amount_saved))
 								.getText().toString()));
 
-				String image = imagePath; // TODO add image
+				//String image = imagePath; // TODO add image
 
-				db.addGoal(name, needed, saved, image);
+				db.addGoal(name, needed, saved, imagePath);
 
 			} catch (Exception e) {
 				Toast.makeText(this, "Please complete all fields",
@@ -97,30 +107,24 @@ public class AddGoalActivity extends Activity {
 		
 	}
 
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent imageReturnedIntent) {
-		super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
-		switch (requestCode) {
-		case SELECT_PHOTO:
-			if (resultCode == RESULT_OK) {
-				Uri selectedImage = imageReturnedIntent.getData();
-				imagePath = selectedImage.toString();
-
-				Log.i("Image path: ", imagePath);
-//				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//				Cursor cursor = getContentResolver().query(selectedImage,
-//						filePathColumn, null, null, null);
-//				cursor.moveToFirst();
-//
-//				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//				String filePath = cursor.getString(columnIndex);
-//				cursor.close();
-//
-//				Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-//				imagePath = filePath;
-			}
-		}
-	}
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+         
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            
+            imagePath = ""+selectedImage;
+            
+            Button buttonLoadImage = (Button) findViewById(R.id.add_goal_select_image);
+            if (imagePath == "") {
+            	buttonLoadImage.setText("No image selected");
+            }
+            else {
+            	int indexOfFileName = imagePath.lastIndexOf('/')+1;
+            	buttonLoadImage.setText("Image selected");
+            }
+            
+        }    
+    }
 }

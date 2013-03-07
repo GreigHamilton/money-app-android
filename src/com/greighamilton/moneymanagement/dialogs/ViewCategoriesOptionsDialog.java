@@ -4,7 +4,6 @@ package com.greighamilton.moneymanagement.dialogs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,6 @@ public class ViewCategoriesOptionsDialog extends DialogFragment implements OnEdi
         editButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // When button is clicked, call up to owning activity.
-            	Log.i("CAT BUTTON", "Edit clicked");
             	// TODO
             	Intent i = new Intent(v.getContext(), AddCategoryActivity.class);
             	i.putExtra("CURRENT_ID", currentId);

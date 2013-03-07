@@ -4,7 +4,6 @@ package com.greighamilton.moneymanagement.dialogs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +48,6 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
         editButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 // When button is clicked, call up to owning activity.
-            	Log.i("BUTTON", "Edit clicked");
             	dismiss();
             	
             	if (idType.equalsIgnoreCase("INCOME")) {
@@ -74,11 +72,9 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             	
             	db = DatabaseHelper.getInstance(getActivity());
             	if (idType.equalsIgnoreCase("INCOME")) {
-            		Log.i("INCOME", "DELETION");
             		db.deleteIncome(currentId);
             	}
             	else if (idType.equalsIgnoreCase("EXPENSE")) {
-            		Log.i("EXPENSE", "DELETION");
             		db.deleteExpense(currentId);
             	}
             	

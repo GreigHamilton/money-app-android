@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +36,7 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
 import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 import com.greighamilton.moneymanagement.external.HintsTipsActivity;
+import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 
 public class ViewIncExpListActivity extends ListActivity implements ActionBar.TabListener {
@@ -108,6 +108,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 				  switch (position) {
 				  case 0:	break;
 				  case 1:	i = new Intent(ViewIncExpListActivity.this, DashboardActivity.class);
+				  			i.putExtra("PASSWORD", false);
 				  			startActivity(i);
 				  			ViewIncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		  					finish();
@@ -152,7 +153,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
     		int category = 0;
     		if (!listOfCategoryIDs.isEmpty()) category = listOfCategoryIDs.get(categorySpinner.getSelectedItemPosition());    		
     		c = db.getSpecifiedIncome(month, year, category, allDates, allCategories);
-    		Log.i("", ""+c.getCount());
+    		
     		setListAdapter(new IncomeListAdapter(this, c));
     	} else {
     		listOfCategories = db.getExpenseCategoryList();
@@ -346,6 +347,11 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 			
 		case R.id.viewincexp_menu_viewhints:
 			i = new Intent(ViewIncExpListActivity.this, HintsTipsActivity.class);
+			ViewIncExpListActivity.this.startActivity(i);
+			break;
+			
+		case R.id.viewincexp_menu_password:
+			i = new Intent(ViewIncExpListActivity.this, SettingsActivity.class);
 			ViewIncExpListActivity.this.startActivity(i);
 			break;
 

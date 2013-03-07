@@ -34,7 +34,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 
 public class HintsTipsActivity extends ListActivity {
@@ -55,14 +54,11 @@ public class HintsTipsActivity extends ListActivity {
 	    switch (item.getItemId()) {
 	        case android.R.id.home:
 	        	
-	            // app icon in action bar clicked; go home
-	            Intent intent = new Intent(this, DashboardActivity.class);
-	            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	            startActivity(intent);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
+	        	finish();
+	            break;
+
 	    }
+	    return super.onOptionsItemSelected(item);
 	}
 
 	private class MyTask extends AsyncTask<Void, Void, Void> {
