@@ -300,6 +300,7 @@ public class AddIncomeActivity extends Activity implements
 
 	public void addCategory(View v) {
 		Intent i = new Intent(AddIncomeActivity.this, AddCategoryActivity.class);
+		i.setFlags(0);
 		AddIncomeActivity.this.startActivity(i);
 	}
 

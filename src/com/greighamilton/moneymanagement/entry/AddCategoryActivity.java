@@ -36,8 +36,18 @@ public class AddCategoryActivity extends Activity {
 
 		db = DatabaseHelper.getInstance(this);
 		extras = getIntent().getExtras();
+		
+		if (getIntent().getFlags() == 0) {
+			RadioButton incomeCheck = (RadioButton) findViewById(R.id.category_type_income);
+	    	incomeCheck.setChecked(true);
+		}
+		else {
+			RadioButton expenseCheck = (RadioButton) findViewById(R.id.category_type_expense);
+	    	expenseCheck.setChecked(true);
+		}
 
 		if (extras != null) {
+			
 		    currentId = extras.getString("CURRENT_ID");
 		    c = db.getCategoryId(currentId);
 		    c.moveToFirst();

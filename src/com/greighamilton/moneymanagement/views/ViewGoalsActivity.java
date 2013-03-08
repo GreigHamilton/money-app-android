@@ -163,7 +163,7 @@ public class ViewGoalsActivity extends Activity {
 				}
 				} catch (Exception e) {
 					e.printStackTrace();
-					imageView.setImageBitmap(BitmapFactory.decodeFile("@drawable/ic_add_picture.png"));
+					imageView.setActivated(false);
 				}
 			}
 			c.close();

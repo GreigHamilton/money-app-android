@@ -86,8 +86,13 @@ public class ViewCategoriesActivity extends ListActivity implements ActionBar.Ta
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.viewcategories_menu_addcategory:
-			Intent i = new Intent(ViewCategoriesActivity.this,
-					AddCategoryActivity.class);
+			Intent i = new Intent(ViewCategoriesActivity.this, AddCategoryActivity.class);
+			
+			if (selectedTab == 0)
+				i.setFlags(0);
+			else
+				i.setFlags(1);
+			
 			ViewCategoriesActivity.this.startActivity(i);
 			break;
 

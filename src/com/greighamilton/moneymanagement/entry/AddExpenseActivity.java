@@ -298,6 +298,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 
 	public void addCategory(View v) {
 		Intent i = new Intent(AddExpenseActivity.this, AddCategoryActivity.class);
+		i.setFlags(1);
 		AddExpenseActivity.this.startActivity(i);
 	}
 
