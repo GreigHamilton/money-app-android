@@ -397,20 +397,6 @@ public class ViewIncExpVisualiserActivity extends Activity {
 			i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
 			ViewIncExpVisualiserActivity.this.startActivity(i);
 			break;
-			
-		case R.id.viewsummary_menu_feedback:
-			i = new Intent(Intent.ACTION_SEND);
-			i.setType("text/plain");
-			i.putExtra(Intent.EXTRA_EMAIL, "greigyboi@gmail.com");
-			i.putExtra(Intent.EXTRA_SUBJECT, "Money Management Evaluation Feedback");
-			i.putExtra(Intent.EXTRA_TEXT, "What is going well: " + '\n' + '\n' + '\n' +
-					"What I'm having problems with: " + '\n' + '\n' + '\n' +
-					"What I like: " + '\n' + '\n' + '\n' +
-					"What I would change: " + '\n' + '\n' + '\n' +
-					"Other comments: " + '\n');
-
-			startActivity(Intent.createChooser(i, "Send Feedback"));
-			break;
 
 		case R.id.viewsummary_menu_viewgoals:
 			i = new Intent(ViewIncExpVisualiserActivity.this, ViewGoalsActivity.class);

@@ -21,11 +21,6 @@
         android:showAsAction="always|withText"
         android:title="Add Expense"/>
     <item
-        android:id="@+id/viewtrends_menu_feedback"
-        android:icon="@drawable/ic_menu_feedback"
-        android:showAsAction="always|withText"
-        android:title="Send Feedback"/>
-    <item
         android:id="@+id/viewtrends_menu_password"
         android:orderInCategory="100"
         android:showAsAction="never"

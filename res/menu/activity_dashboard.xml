@@ -23,12 +23,6 @@
           android:showAsAction="always|withText" />
     
     <item
-        android:id="@+id/dashboard_menu_feedback"
-        android:icon="@drawable/ic_menu_feedback"
-        android:showAsAction="always|withText"
-        android:title="Send Feedback"/>
-    
-    <item
         android:id="@+id/dashboard_menu_password"
         android:orderInCategory="100"
         android:showAsAction="never"
