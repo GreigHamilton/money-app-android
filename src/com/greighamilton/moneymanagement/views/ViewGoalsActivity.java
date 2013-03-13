@@ -260,7 +260,7 @@ public class ViewGoalsActivity extends Activity {
 	protected void showAddRemoveDialog(final boolean add) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-        alert.setTitle((add) ? "Add to Savings" : "Remove from Savings"); 
+        alert.setTitle((add) ? "Add to Amount Saved" : "Remove from Amount Saved"); 
         alert.setMessage((add) ? "How much more have you saved?" : "How much should be removed?"); 
 
         // Set an EditText view to get user input 
