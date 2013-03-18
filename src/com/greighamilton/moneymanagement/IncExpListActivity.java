@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement.views;
+package com.greighamilton.moneymanagement;
 
 import java.util.List;
 
@@ -28,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.adapters.ExpenseListAdapter;
 import com.greighamilton.moneymanagement.adapters.IncomeListAdapter;
@@ -38,8 +37,10 @@ import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
+import com.greighamilton.moneymanagement.views.ViewCategoriesActivity;
+import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
-public class ViewIncExpListActivity extends ListActivity implements ActionBar.TabListener {
+public class IncExpListActivity extends ListActivity implements ActionBar.TabListener {
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
     private static final int TAB_INCOME = 0;
@@ -107,20 +108,20 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 				  Intent i;
 				  switch (position) {
 				  case 0:	break;
-				  case 1:	i = new Intent(ViewIncExpListActivity.this, DashboardActivity.class);
+				  case 1:	i = new Intent(IncExpListActivity.this, DashboardActivity.class);
 				  			i.putExtra("PASSWORD", false);
 				  			startActivity(i);
-				  			ViewIncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			IncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		  					finish();
 		  					break;
-				  case 2:	i = new Intent(ViewIncExpListActivity.this, ViewIncExpVisualiserActivity.class);
+				  case 2:	i = new Intent(IncExpListActivity.this, IncExpVisualiserActivity.class);
 				  			startActivity(i);
-				  			ViewIncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			IncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 							break;
-				  case 3:	i = new Intent(ViewIncExpListActivity.this, ViewIncExpTrendsActivity.class);
+				  case 3:	i = new Intent(IncExpListActivity.this, IncExpTrendsActivity.class);
 				  			startActivity(i);
-				  			ViewIncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			IncExpListActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 				  			break;
 				  default:	break;
@@ -312,33 +313,33 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 		switch (item.getItemId()) {
 
 		case R.id.viewincexp_menu_addincome:
-			i = new Intent(ViewIncExpListActivity.this, AddIncomeActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, AddIncomeActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewincexp_menu_addexpense:
-			i = new Intent(ViewIncExpListActivity.this, AddExpenseActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, AddExpenseActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewincexp_menu_categories:
-			i = new Intent(ViewIncExpListActivity.this, ViewCategoriesActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, ViewCategoriesActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 		
 		case R.id.viewincexp_menu_viewgoals:
-			i = new Intent(ViewIncExpListActivity.this, ViewGoalsActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, ViewGoalsActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewincexp_menu_viewhints:
-			i = new Intent(ViewIncExpListActivity.this, HintsTipsActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, HintsTipsActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewincexp_menu_password:
-			i = new Intent(ViewIncExpListActivity.this, SettingsActivity.class);
-			ViewIncExpListActivity.this.startActivity(i);
+			i = new Intent(IncExpListActivity.this, SettingsActivity.class);
+			IncExpListActivity.this.startActivity(i);
 			break;
 
 		}
@@ -360,7 +361,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
     
 	protected void showDeleteDialog() {
 
-    	new AlertDialog.Builder(ViewIncExpListActivity.this)
+    	new AlertDialog.Builder(IncExpListActivity.this)
         .setTitle("Delete")
         .setMessage("Are you sure you want to delete this?")
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -373,7 +374,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
             		} else {
                 		db.deleteIncome(selectedItem);
 	            		init();
-                		Toast.makeText(ViewIncExpListActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(IncExpListActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
                 	}
             	} else {
             		if (db.getExpenseRepetitionPeriod(selectedItem) != 0) {
@@ -381,7 +382,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
                 	} else {
                 		db.deleteExpense(selectedItem);
                 		init();
-                		Toast.makeText(ViewIncExpListActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(IncExpListActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
                 	}            		
             	}
             }
@@ -396,7 +397,7 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 	
 	protected void showDeleteSeriesDialog() {
 
-    	new AlertDialog.Builder(ViewIncExpListActivity.this)
+    	new AlertDialog.Builder(IncExpListActivity.this)
         .setTitle("Delete Series")
         .setMessage("Delete the whole series, or just this one?")
         .setPositiveButton("Whole Series", new DialogInterface.OnClickListener() {
@@ -405,11 +406,11 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
             	if (selectedTab == TAB_INCOME) {
                		db.deleteIncomeSeries(db.getIncomeSeriesID(selectedItem));
         			init();
-                	Toast.makeText(ViewIncExpListActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(IncExpListActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
                		db.deleteExpenseSeries(db.getExpenseSeriesID(selectedItem));
                		init();
-            		Toast.makeText(ViewIncExpListActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(IncExpListActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -419,11 +420,11 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
             	if (selectedTab == TAB_INCOME) {
                		db.deleteIncome(selectedItem);
                		init();
-                	Toast.makeText(ViewIncExpListActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(IncExpListActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
             		db.deleteExpense(selectedItem);
             		init();
-            		Toast.makeText(ViewIncExpListActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(IncExpListActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -513,11 +514,11 @@ public class ViewIncExpListActivity extends ListActivity implements ActionBar.Ta
 	        // Edit clicked
 	            case R.id.context_incexp_edit:
 	            	if (selectedTab == TAB_INCOME) {
-	            		i = new Intent(ViewIncExpListActivity.this, AddIncomeActivity.class);
+	            		i = new Intent(IncExpListActivity.this, AddIncomeActivity.class);
 	            		i.putExtra("CURRENT_ID", selectedItem);
 	            		startActivity(i);
 	            	} else {
-	            		i = new Intent(ViewIncExpListActivity.this, AddExpenseActivity.class);
+	            		i = new Intent(IncExpListActivity.this, AddExpenseActivity.class);
 	            		i.putExtra("CURRENT_ID", selectedItem);
 	            		startActivity(i);
 	            	} return true;

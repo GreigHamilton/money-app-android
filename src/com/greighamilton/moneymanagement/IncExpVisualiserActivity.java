@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement.views;
+package com.greighamilton.moneymanagement;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +30,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
@@ -38,8 +37,9 @@ import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
+import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
-public class ViewIncExpVisualiserActivity extends Activity {
+public class IncExpVisualiserActivity extends Activity {
 
 	private static int TYPE_INCOME = 0;
 	private static int TYPE_EXPENSE = 1;
@@ -97,20 +97,20 @@ public class ViewIncExpVisualiserActivity extends Activity {
 				  Intent i;
 				  switch (position) {
 				  case 0:	break;
-				  case 1:	i = new Intent(ViewIncExpVisualiserActivity.this, DashboardActivity.class);
+				  case 1:	i = new Intent(IncExpVisualiserActivity.this, DashboardActivity.class);
 		  					i.putExtra("PASSWORD", false);
 							startActivity(i);
-							ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+							IncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 							break;
-				  case 2:	i = new Intent(ViewIncExpVisualiserActivity.this, ViewIncExpTrendsActivity.class);
+				  case 2:	i = new Intent(IncExpVisualiserActivity.this, IncExpTrendsActivity.class);
 				  			startActivity(i);
-				  			ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+				  			IncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 				  			break;
-				  case 3:	i = new Intent(ViewIncExpVisualiserActivity.this, ViewIncExpListActivity.class);
+				  case 3:	i = new Intent(IncExpVisualiserActivity.this, IncExpListActivity.class);
 		  					startActivity(i);
-		  					ViewIncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		  					IncExpVisualiserActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 				  			break;
 				  default:	break;
@@ -389,28 +389,28 @@ public class ViewIncExpVisualiserActivity extends Activity {
 		switch (item.getItemId()) {
 
 		case R.id.viewsummary_menu_addincome:
-			i = new Intent(ViewIncExpVisualiserActivity.this, AddIncomeActivity.class);
-			ViewIncExpVisualiserActivity.this.startActivity(i);
+			i = new Intent(IncExpVisualiserActivity.this, AddIncomeActivity.class);
+			IncExpVisualiserActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewsummary_menu_addexpense:
-			i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
-			ViewIncExpVisualiserActivity.this.startActivity(i);
+			i = new Intent(IncExpVisualiserActivity.this, AddExpenseActivity.class);
+			IncExpVisualiserActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewsummary_menu_viewgoals:
-			i = new Intent(ViewIncExpVisualiserActivity.this, ViewGoalsActivity.class);
-			ViewIncExpVisualiserActivity.this.startActivity(i);
+			i = new Intent(IncExpVisualiserActivity.this, ViewGoalsActivity.class);
+			IncExpVisualiserActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewsummary_menu_viewhints:
-			i = new Intent(ViewIncExpVisualiserActivity.this, HintsTipsActivity.class);
-			ViewIncExpVisualiserActivity.this.startActivity(i);
+			i = new Intent(IncExpVisualiserActivity.this, HintsTipsActivity.class);
+			IncExpVisualiserActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewsummary_menu_password:
-			i = new Intent(ViewIncExpVisualiserActivity.this, SettingsActivity.class);
-			ViewIncExpVisualiserActivity.this.startActivity(i);
+			i = new Intent(IncExpVisualiserActivity.this, SettingsActivity.class);
+			IncExpVisualiserActivity.this.startActivity(i);
 			break;
 
 		}
@@ -419,7 +419,7 @@ public class ViewIncExpVisualiserActivity extends Activity {
 	
 	protected void showDeleteDialog() {
 
-    	new AlertDialog.Builder(ViewIncExpVisualiserActivity.this)
+    	new AlertDialog.Builder(IncExpVisualiserActivity.this)
         .setTitle("Delete")
         .setMessage("Are you sure you want to delete this?")
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -432,7 +432,7 @@ public class ViewIncExpVisualiserActivity extends Activity {
                 	} else {
                 		db.deleteIncome(selectedItem);
         				setUpVisualisation();
-                		Toast.makeText(ViewIncExpVisualiserActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(IncExpVisualiserActivity.this, "Income item deleted", Toast.LENGTH_SHORT).show();
                 	}            		
             	} else {
             		if (db.getExpenseRepetitionPeriod(selectedItem) != 0) {
@@ -440,7 +440,7 @@ public class ViewIncExpVisualiserActivity extends Activity {
                 	} else {
                 		db.deleteExpense(selectedItem);
         				setUpVisualisation();
-                		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
+                		Toast.makeText(IncExpVisualiserActivity.this, "Expense item deleted", Toast.LENGTH_SHORT).show();
                 	}            		
             	}
             }
@@ -455,7 +455,7 @@ public class ViewIncExpVisualiserActivity extends Activity {
 	
 	protected void showDeleteSeriesDialog() {
 
-    	new AlertDialog.Builder(ViewIncExpVisualiserActivity.this)
+    	new AlertDialog.Builder(IncExpVisualiserActivity.this)
         .setTitle("Delete Series")
         .setMessage("Delete the whole series, or just this one?")
         .setPositiveButton("Whole Series", new DialogInterface.OnClickListener() {
@@ -464,11 +464,11 @@ public class ViewIncExpVisualiserActivity extends Activity {
             	if (selectedType == TYPE_INCOME) {
                		db.deleteIncomeSeries(db.getIncomeSeriesID(selectedItem));
         			setUpVisualisation();
-                	Toast.makeText(ViewIncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(IncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
                		db.deleteExpenseSeries(db.getExpenseSeriesID(selectedItem));
             		setUpVisualisation();
-            		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(IncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -478,11 +478,11 @@ public class ViewIncExpVisualiserActivity extends Activity {
             	if (selectedType == TYPE_INCOME) {
                		db.deleteIncome(selectedItem);
         			setUpVisualisation();
-                	Toast.makeText(ViewIncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
+                	Toast.makeText(IncExpVisualiserActivity.this, "Income items deleted", Toast.LENGTH_SHORT).show();
             	} else {
             		db.deleteExpense(selectedItem);
             		setUpVisualisation();
-            		Toast.makeText(ViewIncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
+            		Toast.makeText(IncExpVisualiserActivity.this, "Expense items deleted", Toast.LENGTH_SHORT).show();     		
             	}
             }
          })
@@ -523,13 +523,13 @@ public class ViewIncExpVisualiserActivity extends Activity {
 	        	// Edit clicked
 	            case R.id.context_incexp_edit:
 	            	if (selectedType == TYPE_INCOME) {
-					    i = new Intent(ViewIncExpVisualiserActivity.this, AddIncomeActivity.class);
+					    i = new Intent(IncExpVisualiserActivity.this, AddIncomeActivity.class);
 					    i.putExtra("CURRENT_ID", selectedItem);
-					    ViewIncExpVisualiserActivity.this.startActivity(i);
+					    IncExpVisualiserActivity.this.startActivity(i);
 	            	} else {
-					    i = new Intent(ViewIncExpVisualiserActivity.this, AddExpenseActivity.class);
+					    i = new Intent(IncExpVisualiserActivity.this, AddExpenseActivity.class);
 					    i.putExtra("CURRENT_ID", selectedItem);
-					    ViewIncExpVisualiserActivity.this.startActivity(i);
+					    IncExpVisualiserActivity.this.startActivity(i);
 	            	} return true;
 	            
 	            // Delete clicked

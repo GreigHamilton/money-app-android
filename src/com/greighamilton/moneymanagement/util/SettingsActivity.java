@@ -9,7 +9,8 @@ import com.greighamilton.moneymanagement.R;
 
 public class SettingsActivity extends PreferenceActivity {
 	
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);

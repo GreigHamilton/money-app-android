@@ -39,9 +39,6 @@ import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
-import com.greighamilton.moneymanagement.views.ViewIncExpListActivity;
-import com.greighamilton.moneymanagement.views.ViewIncExpTrendsActivity;
-import com.greighamilton.moneymanagement.views.ViewIncExpVisualiserActivity;
 
 public class DashboardActivity extends Activity implements ActionBar.OnNavigationListener {
 	
@@ -126,17 +123,17 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 				  Intent i;
 				  switch (position) {
 				  case 0:	break;
-				  case 1:	i = new Intent(DashboardActivity.this, ViewIncExpVisualiserActivity.class);
+				  case 1:	i = new Intent(DashboardActivity.this, IncExpVisualiserActivity.class);
 				  			startActivity(i);
 				  			DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 				  			finish();
 				  			break;
-				  case 2:	i = new Intent(DashboardActivity.this, ViewIncExpTrendsActivity.class);
+				  case 2:	i = new Intent(DashboardActivity.this, IncExpTrendsActivity.class);
 				  			startActivity(i);
 				  			DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 				  			finish();
 				  			break;
-				  case 3:	i = new Intent(DashboardActivity.this, ViewIncExpListActivity.class);
+				  case 3:	i = new Intent(DashboardActivity.this, IncExpListActivity.class);
 		  					startActivity(i);
 		  					DashboardActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 				  			finish();
@@ -370,7 +367,7 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 	}
 	
 	public void clickIncExp(View v) {
-		Intent i = new Intent(this, ViewIncExpListActivity.class);
+		Intent i = new Intent(this, IncExpListActivity.class);
 		startActivity(i);
 	}
 	

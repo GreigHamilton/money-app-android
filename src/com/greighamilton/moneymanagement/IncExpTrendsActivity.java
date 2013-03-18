@@ -1,4 +1,4 @@
-package com.greighamilton.moneymanagement.views;
+package com.greighamilton.moneymanagement;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.greighamilton.moneymanagement.DashboardActivity;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
@@ -30,8 +29,9 @@ import com.greighamilton.moneymanagement.external.HintsTipsActivity;
 import com.greighamilton.moneymanagement.external.VerticalTextView;
 import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
+import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
-public class ViewIncExpTrendsActivity extends Activity {
+public class IncExpTrendsActivity extends Activity {
 
 	private OnNavigationListener mOnNavigationListener;
 	private DatabaseHelper db;
@@ -71,20 +71,20 @@ public class ViewIncExpTrendsActivity extends Activity {
 				  Intent i;
 				  switch (position) {
 				  case 0:	break;
-				  case 1:	i = new Intent(ViewIncExpTrendsActivity.this, DashboardActivity.class);
+				  case 1:	i = new Intent(IncExpTrendsActivity.this, DashboardActivity.class);
 		  					i.putExtra("PASSWORD", false);
 		  					startActivity(i);
-		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		  					IncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 		  					break;
-				  case 2:	i = new Intent(ViewIncExpTrendsActivity.this, ViewIncExpVisualiserActivity.class);
+				  case 2:	i = new Intent(IncExpTrendsActivity.this, IncExpVisualiserActivity.class);
 		  					startActivity(i);
-		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		  					IncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 		  					break;
-				  case 3:	i = new Intent(ViewIncExpTrendsActivity.this, ViewIncExpListActivity.class);
+				  case 3:	i = new Intent(IncExpTrendsActivity.this, IncExpListActivity.class);
 		  					startActivity(i);
-		  					ViewIncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		  					IncExpTrendsActivity.this.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 							finish();
 				  			break;
 				  default:	break;
@@ -152,28 +152,28 @@ public class ViewIncExpTrendsActivity extends Activity {
 		switch (item.getItemId()) {
 
 		case R.id.viewtrends_menu_addincome:
-			i = new Intent(ViewIncExpTrendsActivity.this, AddIncomeActivity.class);
-			ViewIncExpTrendsActivity.this.startActivity(i);
+			i = new Intent(IncExpTrendsActivity.this, AddIncomeActivity.class);
+			IncExpTrendsActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewtrends_menu_addexpense:
-			i = new Intent(ViewIncExpTrendsActivity.this, AddExpenseActivity.class);
-			ViewIncExpTrendsActivity.this.startActivity(i);
+			i = new Intent(IncExpTrendsActivity.this, AddExpenseActivity.class);
+			IncExpTrendsActivity.this.startActivity(i);
 			break;
 
 		case R.id.viewtrends_menu_viewgoals:
-			i = new Intent(ViewIncExpTrendsActivity.this, ViewGoalsActivity.class);
-			ViewIncExpTrendsActivity.this.startActivity(i);
+			i = new Intent(IncExpTrendsActivity.this, ViewGoalsActivity.class);
+			IncExpTrendsActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewtrends_menu_viewhints:
-			i = new Intent(ViewIncExpTrendsActivity.this, HintsTipsActivity.class);
-			ViewIncExpTrendsActivity.this.startActivity(i);
+			i = new Intent(IncExpTrendsActivity.this, HintsTipsActivity.class);
+			IncExpTrendsActivity.this.startActivity(i);
 			break;
 			
 		case R.id.viewtrends_menu_password:
-			i = new Intent(ViewIncExpTrendsActivity.this, SettingsActivity.class);
-			ViewIncExpTrendsActivity.this.startActivity(i);
+			i = new Intent(IncExpTrendsActivity.this, SettingsActivity.class);
+			IncExpTrendsActivity.this.startActivity(i);
 			break;
 
 		}

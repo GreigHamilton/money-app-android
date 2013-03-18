@@ -63,15 +63,15 @@
         
         
         <activity
-            android:name="com.greighamilton.moneymanagement.views.ViewIncExpTrendsActivity"
+            android:name="com.greighamilton.moneymanagement.IncExpTrendsActivity"
             android:label="Income/Expense Trends"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-            android:name="com.greighamilton.moneymanagement.views.ViewIncExpVisualiserActivity"
+            android:name="com.greighamilton.moneymanagement.IncExpVisualiserActivity" 
             android:label="Income/Expense Visualiser"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
-            android:name="com.greighamilton.moneymanagement.views.ViewIncExpListActivity"
+            android:name="com.greighamilton.moneymanagement.IncExpListActivity"  
             android:label="Income/Expense List"
             android:uiOptions="splitActionBarWhenNarrow" />
         
