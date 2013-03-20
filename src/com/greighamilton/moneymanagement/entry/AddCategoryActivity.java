@@ -19,6 +19,12 @@ import android.widget.TextView;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
+/**
+ * Class for add category activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class AddCategoryActivity extends Activity {
 	
 	String selectedColour;
@@ -139,6 +145,12 @@ public class AddCategoryActivity extends Activity {
 		newFragment.show(getFragmentManager(), "colourPicker");
 	}
 
+	/**
+	 * Classfor colour picker fragment.
+	 * 
+	 * @author Greig Hamilton
+	 *
+	 */
 	public class ColourPickerFragment extends DialogFragment {
 
 		@Override

@@ -17,6 +17,12 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddCategoryActivity;
 
+/**
+ * Class for creating a categories dialog.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class ViewCategoriesOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	
 	private DatabaseHelper db;

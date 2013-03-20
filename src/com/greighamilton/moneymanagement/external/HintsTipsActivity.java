@@ -36,6 +36,12 @@ import android.widget.TextView;
 
 import com.greighamilton.moneymanagement.R;
 
+/**
+ * Class for hints and tips activity --- sample code used and extended for purpose.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class HintsTipsActivity extends ListActivity {
 
 	private ArrayList<Tweet> tweets = new ArrayList<Tweet>();

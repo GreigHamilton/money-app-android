@@ -30,7 +30,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
 import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
@@ -39,6 +38,12 @@ import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
+/**
+ * IncExpVisualiserActivity Activity class.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class IncExpVisualiserActivity extends Activity {
 
 	private static int TYPE_INCOME = 0;
@@ -81,6 +86,10 @@ public class IncExpVisualiserActivity extends Activity {
 		setUpVisualisation();		
 	}
 	
+	/**
+	 * Method to set up the action bar for the visualiser interface.
+	 * 
+	 */
 	private void setUpActionBar() {
 		
 		ActionBar actionBar = getActionBar();
@@ -122,6 +131,10 @@ public class IncExpVisualiserActivity extends Activity {
 		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);
 	}
 
+	/**
+	 * Method to set up the spinner content for the month and year selection.
+	 * 
+	 */
 	private void setSpinnerContent() {
 		
 		// get current month and year
@@ -179,6 +192,10 @@ public class IncExpVisualiserActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Method to set up the visualisation sections of the interface.
+	 * 
+	 */
 	private void setUpVisualisation() {
 		
 		String month = Util.makeMonthString(monthReq);
@@ -417,6 +434,10 @@ public class IncExpVisualiserActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Method to show the delete dialog.
+	 * 
+	 */
 	protected void showDeleteDialog() {
 
     	new AlertDialog.Builder(IncExpVisualiserActivity.this)
@@ -453,6 +474,10 @@ public class IncExpVisualiserActivity extends Activity {
          .show();
 	}
 	
+	/**
+	 * Method to show the delete series dialog.
+	 * 
+	 */
 	protected void showDeleteSeriesDialog() {
 
     	new AlertDialog.Builder(IncExpVisualiserActivity.this)

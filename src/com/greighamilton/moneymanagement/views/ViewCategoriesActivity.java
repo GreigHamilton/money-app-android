@@ -19,6 +19,12 @@ import com.greighamilton.moneymanagement.adapters.CategoryListAdapter;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddCategoryActivity;
 
+/**
+ * Class for the categories activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class ViewCategoriesActivity extends ListActivity implements ActionBar.TabListener {
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
@@ -52,6 +58,10 @@ public class ViewCategoriesActivity extends ListActivity implements ActionBar.Ta
 	    actionBar.setDisplayHomeAsUpEnabled(true);
     }
     
+    /**
+     * Method for refreshing the categories list view.
+     * 
+     */
     public void refreshList() {    	
     	c = (selectedTab == TAB_INCOME) ? db.getIncomeCategories() : db.getExpenseCategories();
     	setListAdapter(new CategoryListAdapter(this, c));

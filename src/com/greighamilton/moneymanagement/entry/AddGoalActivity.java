@@ -14,6 +14,12 @@ import android.widget.Toast;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
+/**
+ * Class for add goal activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class AddGoalActivity extends Activity {
 
 	private DatabaseHelper db;
@@ -94,9 +100,6 @@ public class AddGoalActivity extends Activity {
 
 	public void clickImage(View v) {
 		Toast.makeText(this, "This feature is not supported yet.", Toast.LENGTH_SHORT).show();
-//		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//		photoPickerIntent.setType("image/*");
-//		startActivityForResult(photoPickerIntent, SELECT_PHOTO);
 	}
 
 	public void clickSave(View v) {

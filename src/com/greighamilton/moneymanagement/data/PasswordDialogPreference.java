@@ -11,6 +11,12 @@ import android.widget.Toast;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.util.Password;
 
+/**
+ * Class for a PasswordDialogPreference object.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class PasswordDialogPreference extends DialogPreference {
 
     public PasswordDialogPreference(Context context, AttributeSet attrs) {
@@ -18,6 +24,10 @@ public class PasswordDialogPreference extends DialogPreference {
         this.setDialogLayoutResource(R.layout.dialog_set_password);
     }
     
+    /**
+     * Method called when clicked to create a dialog.
+     * 
+     */
     public void onClick (DialogInterface dialog, int which) {
         if (DialogInterface.BUTTON_POSITIVE == which) {
         	EditText input = (EditText)((AlertDialog) dialog).findViewById(R.id.passwordText);

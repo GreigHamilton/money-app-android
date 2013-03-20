@@ -8,6 +8,12 @@ import android.preference.PreferenceManager;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
+/**
+ * Class used to update the database after a system update. Migrates old table records to the new format.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class Update {
 	
 	public static void doUpdate(Context c) {
@@ -15,10 +21,16 @@ public class Update {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);		
 		int version = sp.getInt("VERSION", 0);
 		
-		
+		// only update the color parser if version is version 0 (do it once only)
 		if (version < 1) fixColorParser(c, sp);
 	}
 	
+	/**
+	 * Method used to fix the color parser issue.
+	 * 
+	 * @param context		the current context
+	 * @param sp			the app shared preferences
+	 */
 	private static void fixColorParser(Context context, SharedPreferences sp) {
 		
 		DatabaseHelper db = DatabaseHelper.getInstance(context);

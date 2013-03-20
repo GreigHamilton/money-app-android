@@ -30,6 +30,12 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.util.Util;
 
+/**
+ * Class for add expense activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class AddExpenseActivity extends Activity implements	OnItemSelectedListener {
 	
 	private static final int ONE_0FF = 0;
@@ -207,7 +213,6 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 				if (oneOff.isChecked()) {
 					repetition_period = 0;
 					repetition_length = 0;
-					// TODO Create a notification
 				} else {
 					repetition_period = repetitionSpinner.getSelectedItemPosition() + 1; // add one so one-off is period 0
 					repetition_length = (Integer
@@ -228,14 +233,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 				int categoryId = expenseCategoryIDs.get(expenseSpinner.getSelectedItemPosition());
 
 				// Get data for notification checkbox
-				int notification_id;
-//				if (((CheckBox) findViewById(R.id.expense_notification))
-//						.isChecked()) {
-//					notification_id = 1;
-//					// TODO Create a notification
-//				} else {
-					notification_id = 0;
-//				}
+				int notification_id = 0;
 					
 				boolean reAdd = false;
 				

@@ -35,6 +35,12 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddGoalActivity;
 import com.greighamilton.moneymanagement.util.Util;
 
+/**
+ * Class for Goals activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class ViewGoalsActivity extends Activity {
 
 	private static final boolean ADD = true;
@@ -80,6 +86,10 @@ public class ViewGoalsActivity extends Activity {
 	    actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 
+	/**
+	 * Method to set up the goals spinner widget.
+	 * 
+	 */
 	private void setUpSpinner() {
 
 		listOfGoals = db.getListOfGoals();
@@ -111,6 +121,10 @@ public class ViewGoalsActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Method used to refresh the view of the goals interface on events.
+	 * 
+	 */
 	private void refreshView() {
 
 		if (listOfGoals.isEmpty())
@@ -119,6 +133,8 @@ public class ViewGoalsActivity extends Activity {
 			Cursor c = db.getGoal(listOfGoalIDs.get(selectedItem));
 			c.moveToFirst();
 			if (!c.isAfterLast()) {
+				
+				// set up all the widgets from the database data
 				selectedNeeded = c.getInt(DatabaseHelper.GOAL_NEEDED);
 				selectedSaved = c.getInt(DatabaseHelper.GOAL_SAVED);
 				String imagePath = c.getString(DatabaseHelper.GOAL_IMAGE);
@@ -132,8 +148,6 @@ public class ViewGoalsActivity extends Activity {
 				progress.setProgress(selectedSaved);
 				
 				percentProgress.setText((int)(((float)selectedSaved/(float)selectedNeeded)*100)+"%");
-				
-				
 				
 				ImageView imageView = (ImageView)
 				findViewById(R.id.goal_image);
@@ -169,47 +183,12 @@ public class ViewGoalsActivity extends Activity {
 			c.close();
 		}
 	}
-
-	public Bitmap getThumbnail(Uri uri) throws FileNotFoundException,
-			IOException {
-		InputStream input = this.getContentResolver().openInputStream(uri);
-
-		BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
-		onlyBoundsOptions.inJustDecodeBounds = true;
-		onlyBoundsOptions.inDither = true;// optional
-		onlyBoundsOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// optional
-		BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
-		input.close();
-		if ((onlyBoundsOptions.outWidth == -1)
-				|| (onlyBoundsOptions.outHeight == -1))
-			return null;
-
-		int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight
-				: onlyBoundsOptions.outWidth;
-
-		double THUMBNAIL_SIZE = 2;
-		double ratio = (originalSize > THUMBNAIL_SIZE) ? (originalSize / THUMBNAIL_SIZE)
-				: 1.0;
-		// double ratio = 1.0;
-
-		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-		bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
-		bitmapOptions.inDither = true;// optional
-		bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;// optional
-		input = getContentResolver().openInputStream(uri);
-		Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
-		input.close();
-		return bitmap;
-	}
-
-	private static int getPowerOfTwoForSampleRatio(double ratio) {
-		int k = Integer.highestOneBit((int) Math.floor(ratio));
-		if (k == 0)
-			return 1;
-		else
-			return k;
-	}
 	
+	/**
+	 * On click event method for goal.
+	 * 
+	 * @param v		the current view
+	 */
 	public void clickGoal(View v) {
 		Intent i = new Intent(this, AddGoalActivity.class);
 		startActivity(i);		
@@ -249,14 +228,29 @@ public class ViewGoalsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Method for adding to goal amount.
+	 * 
+	 * @param v		the current view
+	 */
 	public void clickAddToSavings(View v) {
 		showAddRemoveDialog(ADD);
 	}
 	
+	/**
+	 * Method for removing from goal amount.
+	 * 
+	 * @param v		the current view
+	 */
 	public void clickRemoveFromSavings(View v) {
 		showAddRemoveDialog(REMOVE);
 	}
 	
+	/**
+	 * Method for showing the dialog box.
+	 * 
+	 * @param add		boolean value: either add or remove
+	 */
 	protected void showAddRemoveDialog(final boolean add) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -310,6 +304,10 @@ public class ViewGoalsActivity extends Activity {
         alert.show();
 	}
 	
+	/**
+	 * Method to show the delete dialog box.
+	 * 
+	 */
 	protected void showDeleteDialog() {
 
     	new AlertDialog.Builder(ViewGoalsActivity.this)

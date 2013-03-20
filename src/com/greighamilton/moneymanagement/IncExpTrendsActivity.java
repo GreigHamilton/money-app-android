@@ -31,6 +31,12 @@ import com.greighamilton.moneymanagement.util.SettingsActivity;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
+/**
+ * IncExpTrendsActivity Activity class.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class IncExpTrendsActivity extends Activity {
 
 	private OnNavigationListener mOnNavigationListener;
@@ -56,6 +62,10 @@ public class IncExpTrendsActivity extends Activity {
 		resetView();
 	}
 	
+	/**
+	 * Method to set up the action bar for the Trends interface.
+	 * 
+	 */
 	private void setUpActionBar() {
 		
 		ActionBar actionBar = getActionBar();
@@ -96,6 +106,10 @@ public class IncExpTrendsActivity extends Activity {
 		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);		
 	}
 
+	/**
+	 * Method to set up the year spinner on the interface.
+	 * 
+	 */
 	public void setUpSpinner() {		
 
 		listOfYears = Util.getListOfYears();
@@ -119,6 +133,10 @@ public class IncExpTrendsActivity extends Activity {
 		});
 	}
 	
+	/**
+	 * Method used to reset the current view of data on the interface.
+	 * 
+	 */
 	private void resetView() {
 		
 		// Find largest value to use as basis for scaling
@@ -180,6 +198,14 @@ public class IncExpTrendsActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Method used to create the view for each month in the trends interface.
+	 * 
+	 * @param year			the chosen year required to be shown
+	 * @param month			the chosen month required to be shown
+	 * 
+	 * @return				the view
+	 */
 	private View createMonthView(String year, int month) {
 		
 		int income = db.getTotalIncomeAmountForMonth(year, Util.makeMonthString(month));

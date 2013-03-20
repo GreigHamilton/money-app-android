@@ -7,6 +7,12 @@ import android.view.MenuItem;
 
 import com.greighamilton.moneymanagement.R;
 
+/**
+ * Class for the settings activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class SettingsActivity extends PreferenceActivity {
 	
     @SuppressWarnings("deprecation")

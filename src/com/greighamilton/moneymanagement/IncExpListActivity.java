@@ -40,6 +40,12 @@ import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.views.ViewCategoriesActivity;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
+/**
+ * IncExpListActivity Activity class.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class IncExpListActivity extends ListActivity implements ActionBar.TabListener {
 
     private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
@@ -74,16 +80,8 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 
         setUpActionBar();
         db = DatabaseHelper.getInstance(this);
-
-//        // Set up the action bar.
-//        final ActionBar actionBar = getActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//        // For each of the sections in the app, add a tab to the action bar.
-//        actionBar.addTab(actionBar.newTab().setText("Income").setTabListener(this));
-//        actionBar.addTab(actionBar.newTab().setText("Expenses").setTabListener(this));
-//        selectedTab = TAB_INCOME;
         
+        // initialise the interface
         init();        
     }
     
@@ -93,6 +91,10 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     	init();
     }
     
+    /**
+     * Method to set up the action bar for the list interface.
+     * 
+     */
 	private void setUpActionBar() {
 		
 		ActionBar actionBar = getActionBar();
@@ -133,7 +135,9 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 		actionBar.setListNavigationCallbacks(mSpinnerAdapter, mOnNavigationListener);		
 	}
 
-    // Initialise form filters and fill list with data! :)
+    /**
+     * Method to initialise form filters and fill list with data
+     */
 	private void init() {
 		
 		// Check initial states of spinners and checkboxes
@@ -167,6 +171,9 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     	
 	}
 	
+	/**
+	 * Method to initialise the tab state of the list interface.
+	 */
 	private void initTabsState() {
 		incomeButton = (Button) findViewById(R.id.incexp_income_button);
 		expensesButton = (Button) findViewById(R.id.incexp_expenses_button);
@@ -175,6 +182,10 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 		expensesButton.setBackgroundColor(getResources().getColor(R.color.grey2));
 	}
 	
+	/**
+	 * Method to initialise the checkbox state of the interface.
+	 * 
+	 */
 	private void initCheckboxState() {		
 		
 		// Set up check boxes
@@ -202,6 +213,10 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 		allCategoriesCheckBox.setChecked(true);
 	}
 	
+	/**
+	 * Method to initialise the selected month and year spinner on the interface.
+	 * 
+	 */
     private void initSpinnerState() {
     	
 		// Get current month and year
@@ -359,6 +374,10 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
     
+    /**
+     * Method to show the delete dialog on the interface.
+     * 
+     */
 	protected void showDeleteDialog() {
 
     	new AlertDialog.Builder(IncExpListActivity.this)
@@ -395,6 +414,10 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
          .show();
 	}
 	
+	/**
+	 * Method to show the delete series dialog box.
+	 * 
+	 */
 	protected void showDeleteSeriesDialog() {
 
     	new AlertDialog.Builder(IncExpListActivity.this)
@@ -436,6 +459,11 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
          .show();    	
 	}
 	
+	/**
+	 * Method called on event click when user clicks the income button.
+	 * 
+	 * @param v			the current view
+	 */
 	public void onIncomeButtonClick(View v) {
 		if (selectedTab != TAB_INCOME) {
 			onButtonClicked(TAB_INCOME);
@@ -444,6 +472,11 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 		}
 	}
 	
+	/**
+	 * Method called on event click when the user clicks the expense button.
+	 * 
+	 * @param v			the current view
+	 */
 	public void onExpensesButtonClick(View v) {
 		if (selectedTab != TAB_EXPENSES) {
 			onButtonClicked(TAB_EXPENSES);
@@ -452,6 +485,11 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 		}
 	}
 	
+	/**
+	 * Method called when the button is clicked.
+	 * 
+	 * @param selected			current selected tab
+	 */
 	private void onButtonClicked(int selected) {
 		selectedTab = selected;
     	selectedItem = null;
@@ -488,7 +526,9 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 		
-	    // Called when the action mode is created; startActionMode() was called
+	    /**
+	     * Called when the action mode is created; startActionMode() was called
+	     */
 	    @Override
 	    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 	        // Inflate a menu resource providing context menu items
@@ -497,14 +537,17 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 	        return true;
 	    }
 
-	    // Called each time the action mode is shown. Always called after onCreateActionMode, but
-	    // may be called multiple times if the mode is invalidated.
+	    /**
+	     * Called each time the action mode is shown. Always called after onCreateActionMode, but
+	     * may be called multiple times if the mode is invalidated.
 	    @Override
 	    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 	        return false; // Return false if nothing is done
 	    }
 
-	    // Called when the user selects a contextual menu item
+	    /**
+	     * Called when the user selects a contextual menu item
+	     */
 	    @Override
 	    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 	    	Intent i;
@@ -534,11 +577,19 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 	                return false;
 	        }
 	    }
-	    // Called when the user exits the action mode
+	    
+	    /**
+	     * Called when the user exits the action mode
+	     */
 	    @Override
 	    public void onDestroyActionMode(ActionMode mode) {
 	    	mode = null;
 	    }
+
+		@Override
+		public boolean onPrepareActionMode(ActionMode arg0, Menu arg1) {
+			return false;
+		}
 	};
     
 }

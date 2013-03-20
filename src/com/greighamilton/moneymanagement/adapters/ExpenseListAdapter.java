@@ -13,6 +13,12 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.util.Util;
 
+/**
+ * Class for an ExpenseListAdapter object.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class ExpenseListAdapter extends CursorAdapter {
 	private LayoutInflater inflater;
 	private Cursor c;

@@ -18,6 +18,12 @@ import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.entry.AddExpenseActivity;
 import com.greighamilton.moneymanagement.entry.AddIncomeActivity;
 
+/**
+ * Class for an inc exp dialog.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorActionListener {
 	
 	private DatabaseHelper db;
@@ -67,7 +73,6 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
         Button deleteButton = (Button) view.findViewById(R.id.viewincexp_options_menu_delete_button);
         deleteButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                // TODO 
             	// When delete is clicked, delete the row using the id from the db
             	
             	db = DatabaseHelper.getInstance(getActivity());
@@ -77,10 +82,6 @@ public class ViewIncExpOptionsDialog extends DialogFragment implements OnEditorA
             	else if (idType.equalsIgnoreCase("EXPENSE")) {
             		db.deleteExpense(currentId);
             	}
-            	
-            	// TODO work around later
-            	//Intent i = new Intent(v.getContext(), ViewIncExpActivity.class);
-            	//startActivity(i);
 
             	dismiss();
             }

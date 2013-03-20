@@ -13,6 +13,12 @@ import android.widget.TextView;
 import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 
+/**
+ * Class for a CategoryListAdapter object.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class CategoryListAdapter extends CursorAdapter {
 	
 	private LayoutInflater inflater;

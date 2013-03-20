@@ -30,7 +30,7 @@ import android.widget.Toast;
  *      ://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android
  *      -applications/
  * 
- * @author Juan-Manuel Fluxï¿½
+ * @author Juan-Manuel Fluxï
  * 
  * @author Greig Hamilton (queries)
  */
@@ -89,8 +89,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	/**
 	 * Returns the singleton DatabaseHelper, instantiating if not yet done so.
 	 * 
-	 * @param context
-	 *            Application context.
+	 * @param context		Application context.
+	 * 
 	 * @return The DatabaseHelper singleton.
 	 */
 	public static DatabaseHelper getInstance(Context context) {
@@ -172,6 +172,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 * @see http
 	 *      ://stackoverflow.com/questions/2860157/load-files-bigger-than-1m-
 	 *      from-assets-folder/3093966#3093966
+	 *      
 	 * @author Seva Alekseyev
 	 */
 	private void copyDatabase() throws IOException {
@@ -228,7 +229,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		// stub if needed
 	}
 
-	/* Everything which follows is mostly query related. */
+	/**
+	 * Everything following are queries written by
+	 * 
+	 * @author Greig Hamilton
+	 */
 	
 	// INCOME queries
 	public Cursor getIncome() {
@@ -693,9 +698,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		else return 0f;
 	}
 	
-	//
-	// TODO end of Queries
-	//	
+	
+	
+	
+	
+	
 
 	/* AsyncTask to create database on first run. */
 	private class CreateDatabaseTask extends
@@ -711,11 +718,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			dialog.setCancelable(false);
 			dialog.show();
 			Toast.makeText(context, "Pre Execute", Toast.LENGTH_SHORT).show();
-			/*
-			 * dialog = ProgressDialog.show(context,
-			 * context.getString(R.string.preparing_database),
-			 * context.getString(R.string.preparing_database_message), true);
-			 */
 		}
 
 		@Override
@@ -738,11 +740,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				Toast.makeText(context, "Post Execute", Toast.LENGTH_SHORT)
 						.show();
 			} catch (IllegalArgumentException e) {
-				/*
-				 * See Ticket #11. Appears to throw this error if the dialog
-				 * somehow loses its parent view. Can safely be ignored in this
-				 * case, we're only hiding a dialog window.
-				 */
 			}
 
 			exists = true;

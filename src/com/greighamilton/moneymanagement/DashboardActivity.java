@@ -40,6 +40,12 @@ import com.greighamilton.moneymanagement.util.Update;
 import com.greighamilton.moneymanagement.util.Util;
 import com.greighamilton.moneymanagement.views.ViewGoalsActivity;
 
+/**
+ * Dashboard Activity class.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class DashboardActivity extends Activity implements ActionBar.OnNavigationListener {
 	
 	private boolean unlocked = false;
@@ -69,11 +75,18 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		setUpActionBar();
 		Update.doUpdate(this);
 		
+		// password check
 		if (Password.isPasswordProtected(this) && getIntent().getBooleanExtra("PASSWORD", true)) requestPassword();
 	}
 	
+
+	/**
+	 * Method to get the required password from the user, if a password has been set.
+	 * 
+	 */
 	private void requestPassword() {
 		
+		// build dialog box
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 		alert.setTitle("Enter Password");
@@ -108,6 +121,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		
 	}
 	
+	/**
+	 * Method to set up the action bar for the interface.
+	 * 
+	 */
 	private void setUpActionBar() {
 		
 		ActionBar actionBar = getActionBar();
@@ -160,6 +177,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		
 	}
 
+	/**
+	 * Method to set up the dashboard widgets --- built dynamically from the database.
+	 * 
+	 */
 	private void setUpWidgets() {
 		
 		widgets.clear();
@@ -286,6 +307,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		return super.onOptionsItemSelected(item);
 	}
 	
+	/**
+	 * Method to set a new password to be stored in SharedPreferences.
+	 * 
+	 */
 	private void setPassword() {
 		
 		AlertDialog.Builder setPassword = new AlertDialog.Builder(this);
@@ -322,6 +347,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		
 	}
 	
+	/**
+	 * Method to confirm the password entered by the user.
+	 * 
+	 */
 	private void confirmPassword() {
 		
 		AlertDialog.Builder confirmPassword = new AlertDialog.Builder(this);
@@ -349,6 +378,11 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		
 	}
 	
+	/**
+	 * Method for when the user clicks on a widget on the Dashboard interface.
+	 * 
+	 * @param v		the current view
+	 */
 	public void clickWidget(View v) {
 		
 		// if a widget is already selected - 'deselect it'
@@ -371,6 +405,14 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		startActivity(i);
 	}
 	
+	/**
+	 * Method to merge the income and expense widgets for the dashboard interface.
+	 * Required since version 1.1 of the app.
+	 * 
+	 * @param incomes		List of LinearLayouts for the income widgets.
+	 * @param expenses		List of LinearLayouts for the expense widgets.
+	 * @return				List of LinearLayout objects
+	 */
 	private List<LinearLayout> mergeWidgets(List<LinearLayout> incomes, List<LinearLayout> expenses) {
 		
 		List<LinearLayout> theWidgets = new ArrayList<LinearLayout>();
@@ -408,6 +450,12 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		
 	}
 
+	/**
+	 * Private class for a WidgetAdapter object for use of the widgets on the dashboard.
+	 * 
+	 * @author Greig Hamilton
+	 *
+	 */
 	public class WidgetAdapter extends BaseAdapter {
 		
 		private List<LinearLayout> widgets;
@@ -443,6 +491,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 
 	}
 	
+	/**
+	 * Method called on create of the adapter.
+	 * 
+	 */
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 		
 	    // Called when the action mode is created; startActionMode() was called
@@ -506,6 +558,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 	    }
 	};
 	
+	/**
+	 * Method to show the delete dialog.
+	 * 
+	 */
 	protected void showDeleteDialog() {
 
     	new AlertDialog.Builder(DashboardActivity.this)
@@ -540,6 +596,10 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
          .show();
 	}
 	
+	/**
+	 * Method to show the delete series dialog.
+	 * 
+	 */
 	protected void showDeleteSeriesDialog() {
 
     	new AlertDialog.Builder(DashboardActivity.this)

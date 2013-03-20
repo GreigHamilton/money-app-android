@@ -30,6 +30,12 @@ import com.greighamilton.moneymanagement.R;
 import com.greighamilton.moneymanagement.data.DatabaseHelper;
 import com.greighamilton.moneymanagement.util.Util;
 
+/**
+ * Class for add income activity.
+ * 
+ * @author Greig Hamilton
+ *
+ */
 public class AddIncomeActivity extends Activity implements
 		OnItemSelectedListener {
 	
@@ -228,14 +234,7 @@ public class AddIncomeActivity extends Activity implements
 				int categoryId = incomeCategoryIDs.get(incomeSpinner.getSelectedItemPosition());
 
 				// Get data for notification checkbox
-				int notification_id;
-//				if (((CheckBox) findViewById(R.id.income_notification))
-//						.isChecked()) {
-//					notification_id = 1;
-//					// TODO Create a notification
-//				} else {
-					notification_id = 0;
-//				}
+				int notification_id = 0;
 					
 				boolean reAdd = false;
 				
@@ -315,6 +314,12 @@ public class AddIncomeActivity extends Activity implements
 		button.setText(day + "/" + month + "/" + year);
 	}
 
+	/**
+	 * Date picker fragment class.
+	 * 
+	 * @author Greig Hamilton
+	 *
+	 */
 	public class SelectDateFragment extends DialogFragment implements
 			DatePickerDialog.OnDateSetListener {
 
