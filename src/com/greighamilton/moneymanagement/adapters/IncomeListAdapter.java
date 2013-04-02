@@ -1,8 +1,10 @@
 package com.greighamilton.moneymanagement.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +25,16 @@ public class IncomeListAdapter extends CursorAdapter {
 	
 	private LayoutInflater inflater;
 	private DatabaseHelper db;
+	
+	private String currencySymbol;
 
 	public IncomeListAdapter(Context context, Cursor cursor) {
 		super(context, cursor, CursorAdapter.NO_SELECTION);
 		inflater = LayoutInflater.from(context);
 		db = DatabaseHelper.getInstance(context);
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+		currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 
 	@Override
@@ -40,7 +47,7 @@ public class IncomeListAdapter extends CursorAdapter {
 		TextView incomeNotes = (TextView) view.findViewById(R.id.income_notes);
 
 		incomeName.setText(c.getString(DatabaseHelper.INCOME_NAME));
-		incomeAmount.setText("£"+Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.INCOME_AMOUNT))));
+		incomeAmount.setText("" + currencySymbol +Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.INCOME_AMOUNT))));
 		incomeDate.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		incomeNotes.setText(c.getString(DatabaseHelper.INCOME_NOTES));
 		

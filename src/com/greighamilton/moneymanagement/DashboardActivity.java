@@ -10,10 +10,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -78,7 +81,7 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 		// password check
 		if (Password.isPasswordProtected(this) && getIntent().getBooleanExtra("PASSWORD", true)) requestPassword();
 	}
-	
+
 
 	/**
 	 * Method to get the required password from the user, if a password has been set.

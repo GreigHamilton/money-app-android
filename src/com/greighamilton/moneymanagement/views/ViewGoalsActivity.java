@@ -10,11 +10,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.view.Menu;
@@ -63,6 +65,8 @@ public class ViewGoalsActivity extends Activity {
 	private ImageView goalImage;
 	private ProgressBar progress;
 	private TextView percentProgress;
+	
+	private String currencySymbol;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,9 @@ public class ViewGoalsActivity extends Activity {
 		
 		ActionBar actionBar = getActionBar();
 	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    
+	    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 
 	/**
@@ -140,9 +147,9 @@ public class ViewGoalsActivity extends Activity {
 				String imagePath = c.getString(DatabaseHelper.GOAL_IMAGE);
 
 				nameText.setText(c.getString(DatabaseHelper.GOAL_NAME));
-				neededText.setText("£ " + Util.floatFormat(selectedNeeded));
-				savedText.setText("£ " + Util.floatFormat(selectedSaved));
-				toSaveText.setText("£ " + Util.floatFormat((selectedNeeded - selectedSaved)));
+				neededText.setText("" + currencySymbol + " "  + Util.floatFormat(selectedNeeded));
+				savedText.setText("" + currencySymbol + " " + Util.floatFormat(selectedSaved));
+				toSaveText.setText("" + currencySymbol + " " + Util.floatFormat((selectedNeeded - selectedSaved)));
 				
 				progress.setMax(selectedNeeded);
 				progress.setProgress(selectedSaved);
@@ -274,7 +281,7 @@ public class ViewGoalsActivity extends Activity {
             		amountSaved += amountToAdd;
             		
             		db.updateGoalSaved(listOfGoalIDs.get(selectedItem), amountSaved);
-            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
+            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : " + currencySymbol +Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
             		if (amountSaved == amountNeeded) {
             			Toast.makeText(ViewGoalsActivity.this, "Congratulations! You have reached your goal!", Toast.LENGTH_SHORT).show();        		
             		}
@@ -286,7 +293,7 @@ public class ViewGoalsActivity extends Activity {
             		amountSaved -= amountToRemove;
             		
             		db.updateGoalSaved(listOfGoalIDs.get(selectedItem), amountSaved);
-            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : £"+Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
+            		Toast.makeText(ViewGoalsActivity.this, "New amount saved : " + currencySymbol +Util.floatFormat(amountSaved), Toast.LENGTH_SHORT).show();
             	}
             } catch(NumberFormatException nfe) {
                System.out.println("Could not parse " + nfe);

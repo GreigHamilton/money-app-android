@@ -9,10 +9,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
@@ -64,6 +66,8 @@ public class IncExpVisualiserActivity extends Activity {
 	private int selectedType;				// TYPE_INCOME or TYPE_EXPENSE
 	private String selectedItem;			// income or expense ID
 	private LinearLayout selectedView;		// selected block
+	
+	private String currencySymbol;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,9 @@ public class IncExpVisualiserActivity extends Activity {
 
 		setUpActionBar();
 		db = DatabaseHelper.getInstance(this);
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 	
 	@Override
@@ -224,7 +231,7 @@ public class IncExpVisualiserActivity extends Activity {
 			totalIncome += c.getInt(DatabaseHelper.INCOME_AMOUNT);
 			c.close();
 		}
-		((TextView) findViewById(R.id.income_total)).setText("IN £"
+		((TextView) findViewById(R.id.income_total)).setText("IN " + currencySymbol
 				+ totalIncome);
 
 		// Get Expenses
@@ -242,7 +249,7 @@ public class IncExpVisualiserActivity extends Activity {
 			totalExpenses += c.getInt(DatabaseHelper.EXPENSE_AMOUNT);
 			c.close();
 		}
-		((TextView) findViewById(R.id.expenses_total)).setText("OUT £"
+		((TextView) findViewById(R.id.expenses_total)).setText("OUT " + currencySymbol
 				+ totalExpenses);
 		
 		// Disposable Income
@@ -258,7 +265,7 @@ public class IncExpVisualiserActivity extends Activity {
 			extraBlock.setGravity(Gravity.CENTER);
 			
 			TextView t = new TextView(this);
-			t.setText("Disposable Income: £" + disposableIncome);
+			t.setText("Disposable Income: " + currencySymbol + disposableIncome);
 			t.setTypeface(Typeface.DEFAULT_BOLD);
 			
 			LinearLayout whiteBlock = new LinearLayout(this);
@@ -283,7 +290,7 @@ public class IncExpVisualiserActivity extends Activity {
 			extraBlock.setGravity(Gravity.CENTER);
 			
 			TextView t = new TextView(this);
-			t.setText("Overspending: £" + -disposableIncome);
+			t.setText("Overspending: " + currencySymbol + -disposableIncome);
 			t.setTypeface(Typeface.DEFAULT_BOLD);
 			
 			LinearLayout whiteBlock = new LinearLayout(this);
@@ -324,7 +331,7 @@ public class IncExpVisualiserActivity extends Activity {
 			block.setGravity(Gravity.CENTER);
 			block.setPadding(0, 5, 0, 5);
 			TextView text = new TextView(this);
-			text.setText(name + ": £" + amount);
+			text.setText(name + ": " + currencySymbol + amount);
 			block.addView(text);
 			block.setOnClickListener(new OnClickListener() {
 				   @Override
@@ -367,7 +374,7 @@ public class IncExpVisualiserActivity extends Activity {
 			block.setTag(categoryColour);
 			block.setGravity(Gravity.CENTER);
 			TextView text = new TextView(this);
-			text.setText(name + ": £" + amount);
+			text.setText(name + ": " + currencySymbol + amount);
 			block.addView(text);
 			block.setOnClickListener(new OnClickListener() {
 				   @Override

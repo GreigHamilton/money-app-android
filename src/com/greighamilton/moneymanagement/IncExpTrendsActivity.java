@@ -6,8 +6,10 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,8 @@ public class IncExpTrendsActivity extends Activity {
 	private List<String> listOfYears;
 	private List<String> listOfMonths;
 	private float scale; // size of largest value in graph
+	
+	private String currencySymbol;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,9 @@ public class IncExpTrendsActivity extends Activity {
 		
 		setUpSpinner();
 		resetView();
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 	
 	/**
@@ -229,11 +236,11 @@ public class IncExpTrendsActivity extends Activity {
 		TextView summaryText = new TextView(this);
 		if (income-expense > 0) {
 			summaryText.setTextColor(getResources().getColor(R.color.green1));
-			summaryText.setText('\n'+ "      + £"+(income-expense));
+			summaryText.setText('\n'+ "      + " + currencySymbol +(income-expense));
 		}
 		else {
 			summaryText.setTextColor(getResources().getColor(R.color.red1));
-			summaryText.setText('\n'+ "      - £"+(expense-income));
+			summaryText.setText('\n'+ "      - " + currencySymbol +(expense-income));
 		}
 		summaryText.setGravity(Gravity.CENTER_HORIZONTAL);
 		summaryText.setGravity(Gravity.TOP);
@@ -266,7 +273,7 @@ public class IncExpTrendsActivity extends Activity {
 		
 		// Income text
 		VerticalTextView incomeText = new VerticalTextView(this);
-		incomeText.setText("£" + income);
+		incomeText.setText("" + currencySymbol + income);
 		incomeText.setScaleX(0.7f);
 		incomeText.setScaleY(0.7f);
 		incomeBar.addView(incomeText);
@@ -295,7 +302,7 @@ public class IncExpTrendsActivity extends Activity {
 		
 		// Expense text
 		VerticalTextView expenseText = new VerticalTextView(this);
-		expenseText.setText("£" + expense);
+		expenseText.setText("" + currencySymbol + expense);
 		expenseText.setScaleX(0.7f);
 		expenseText.setScaleY(0.7f);
 		expenseBar.addView(expenseText);

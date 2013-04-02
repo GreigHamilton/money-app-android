@@ -20,5 +20,19 @@
             android:title="Set Password" >
         </com.greighamilton.moneymanagement.data.PasswordDialogPreference>
     </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="pref_currency"
+        android:title="Currency" >
+
+        <com.greighamilton.moneymanagement.data.CurrencyDialogPreference
+            android:dialogMessage="Select a currency to be used within the app."
+            android:key="pref_set_currency"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="Save Currency"
+            android:summary="Select a currency to be used within the app."
+            android:title="Set Currency" >
+        </com.greighamilton.moneymanagement.data.CurrencyDialogPreference>
+    </PreferenceCategory>
 
 </PreferenceScreen>

@@ -3,7 +3,9 @@ package com.greighamilton.moneymanagement.data;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.preference.DialogPreference;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class PasswordDialogPreference extends DialogPreference {
      */
     public void onClick (DialogInterface dialog, int which) {
         if (DialogInterface.BUTTON_POSITIVE == which) {
+        	
         	EditText input = (EditText)((AlertDialog) dialog).findViewById(R.id.passwordText);
         	String password = input.getText().toString();
         	if (password.length() < 4) {

@@ -1,8 +1,10 @@
 package com.greighamilton.moneymanagement.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +22,21 @@ import com.greighamilton.moneymanagement.util.Util;
  *
  */
 public class ExpenseListAdapter extends CursorAdapter {
+	
 	private LayoutInflater inflater;
 	private Cursor c;
 	private DatabaseHelper db;
+	
+	private String currencySymbol;
 
 	public ExpenseListAdapter(Context context, Cursor cursor) {
 		super(context, cursor, CursorAdapter.NO_SELECTION);
 		inflater = LayoutInflater.from(context);
 		c = cursor;
 		db = DatabaseHelper.getInstance(context);
+		
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+		currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 
 	@Override
@@ -42,7 +50,7 @@ public class ExpenseListAdapter extends CursorAdapter {
 		TextView expenseNotes = (TextView) view.findViewById(R.id.expense_notes);
 
 		expenseName.setText(c.getString(DatabaseHelper.EXPENSE_NAME));
-		expenseAmount.setText("£"+Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.EXPENSE_AMOUNT))));
+		expenseAmount.setText("" + currencySymbol +Util.floatFormat(Float.toString(c.getFloat(DatabaseHelper.EXPENSE_AMOUNT))));
 		expenseDate.setText(c.getString(DatabaseHelper.EXPENSE_DATE));
 		expenseNotes.setText(c.getString(DatabaseHelper.EXPENSE_NOTES));
 

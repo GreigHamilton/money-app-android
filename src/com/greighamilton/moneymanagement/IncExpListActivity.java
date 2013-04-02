@@ -9,8 +9,10 @@ import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -82,7 +84,7 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
         db = DatabaseHelper.getInstance(this);
         
         // initialise the interface
-        init();        
+        init();
     }
     
     @Override

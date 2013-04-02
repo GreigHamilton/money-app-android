@@ -200,7 +200,6 @@ public class Util {
 	public static List<String> getListOfYears(){
 		
 		List<String> years = new ArrayList<String>();
-		years.add("2012");
 		years.add("2013"); years.add("2014"); years.add("2015"); years.add("2016");
 		years.add("2017"); years.add("2018"); years.add("2019"); years.add("2020");
 		return years;
