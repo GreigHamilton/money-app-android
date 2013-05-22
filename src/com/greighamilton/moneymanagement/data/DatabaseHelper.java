@@ -30,7 +30,7 @@ import android.widget.Toast;
  *      ://www.reigndesign.com/blog/using-your-own-sqlite-database-in-android
  *      -applications/
  * 
- * @author Juan-Manuel Fluxï
+ * @author Juan-Manuel Flux
  * 
  * @author Greig Hamilton (queries)
  */

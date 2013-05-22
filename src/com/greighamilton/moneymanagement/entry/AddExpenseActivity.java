@@ -10,8 +10,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,10 +67,15 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 	private Bundle extras;
 	private String currentId;
 
+    private String currencySymbol;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addexpense);
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
+        currencySymbol = sp.getString("CURRENCYSYMBOL", "");
 	}
 	
 	@Override
@@ -138,7 +145,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		    //TextView expenseCategory = (TextView) findViewById(R.id.expense_category);
 		    //expenseCategory.append(c.getString(DatabaseHelper.INCOME_AMOUNT));		    
 
-			this.setTitle("Edit Expense: "+name+" (£"+amount+")");
+			this.setTitle("Edit Expense: "+name+" (ï¿½"+amount+")");
 		    
 		    button.setText(c.getString(DatabaseHelper.INCOME_DATE));
 		    String date = c.getString(DatabaseHelper.INCOME_DATE);

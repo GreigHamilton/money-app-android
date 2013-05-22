@@ -20,8 +20,7 @@
         <item>Blue</item>
         <item>Purple</item>
     </string-array>
-    
-    <string name="pick_color">Pick A Colour</string>
+
     <string-array name="colors_array_expenses">
         <item>Red</item>
         <item>Pink</item>

@@ -67,10 +67,10 @@ public class Update {
 				|| locale.equalsIgnoreCase("IRELAND")
 				|| locale.equalsIgnoreCase("SPAIN")) {
 			
-			sp.edit().putString("CURRENCYSYMBOL", "€").commit();
+			sp.edit().putString("CURRENCYSYMBOL", "â‚¬").commit();
 		}
 		else {
-			sp.edit().putString("CURRENCYSYMBOL", "£").commit();
+			sp.edit().putString("CURRENCYSYMBOL", "Â£").commit();
 		}
 		
 		sp.edit().putInt("VERSION", 2).commit();

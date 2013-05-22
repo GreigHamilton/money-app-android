@@ -44,16 +44,16 @@ public class CurrencyDialogPreference extends DialogPreference {
         	    	sp.edit().putString("CURRENCYSYMBOL", "$").commit();
         	    }
         	    else if (id == R.id.euro) {
-        	    	sp.edit().putString("CURRENCYSYMBOL", "€").commit();
+        	    	sp.edit().putString("CURRENCYSYMBOL", "â‚¬").commit();
         	    }
         	    else if (id == R.id.pound) {
-        	    	sp.edit().putString("CURRENCYSYMBOL", "£").commit();
+        	    	sp.edit().putString("CURRENCYSYMBOL", "Â£").commit();
         	    }
         	    else if (id == R.id.yen) {
-        	    	sp.edit().putString("CURRENCYSYMBOL", "¥").commit();
+        	    	sp.edit().putString("CURRENCYSYMBOL", "Â¥").commit();
         	    }
         	    else {
-        	    	sp.edit().putString("CURRENCYSYMBOL", "£").commit();
+        	    	sp.edit().putString("CURRENCYSYMBOL", "Â£").commit();
         	    }
         	}
         }
