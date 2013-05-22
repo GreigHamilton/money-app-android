@@ -1,44 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.greighamilton.moneymanagement"
-    android:versionCode="2"
-    android:versionName="1.0.1" >
+    android:versionCode="10"
+    android:versionName="1.1.4" >
 
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="15" />
     
-    <supports-screens android:resizeable="true"
-                  android:smallScreens="true"
-                  android:normalScreens="true"
-                  android:largeScreens="true"
-                  android:xlargeScreens="true"
-                  android:anyDensity="true"/>
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppBaseTheme" >
         <activity
             android:name="com.greighamilton.moneymanagement.DashboardActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <repetition android:name="android.intent.repetition.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.greighamilton.moneymanagement.utilities.AddIncomeActivity" android:label="Add Income" />
-        <activity android:name="com.greighamilton.moneymanagement.utilities.AddExpenseActivity" android:label="Add Expense" />
-        <activity android:name="com.greighamilton.moneymanagement.utilities.AddGoalActivity" android:label="Add Goal" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewGoalsActivity" android:label="Goals" />
-        <activity android:name="com.greighamilton.moneymanagement.utilities.AddCategoryActivity" android:label="Add Category" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewCategoriesActivity" android:label="Categories" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewTrendsActivity" android:label="Income/Expense Trends" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewSummaryActivity" android:label="Income/Expense Visualiser" />
-        <activity android:name="com.greighamilton.moneymanagement.views.ViewIncExpActivity" android:label="Income/Expense List" />
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.entry.AddIncomeActivity"
+            android:label="Add Income" />
+        <activity
+            android:name="com.greighamilton.moneymanagement.entry.AddExpenseActivity"
+            android:label="Add Expense" />
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.entry.AddGoalActivity"
+            android:label="Add Goal" />
+        <activity
+            android:name="com.greighamilton.moneymanagement.views.ViewGoalsActivity"
+            android:label="Goals"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.entry.AddCategoryActivity"
+            android:label="Add Category" />
+        <activity
+            android:name="com.greighamilton.moneymanagement.views.ViewCategoriesActivity"
+            android:label="Categories"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.IncExpTrendsActivity"
+            android:label="Income/Expense Trends"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity
+            android:name="com.greighamilton.moneymanagement.IncExpVisualiserActivity" 
+            android:label="Income/Expense Visualiser"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        <activity
+            android:name="com.greighamilton.moneymanagement.IncExpListActivity"  
+            android:label="Income/Expense List"
+            android:uiOptions="splitActionBarWhenNarrow" />
+        
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.external.HintsTipsActivity"
+            android:label="Hints &amp; Tips" />
+        
+        <activity
+            android:name="com.greighamilton.moneymanagement.util.SettingsActivity"
+            android:label="Settings" />
     </application>
-
 </manifest>

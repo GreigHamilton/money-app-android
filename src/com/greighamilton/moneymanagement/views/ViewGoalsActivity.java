@@ -160,29 +160,32 @@ public class ViewGoalsActivity extends Activity {
 				findViewById(R.id.goal_image);
 
 				try {
-				if (!imagePath.equals("")) {
-		
-					 String[] filePathColumn = { MediaStore.Images.Media.DATA
-					 };
-					 
-					 Uri selectedImage = Uri.parse(imagePath);
-					
-					 Cursor cursor = getContentResolver().query(selectedImage,
-					 filePathColumn, null, null, null);
-					 cursor.moveToFirst();
-					
-					 int columnIndex =
-					 cursor.getColumnIndex(filePathColumn[0]);
-					 String picturePath = cursor.getString(columnIndex);
-					 cursor.close();
-					 
-					 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-				}
-				else {
-					
-					imageView.setImageBitmap(BitmapFactory.decodeFile("@drawable/ic_add_picture.png"));
-				}
+					if (!imagePath.equals("")) {
+			
+						 String[] filePathColumn = { MediaStore.Images.Media.DATA
+						 };
+						 
+						 Uri selectedImage = Uri.parse(imagePath);
+						
+						 Cursor cursor = getContentResolver().query(selectedImage,
+						 filePathColumn, null, null, null);
+						 cursor.moveToFirst();
+						
+						 int columnIndex =
+						 cursor.getColumnIndex(filePathColumn[0]);
+						 String picturePath = cursor.getString(columnIndex);
+						 cursor.close();
+						 
+						 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+					}
+					else {
+						
+						imageView.setImageBitmap(BitmapFactory.decodeFile("@drawable/ic_add_picture.png"));
+					}
 				} catch (Exception e) {
+					e.printStackTrace();
+					imageView.setActivated(false);
+				} catch (OutOfMemoryError e) {
 					e.printStackTrace();
 					imageView.setActivated(false);
 				}

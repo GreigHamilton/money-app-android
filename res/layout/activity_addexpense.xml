@@ -96,7 +96,6 @@
             android:text="Date" />
 
         <!-- Repetition -->
-
         <LinearLayout
             android:id="@+id/expense_linearlayout_3"
             android:layout_width="fill_parent"
@@ -111,8 +110,9 @@
                 android:layout_weight="1"
                 android:onClick="clickCheckbox"
                 android:text="One-Off" />
-
-            <LinearLayout
+            
+            <RelativeLayout
+                android:id="@+id/expense_repetition_1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
@@ -121,24 +121,51 @@
                     android:id="@+id/expense_repetition_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Repeat for"
+                    android:layout_centerVertical="true"
+                    android:text="Repeat"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Spinner
+                    android:id="@+id/expense_repetition_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/expense_repetition_text" />
+                
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/expense_repetition_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                
+                <TextView
+                    android:id="@+id/expense_for"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="for"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <EditText
                     android:id="@+id/expense_repetition_length"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="20"
-                    android:ems="10"
+                    android:layout_toRightOf="@+id/expense_for"
+                    android:layout_centerVertical="true"
+                    android:ems="5"
                     android:inputType="number" />
 
-                <Spinner
-                    android:id="@+id/expense_repetition_period"
+                <TextView
+                    android:id="@+id/expense_repetition_period_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="15" />
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/expense_repetition_length"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                
+            </RelativeLayout>
         </LinearLayout>
 
         <TextView

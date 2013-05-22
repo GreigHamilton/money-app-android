@@ -15,7 +15,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -91,11 +93,25 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		
 		// Spinner for repetition period
 		repetitionSpinner = (Spinner) findViewById(R.id.expense_repetition_period);
-		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array,
-						android.R.layout.simple_spinner_item);
-		repetitionAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<CharSequence> repetitionAdapter = ArrayAdapter.createFromResource(this, R.array.repetition_array, android.R.layout.simple_spinner_item);
+		repetitionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		repetitionSpinner.setAdapter(repetitionAdapter);
+		repetitionSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int selection, long arg3) {
+				TextView repPeriodText = (TextView) findViewById(R.id.expense_repetition_period_text);
+				switch (selection) {
+					case 0: repPeriodText.setText("weeks."); break;
+					case 1: repPeriodText.setText("months."); break;
+					case 2: repPeriodText.setText("years."); break;
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// nothing
+			}
+        });
 		
 		Button button = (Button) findViewById(R.id.expense_date);		
 		
@@ -105,9 +121,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		repPeriod = (Spinner) findViewById(R.id.expense_repetition_period);
 		
 		oneOff.setChecked(true);
-		repLength.setEnabled(false);
-		repText.setEnabled(false);
-		repPeriod.setEnabled(false);
+		this.clickCheckbox(null);
 		
 		extras = getIntent().getExtras();
 		
@@ -341,8 +355,15 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 	}
 
 	public void clickCheckbox(View v) {
-		repLength.setEnabled(!oneOff.isChecked());
-		repText.setEnabled(!oneOff.isChecked());
-		repPeriod.setEnabled(!oneOff.isChecked());
+		ViewGroup repetitionView1 = (ViewGroup) findViewById(R.id.expense_repetition_1);
+		ViewGroup repetitionView2 = (ViewGroup) findViewById(R.id.expense_repetition_2);
+		
+		for (int i=0; i<repetitionView1.getChildCount(); i++) {
+			repetitionView1.getChildAt(i).setEnabled(!oneOff.isChecked());
+		}
+		
+		for (int i=0; i<repetitionView2.getChildCount(); i++) {
+			repetitionView2.getChildAt(i).setEnabled(!oneOff.isChecked());
+		}
 	}
 }
