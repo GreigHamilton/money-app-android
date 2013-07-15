@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 
 import android.text.format.Time;
+import android.util.Log;
 
 /**
  * Class for collection of helper methods used throughout all classes.

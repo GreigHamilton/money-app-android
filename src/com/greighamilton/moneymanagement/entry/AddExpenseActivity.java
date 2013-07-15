@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -46,6 +47,9 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 	private static final int WEEK = 1;
 	private static final int MONTH = 2;
 	private static final int YEAR = 3;
+	private static final int WEEKBI = 4;
+    private static final int WEEK4 = 5;
+	
 	private static final int SERIES = 4;
 
 	int day;
@@ -284,9 +288,11 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 					if (repetition_length != ONE_0FF) {
 						for (int i=0; i<repetition_length; i++) {
 							switch (repetition_period) {
-								case WEEK :	date = Util.addWeeksToDate(date, 1); break;
-								case MONTH : date = Util.addMonthsToDate(date, 1); break;
-								case YEAR :	date = Util.addYearsToDate(date, 1); break;
+								case WEEK :		date = Util.addWeeksToDate(date, 1); break;
+								case MONTH : 	date = Util.addMonthsToDate(date, 1); break;
+								case YEAR :		date = Util.addYearsToDate(date, 1); break;
+								case WEEKBI :	date = Util.addWeeksToDate(date, 2); break;
+								case WEEK4 :	date = Util.addWeeksToDate(date, 4); break;
 								default : break;
 							}
 							db.addExpense(name, amount, date, SERIES, seriesID,
@@ -332,6 +338,7 @@ public class AddExpenseActivity extends Activity implements	OnItemSelectedListen
 		button.setText(day + "/" + month + "/" + year);
 	}
 
+	@SuppressLint("ValidFragment")
 	public class SelectDateFragment extends DialogFragment implements
 			DatePickerDialog.OnDateSetListener {
 

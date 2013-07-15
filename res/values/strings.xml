@@ -80,12 +80,9 @@
         <item>weekly</item>
         <item>monthly</item>
         <item>yearly</item>
+        <item>bi-weekly</item>
+        <item>4-weekly</item>
     </string-array>
-    
-    <string-array name="repetition_array_2">
-        <item>weeks</item>
-        <item>months</item>
-        <item>years</item>
-    </string-array>
+  
     
 </resources>

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -46,6 +47,9 @@ public class AddIncomeActivity extends Activity implements
     private static final int WEEK = 1;
     private static final int MONTH = 2;
     private static final int YEAR = 3;
+    private static final int WEEKBI = 4;
+    private static final int WEEK4 = 5;
+    
     private static final int SERIES = 4;
 
     private int day;
@@ -113,6 +117,8 @@ public class AddIncomeActivity extends Activity implements
                     case 0: repPeriodText.setText("weeks."); break;
                     case 1: repPeriodText.setText("months."); break;
                     case 2: repPeriodText.setText("years."); break;
+                    case 3: repPeriodText.setText("occurrences."); break;
+                    case 4: repPeriodText.setText("occurrences."); break;
                 }
             }
 
@@ -284,11 +290,13 @@ public class AddIncomeActivity extends Activity implements
 
                         // Series
                         if (repetition_length != ONE_0FF) {
-                            for (int i=0; i<repetition_length; i++) {
+                            for (int i=0; i < repetition_length; i++) {
                                 switch (repetition_period) {
-                                    case WEEK :	date = Util.addWeeksToDate(date, 1); break;
-                                    case MONTH : date = Util.addMonthsToDate(date, 1); break;
-                                    case YEAR :	date = Util.addYearsToDate(date, 1); break;
+                                    case WEEK :		date = Util.addWeeksToDate(date, 1); break;
+                                    case MONTH : 	date = Util.addMonthsToDate(date, 1); break;
+                                    case YEAR :		date = Util.addYearsToDate(date, 1); break;
+                                    case WEEKBI :	date = Util.addWeeksToDate(date, 2); break;
+                                    case WEEK4 :	date = Util.addWeeksToDate(date, 4); break;
                                     default : break;
                                 }
                                 db.addIncome(name, amount, date, SERIES, seriesID,
@@ -342,7 +350,8 @@ public class AddIncomeActivity extends Activity implements
      * @author Greig Hamilton
      *
      */
-    public class SelectDateFragment extends DialogFragment implements
+    @SuppressLint("ValidFragment")
+	public class SelectDateFragment extends DialogFragment implements
             DatePickerDialog.OnDateSetListener {
 
         @Override

@@ -44,6 +44,7 @@
         android:id="@+id/colour"
         android:layout_width="fill_parent"
         android:layout_height="10dp"
+        android:orientation="vertical"
         android:background="@color/grey2"
         android:paddingTop="10dp" >
     </LinearLayout>
@@ -52,17 +53,20 @@
     <LinearLayout
     	android:id="@+id/type"
         android:layout_width="wrap_content"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:visibility="gone" />
     
     <LinearLayout
     	android:id="@+id/id"
+    	android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
     
     <LinearLayout
     	android:id="@+id/date"
+    	android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
