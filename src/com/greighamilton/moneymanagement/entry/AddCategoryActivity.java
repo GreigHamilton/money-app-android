@@ -1,5 +1,6 @@
 package com.greighamilton.moneymanagement.entry;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -99,42 +100,52 @@ public class AddCategoryActivity extends Activity {
 			break;
 
 		case R.id.category_menu_save:
-			// Get name data
-			String name = ((EditText) findViewById(R.id.category_name))
-					.getText().toString();
 
-			// Get type data
-			int type;
-			if (((RadioButton) findViewById(R.id.category_type_income))
-					.isChecked())
-				type = 0;
-			else
-				type = 1;
-			
-			// Get description data
-			String description;
-			if (((EditText) findViewById(R.id.category_description)).getText()
-					.length() == 0)
-				description = "";
-			else
-				description = ((EditText) findViewById(R.id.category_description))
-						.getText().toString();
-			// check status of color code
-			if (colorCode == null) {
-				if (((RadioButton) findViewById(R.id.category_type_income)).isChecked())
-					colorCode = getResources().getString(R.color.Green);
-				else
-					colorCode = getResources().getString(R.color.Red);
+			Button button = (Button) findViewById(R.id.category_colour);
+			EditText nameBox = ((EditText) findViewById(R.id.category_name));
+
+			if (button.getText().equals("Colour")
+					|| nameBox.getText().toString().length() == 0) {
+				// check status of color code
+				if (button.getText().equals("Colour"))
+					button.setError("A colour is required.");
+
+				if (nameBox.getText().toString().length() == 0)
+					nameBox.setError("A name is required.");
 			}
-			
-			if (extras != null) {
-				db.updateCategory(currentId, name, type, colorCode, description);
-			}
+
 			else {
-				db.addCategory(name, type, colorCode, description);
+				// Get name data
+				String name = ((EditText) findViewById(R.id.category_name))
+						.getText().toString();
+
+				// Get type data
+				int type;
+				if (((RadioButton) findViewById(R.id.category_type_income))
+						.isChecked())
+					type = 0;
+				else
+					type = 1;
+
+				// Get description data
+				String description;
+				if (((EditText) findViewById(R.id.category_description))
+						.getText().length() == 0)
+					description = "";
+				else
+					description = ((EditText) findViewById(R.id.category_description))
+							.getText().toString();
+
+				if (extras != null) {
+					db.updateCategory(currentId, name, type, colorCode,
+							description);
+				} else {
+					db.addCategory(name, type, colorCode, description);
+				}
+				
+				finish();
 			}
 			
-			finish();
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -151,6 +162,7 @@ public class AddCategoryActivity extends Activity {
 	 * @author Greig Hamilton
 	 *
 	 */
+	@SuppressLint("ValidFragment")
 	public class ColourPickerFragment extends DialogFragment {
 
 		@Override

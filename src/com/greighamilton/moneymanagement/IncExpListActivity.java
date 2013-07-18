@@ -90,6 +90,9 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     @Override
     public void onResume() {
     	super.onResume();
+    	
+    	selectedItem = null;
+    	
     	init();
     }
     
@@ -295,6 +298,8 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
     
     @Override
 	public void onListItemClick(ListView list, View v, int position, long id) {
+    	
+    			
 		// Show context action bar
     	if (selectedTab == TAB_INCOME) {
     		selectedItem = v.getTag(R.id.list_item_income).toString();
@@ -561,10 +566,12 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 	            	if (selectedTab == TAB_INCOME) {
 	            		i = new Intent(IncExpListActivity.this, AddIncomeActivity.class);
 	            		i.putExtra("CURRENT_ID", selectedItem);
+	            		selectedItem = null;
 	            		startActivity(i);
 	            	} else {
 	            		i = new Intent(IncExpListActivity.this, AddExpenseActivity.class);
 	            		i.putExtra("CURRENT_ID", selectedItem);
+	            		selectedItem = null;
 	            		startActivity(i);
 	            	} return true;
 	            
@@ -585,6 +592,7 @@ public class IncExpListActivity extends ListActivity implements ActionBar.TabLis
 	     */
 	    @Override
 	    public void onDestroyActionMode(ActionMode mode) {
+	    	selectedItem = null;
 	    	mode = null;
 	    }
 

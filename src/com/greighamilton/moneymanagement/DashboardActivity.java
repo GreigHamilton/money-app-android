@@ -202,7 +202,12 @@ public class DashboardActivity extends Activity implements ActionBar.OnNavigatio
 				LinearLayout widget;
 
 				widget = (LinearLayout) getLayoutInflater().inflate(R.layout.widget_countdown, null);
-				int colour = Color.parseColor(db.getCategoryColour(expCursor.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID)));
+				int colour;
+				try {
+					colour = Color.parseColor(db.getCategoryColour(expCursor.getInt(DatabaseHelper.EXPENSE_CATEGORY_ID)));
+				} catch (Exception e) {
+					colour = Color.GRAY;
+				}
 
 				try {
 					TextView days = (TextView) widget.findViewById(R.id.days);
