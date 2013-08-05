@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="pref_password"
+        android:title="Password" >
+        
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_use_password"
+            android:summary="Enter a password when Money Management is launched."
+            android:title="Use Password" />
+
+        <com.greighamilton.moneymanagement.data.PasswordDialogPreference
+            android:dialogMessage="Set up a password to be used when the app is launched."
+            android:key="pref_set_password"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="Save New Password"
+            android:summary="Set up a password to be used when the app is launched."
+            android:title="Set Password" >
+        </com.greighamilton.moneymanagement.data.PasswordDialogPreference>
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="pref_currency"
+        android:title="Currency" >
+
+        <com.greighamilton.moneymanagement.data.CurrencyDialogPreference
+            android:dialogMessage="Select a currency to be used within the app."
+            android:key="pref_set_currency"
+            android:negativeButtonText="Cancel"
+            android:positiveButtonText="Save Currency"
+            android:summary="Select a currency to be used within the app."
+            android:title="Set Currency" >
+        </com.greighamilton.moneymanagement.data.CurrencyDialogPreference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

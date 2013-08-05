@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- @author	Greig Hamilton -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/add_goal_linearlayout_1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- Name -->
+
+    <EditText
+        android:id="@+id/add_goal_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Name" >
+
+        <requestFocus />
+    </EditText>
+
+    <!-- Amount -->
+    <EditText
+        android:id="@+id/add_goal_amount_to_save"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Amount To Save"
+        android:inputType="numberDecimal" >
+    </EditText>
+
+    <!-- Category -->
+
+    <EditText
+        android:id="@+id/add_goal_amount_saved"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Amount Saved"
+        android:inputType="numberDecimal" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/add_goal_select_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:onClick="showColourPickerDialog"
+            android:text="Select Image (Optional)" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Money Management</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_addincome">Add Income</string>
+    <string name="menu_addexpense">Add Expense</string>
+    <string name="menu_viewgoals">Goals</string>
+    <string name="menu_viewcategories">Categories</string>
+    <string name="menu_viewincexp">Income/Expense List</string>
+    <string name="menu_summary">Income/Expense Visualiser</string>
+    <string name="menu_viewtrends">Income/Expense Trends</string>
+    
+    <string name="prompt_category">Select Category</string>
+    
+    <string name="pick_color">Pick A Colour</string>
+    <string-array name="colors_array_income">
+        <item>Green</item>
+        <item>Blue</item>
+        <item>Purple</item>
+    </string-array>
+
+    <string-array name="colors_array_expenses">
+        <item>Red</item>
+        <item>Pink</item>
+        <item>Orange</item>
+    </string-array>
+    
+    <string-array name="incexp_views_0">
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense Trends</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_1">
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Trends</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_2">
+        <item>Income &amp; Expense Trends</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense List</item>
+    </string-array>
+    
+    <string-array name="incexp_views_3">
+        <item>Income &amp; Expense List</item>
+        <item>Dashboard</item>
+        <item>Income &amp; Expense Visualiser</item>
+        <item>Income &amp; Expense Trends</item>
+    </string-array>
+    
+    <string name="edit_options"></string>
+    <string-array name="edit_options">
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+    
+    
+    <string-array name="income_array">
+        <item>Wage</item>
+        <item>Gift</item>
+        <item>Benefits</item>
+        <item>Property</item>
+    </string-array>
+    
+    <string-array name="expense_array">
+        <item>Rent</item>
+        <item>Utilities</item>
+        <item>Loan</item>
+        <item>Broadband</item>
+    </string-array>
+    
+    <string-array name="repetition_array">
+        <item>weekly</item>
+        <item>monthly</item>
+        <item>yearly</item>
+        <item>bi-weekly</item>
+        <item>4-weekly</item>
+    </string-array>
+  
+    
+</resources>
